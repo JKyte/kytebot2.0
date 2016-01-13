@@ -61,7 +61,7 @@ public class TradeCommand extends BaseCommand {
 	public void loadCommandDescription() {
 		description = new ArrayList<String>();
 		description.add( "TRADE - usage: ![botnick] TRADE [RESOURCE]");
-		description.add( "  - returns the hi/low trade prices for a resource on the Politics & War market.");
+		description.add( "  - returns the average trade prices for a resource on the Politics & War market.");
 	}
 
 	

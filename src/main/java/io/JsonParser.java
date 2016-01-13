@@ -71,9 +71,9 @@ public class JsonParser {
 	
 	public ArrayList<String> buildResponse(){
 		ArrayList<String> lines = new ArrayList<String>();
-		lines.add( resource.toUpperCase() );	
-		lines.add( "HI: $"+highestBuyAmount+" @ "+highestBuyDate);
-		lines.add( "LO: $"+lowBuyAmount+" @ "+lowBuyDate);
+		lines.add( resource.toUpperCase() + "\t$" + avgPrice );	
+	//	lines.add( "HI: $"+highestBuyAmount+" @ "+highestBuyDate);
+	//	lines.add( "LO: $"+lowBuyAmount+" @ "+lowBuyDate);
 		return lines;
 	}
 }
