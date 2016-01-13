@@ -3,7 +3,6 @@ package triggers;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import botconfigs.IRCCommands;
-import commands.BotCommands;
 import msg.IRCMsg;
 
 /**
@@ -45,9 +44,12 @@ public abstract class BaseTrigger implements Trigger {
 	}
 	public ConcurrentLinkedQueue<String> outboundMsgQ;
 	
+	@Override
 	public abstract boolean isTriggered(IRCMsg msg);
 
+	@Override
 	public abstract void doAction();
 
+	@Override
 	public abstract boolean triggerFinished();	
 }

@@ -7,13 +7,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import msg.IRCMsg;
 import parsers.IRCMsgInterpreter;
 import parsers.IRCMsgParser;
-import triggers.Trigger;
 import triggers.Triggers;
 
 /**
@@ -102,7 +100,7 @@ public class IRCBot extends Thread {
 			while( true ){
 
 			//	log.info("IRCBot keep alive loop");
-				System.out.println(nick + " keep alive loop");
+			//	System.out.println(nick + " keep alive loop");
 				try {
 					Thread.sleep(heartBeatInMillis);
 				} catch (InterruptedException e) {

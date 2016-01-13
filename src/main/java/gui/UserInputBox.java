@@ -69,7 +69,8 @@ public class UserInputBox extends JFrame implements ActionListener {
         JButton btn = new JButton(name);
         btn.addActionListener(new ActionListener() {
             
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
             //    log.info(e.getActionCommand() + " was clicked");
             }
         });
@@ -79,7 +80,8 @@ public class UserInputBox extends JFrame implements ActionListener {
         im.put(KeyStroke.getKeyStroke(virtualKey, 0), "clickMe");
         am.put("clickMe", new AbstractAction() {
             
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 JButton btn = (JButton) e.getSource();
                 btn.doClick();
             }
@@ -87,6 +89,7 @@ public class UserInputBox extends JFrame implements ActionListener {
         return btn;
     }
 	
+	@Override
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
 		if (source == sendMsgBtn){

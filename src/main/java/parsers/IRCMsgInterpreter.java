@@ -19,11 +19,6 @@ import msg.IRCMsg;
  *
  */
 public class IRCMsgInterpreter implements Runnable {
-
-	private int messagesParsed = 0;
-	private long lowestParseTime = Long.MAX_VALUE;
-	private long avgParseTime = 0;
-	private long highestParseTime = Long.MIN_VALUE;
 	
 	private HashSet<String> serverResponseCodesToIgnore;
 	
@@ -121,24 +116,6 @@ public class IRCMsgInterpreter implements Runnable {
 			//	log.fatal("FATAL: InputThread crashed.");
 		}
 
-	}
-
-	private void updateInterpretStats(long msgParseTime) {
-		messagesParsed++;
-
-		//	Rolling average?
-		avgParseTime = ( (avgParseTime + msgParseTime) / 2 );
-
-		if( msgParseTime < lowestParseTime ){
-			lowestParseTime = msgParseTime;
-		}
-		if( msgParseTime > highestParseTime ){
-			highestParseTime = msgParseTime;
-		}
-
-		System.out.println( "ParseTime: " + msgParseTime + " AvgParseTime: " + avgParseTime
-				+ " lo: " + lowestParseTime + " hi: " + highestParseTime
-				+ " num msgs parsed: " + messagesParsed);
 	}
 
 	public void interpretMsg( IRCMsg msg ){

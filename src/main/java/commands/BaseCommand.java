@@ -45,13 +45,16 @@ public abstract class BaseCommand implements Trigger {
 		loadCommandDescription();
 	}
 	
+	@Override
 	public abstract boolean isTriggered(IRCMsg msg);
 
+	@Override
 	public abstract void doAction();
 
 	public abstract void loadCommandDescription();
 	
 	//	Commands are persistent triggers, always return false
+	@Override
 	public boolean triggerFinished() { return false; };
 	
 	public ArrayList<String> getCommandDescription() { 
