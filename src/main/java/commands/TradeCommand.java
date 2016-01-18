@@ -22,7 +22,8 @@ public class TradeCommand extends BaseCommand {
 	@Override
 	public boolean isTriggered(IRCMsg msg) {
 
-		target = msg.getArgs()[0];
+		setTarget(msg);
+
 		resourceName = null;
 		String[] chunks = msg.getTrailing().split(" ");
 		if( chunks.length == 2 && chunks[0].equalsIgnoreCase("TRADE") ){
@@ -30,6 +31,13 @@ public class TradeCommand extends BaseCommand {
 			return true;
 		}else{
 			return false;	
+		}
+	}
+
+	private void setTarget(IRCMsg msg) {
+		target = msg.getArgs()[0];
+		if( target.equals(botCommands.getBotnick()) ){
+			target = msg.getNickFromPrefix();
 		}
 	}
 

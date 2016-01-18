@@ -160,11 +160,11 @@ public class IRCMsgInterpreter implements Runnable {
 	}
 	
 	private void handleNick(IRCMsg msg) {
-		System.out.println( "NICK: " + msg.extractNameFromPrefix() + " changed to " + msg.getTrailing());
+		System.out.println( "NICK: " + msg.getNickFromPrefix() + " changed to " + msg.getTrailing());
 	}
 
 	private void handleQuit(IRCMsg msg) {
-		System.out.println( msg.extractNameFromPrefix() + " QUIT " + msg.getTrailing() );
+		System.out.println( msg.getNickFromPrefix() + " QUIT " + msg.getTrailing() );
 	}
 
 	private void handlePrivMsg(IRCMsg msg) {
@@ -211,7 +211,7 @@ public class IRCMsgInterpreter implements Runnable {
 	}
 
 	private void handleJoin(IRCMsg msg) {
-		System.out.println( msg.extractNameFromPrefix() + " joined " + msg.getTrailing());
+		System.out.println( msg.getNickFromPrefix() + " joined " + msg.getTrailing());
 	}
 
 	private void handleInvite(IRCMsg msg) {

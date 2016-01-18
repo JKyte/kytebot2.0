@@ -18,9 +18,14 @@ public class BotCommands {
 	
 	private ConcurrentHashMap<String, BaseCommand> commands;
 	
-	public BotCommands(){
+	private String admin;
+	private String botnick;
+
+	public BotCommands(String admin, String botnick){
 		commands = new ConcurrentHashMap<String, BaseCommand>();
 				//new ConcurrentHashMap<String, ?>(8, 0.9f, 2);
+		this.admin = admin;
+		this.botnick = botnick;
 	}
 	
 	/**
@@ -73,5 +78,9 @@ public class BotCommands {
 	//	Will not be 100% accurate
 	public long getNumTriggers(){
 		return commands.mappingCount();
+	}
+
+	public String getBotnick() {
+		return botnick;
 	}
 }

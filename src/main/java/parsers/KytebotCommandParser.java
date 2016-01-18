@@ -26,6 +26,7 @@ public class KytebotCommandParser {
 	private Triggers eventTriggers;
 	
 	private BotCommands botCommands;
+	private String admin;
 	
 	private HashSet<String> greetingChans;
 	private HashSet<String> farewellChans;
@@ -52,7 +53,9 @@ public class KytebotCommandParser {
 		this.timedTriggers = timedTriggers;
 		this.eventTriggers = eventTriggers;
 		
-		botCommands = new BotCommands();
+		admin = configs.getProperty("admin");
+		
+		botCommands = new BotCommands(admin, botnick);
 		loadKytebotCommands();
 	}
 	
@@ -105,13 +108,13 @@ public class KytebotCommandParser {
 		
 		if( isValidGreetingChan(msg.getArgs()[0]) && isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotGreeting(msg.extractNameFromPrefix());
+			String response = responses.getKytebotGreeting(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 			
 		}else if( isValidFairwellChan(msg.getArgs()[0]) && isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotFarewell(msg.extractNameFromPrefix());
+			String response = responses.getKytebotFarewell(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isKytebotCommand(msg.getTrailing()) ){
@@ -203,12 +206,12 @@ public class KytebotCommandParser {
 		System.out.println("PRIVATE " + botnick + " command!");
 		if( isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotGreeting(msg.extractNameFromPrefix());
+			String response = responses.getKytebotGreeting(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotFarewell(msg.extractNameFromPrefix());
+			String response = responses.getKytebotFarewell(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isKytebotCommand(msg.getTrailing()) ){

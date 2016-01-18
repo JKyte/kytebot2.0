@@ -16,7 +16,11 @@ public class IRCMsg {
 		this.setTrailing(trailing);
 	}
 
-	public String extractNameFromPrefix(){
+	/**
+	 * 
+	 * @returns a NICK from the prefix
+	 */
+	public String getNickFromPrefix(){
 		return prefix.substring(0,prefix.indexOf("!"));
 	}
 	
@@ -61,6 +65,6 @@ public class IRCMsg {
 	}
 	
 	public String toPrivString(){
-		return extractNameFromPrefix() + "\t" + args[0] + "\t" + trailing;
+		return getNickFromPrefix() + "\t" + args[0] + "\t" + trailing;
 	}
 }

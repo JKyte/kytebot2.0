@@ -27,6 +27,8 @@ public abstract class BaseCommand implements Trigger {
 	
 	protected BotCommands botCommands;
 	protected IRCCommands ircCommands;
+	
+	protected String botnick;
 
 	public ConcurrentLinkedQueue<String> outboundMsgQ;
 	
