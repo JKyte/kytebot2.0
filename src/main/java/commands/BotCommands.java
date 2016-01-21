@@ -83,4 +83,8 @@ public class BotCommands {
 	public String getBotnick() {
 		return botnick;
 	}
+	
+	public String getAdminNick(){
+		return admin;
+	}
 }

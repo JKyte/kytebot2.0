@@ -184,7 +184,7 @@ public class IRCMsgInterpreter implements Runnable {
 		if( kytebotParser.isKytebotCommand(msg.getTrailing()) ){
 			kytebotParser.parsePrivateMsg(msg);
 		}else{
-			System.out.println("PRIVATE message");
+		//	System.out.println("PRIVATE message");
 		}
 	}
 
@@ -195,7 +195,7 @@ public class IRCMsgInterpreter implements Runnable {
 		if( kytebotParser.isKytebotCommand(msg.getTrailing()) ){
 			kytebotParser.parseChannelMsg(msg);
 		}else{
-			System.out.println("CHANNEL message");	
+		//	System.out.println("CHANNEL message");	
 		}
 	}
 

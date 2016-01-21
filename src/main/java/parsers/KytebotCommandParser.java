@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import commands.BotCommands;
 import commands.HelpCommand;
+import commands.JoinCommand;
 import commands.ListCommand;
 import commands.TradeCommand;
 import responses.KytebotResponses;
@@ -63,6 +64,7 @@ public class KytebotCommandParser {
 		botCommands.put("HELP", new HelpCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
 		botCommands.put("LIST", new ListCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
 		botCommands.put("TRADE", new TradeCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
+		botCommands.put("JOIN", new JoinCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
 	}
 
 	private void loadGreetingChans(String property) {

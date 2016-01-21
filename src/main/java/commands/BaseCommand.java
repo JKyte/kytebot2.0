@@ -21,6 +21,7 @@ import triggers.Triggers;
 public abstract class BaseCommand implements Trigger {
 
 	protected String target = null;
+	protected String admin = null;
 	
 	public Triggers timedTriggers;
 	public Triggers eventTriggers;
@@ -43,7 +44,8 @@ public abstract class BaseCommand implements Trigger {
 		this.timedTriggers = timedTriggers;
 		this.eventTriggers = eventTriggers;
 		this.outboundMsgQ = outboundMsgQ;
-				
+		
+		this.admin = this.botCommands.getAdminNick();
 		loadCommandDescription();
 	}
 	
