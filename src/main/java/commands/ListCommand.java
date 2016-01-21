@@ -46,7 +46,6 @@ public class ListCommand extends BaseCommand {
 			ArrayList<String> descriptionLines = commandsAndDescriptions.get(key);
 			
 			for( String line : descriptionLines ){
-				
 				outboundMsgQ.add( ircCommands.privmsg(target, line) );
 			}
 		}

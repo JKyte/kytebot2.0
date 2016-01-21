@@ -46,6 +46,7 @@ public abstract class BaseCommand implements Trigger {
 		this.outboundMsgQ = outboundMsgQ;
 		
 		this.admin = this.botCommands.getAdminNick();
+		this.botnick = this.botCommands.getBotnick();
 		loadCommandDescription();
 	}
 	
