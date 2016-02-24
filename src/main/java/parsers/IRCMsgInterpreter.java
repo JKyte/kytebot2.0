@@ -1,12 +1,12 @@
 package parsers;
 
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import responses.KytebotResponses;
 import triggers.JoinChannelTrigger;
 import triggers.Triggers;
+import botconfigs.BotConfigs;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
@@ -34,12 +34,12 @@ public class IRCMsgInterpreter implements Runnable {
 	private IRCCommands commands;
 	private KytebotCommandParser kytebotParser;
 	
-	public IRCMsgInterpreter(Properties configs, ConcurrentLinkedQueue<IRCMsg> internalMsgQ, 
+	public IRCMsgInterpreter(BotConfigs configs, ConcurrentLinkedQueue<IRCMsg> internalMsgQ, 
 			ConcurrentLinkedQueue<String> outboundMsgQ,
 			Triggers timedTriggers, Triggers eventTriggers){
 		
-		botnick = configs.getProperty("nick");
-		startchan = configs.getProperty("startchan");
+		botnick = configs.getBotnick();
+		startchan = configs.getStartChan();
 		
 		this.internalMsgQ = internalMsgQ;
 		this.outboundMsgQ = outboundMsgQ;

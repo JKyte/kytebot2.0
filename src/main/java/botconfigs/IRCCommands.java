@@ -1,7 +1,5 @@
 package botconfigs;
 
-import java.util.Properties;
-
 public class IRCCommands {
 
 	private final String homeChannel;
@@ -12,9 +10,9 @@ public class IRCCommands {
 		password = null;
 	}
 	
-	public IRCCommands(Properties configs){
-		homeChannel = configs.getProperty("startchan");
-		password = configs.getProperty("passwd");
+	public IRCCommands(BotConfigs configs){
+		homeChannel = configs.getStartChan();
+		password = configs.getBotpasswd();
 	}
 	
 	public String chanservInvite(){

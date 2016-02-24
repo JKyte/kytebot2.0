@@ -1,24 +1,31 @@
 package parsers;
 
-import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import core.BotConstants;
 import parsers.KytebotCommandParser;
 import triggers.Triggers;
+import botconfigs.BotConfigFactory;
+import botconfigs.BotConfigs;
 import botconfigs.IRCCommands;
-import botconfigs.PropertyHandler;
 
 public class KytebotCommandParserTest {
+	
+	private static BotConfigs configs;
+	
+	@BeforeClass
+	public static void setup(){
+		configs = BotConfigFactory.createBotConfigs(BotConstants.TEST_DEFAULT);
+	}
 	
 	@Test
 	public void testGetGreetingScore(){
 		
 		String botnick = "botnick";
-		PropertyHandler propHandler = new PropertyHandler();
-		Properties configs = PropertyHandler.readPropertyFile(propHandler.TEST_DEFAULT);
 		IRCCommands commands = new IRCCommands(configs);
 		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
 		Triggers timedTriggers = new Triggers();
@@ -37,8 +44,6 @@ public class KytebotCommandParserTest {
 	public void testIsGreeting(){
 		//	TODO -- case sensitivity matters for nicks
 		String botnick = "botnick";
-		PropertyHandler propHandler = new PropertyHandler();
-		Properties configs = PropertyHandler.readPropertyFile(propHandler.TEST_DEFAULT);
 		IRCCommands commands = new IRCCommands(configs);
 		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
 		Triggers timedTriggers = new Triggers();
@@ -65,8 +70,6 @@ public class KytebotCommandParserTest {
 	public void testCleanKytebotCommand_isKytebotCommand(){
 		
 		String botnick = "botnick";
-		PropertyHandler propHandler = new PropertyHandler();
-		Properties configs = PropertyHandler.readPropertyFile(propHandler.TEST_DEFAULT);
 		IRCCommands commands = new IRCCommands(configs);
 		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
 		Triggers timedTriggers = new Triggers();

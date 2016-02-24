@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import commands.BotCommands;
@@ -16,6 +15,7 @@ import commands.TradeCommand;
 import responses.KytebotResponses;
 import triggers.Triggers;
 import msg.IRCMsg;
+import botconfigs.BotConfigs;
 import botconfigs.IRCCommands;
 
 public class KytebotCommandParser {
@@ -38,14 +38,14 @@ public class KytebotCommandParser {
 
 	KytebotResponses responses;
 
-	public KytebotCommandParser(Properties configs, IRCCommands commands, ConcurrentLinkedQueue<String> outboundMsgQ, 
+	public KytebotCommandParser(BotConfigs configs, IRCCommands commands, ConcurrentLinkedQueue<String> outboundMsgQ, 
 			Triggers timedTriggers, Triggers eventTriggers, String botnick){
 		
 		this.botnick = botnick;
 		this.commands = commands;
 
-		loadGreetingChans(configs.getProperty("greetingchans"));
-		loadFarewellChans(configs.getProperty("farewellchans"));
+		greetingChans = configs.getGreetingChans();
+		farewellChans = configs.getFarewellChans();
 		
 		loadGreetings();
 		loadFarewells();
@@ -55,7 +55,7 @@ public class KytebotCommandParser {
 		this.timedTriggers = timedTriggers;
 		this.eventTriggers = eventTriggers;
 		
-		admin = configs.getProperty("admin");
+		admin = configs.getAdmin();
 		
 		botCommands = new BotCommands(admin, botnick);
 		loadKytebotCommands();
@@ -69,21 +69,6 @@ public class KytebotCommandParser {
 		botCommands.put("FLIRT", new FlirtCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
 	}
 
-	private void loadGreetingChans(String property) {
-		greetingChans = new HashSet<String>();
-		String[] properties = property.split(",");
-		for( String prop : properties ){
-			greetingChans.add(prop);
-		}
-	}
-
-	private void loadFarewellChans(String property) {
-		farewellChans = new HashSet<String>();
-		String[] properties = property.split(",");
-		for( String prop : properties ){
-			farewellChans.add(prop);
-		}
-	}
 	
 	private void loadFarewells() {
 		farewells.put("GOODBYE", 4);

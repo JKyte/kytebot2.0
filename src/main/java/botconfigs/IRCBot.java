@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import core.BotConstants;
 import msg.IRCMsg;
 import parsers.IRCMsgInterpreter;
 import parsers.IRCMsgParser;
@@ -22,7 +23,7 @@ import triggers.Triggers;
  */
 public class IRCBot extends Thread {
 
-	private Properties configs;
+	private BotConfigs configs;
 	private Socket socket;
 	private long heartBeatInMillis = -1;
 
@@ -42,7 +43,7 @@ public class IRCBot extends Thread {
 	 * Only initialize the queues at first
 	 */
 	public IRCBot( Properties prop ){
-		this.configs = prop;
+		this.configs = BotConfigFactory.createBotConfigs(BotConstants.PRODUCTION_DEFAULT);
 		this.heartBeatInMillis = Long.parseLong(prop.getProperty("heartbeat"));
 		inboundMsgQ = new ConcurrentLinkedQueue<String>();
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
@@ -59,8 +60,8 @@ public class IRCBot extends Thread {
 		System.out.println("IRCBot is running");
 
 		try {
-			String host = configs.getProperty("ircserver");
-			int port = Integer.parseInt(configs.getProperty("ircport"));
+			String host = configs.getIrcserver();
+			int port = configs.getIrcport();
 			socket = new Socket( host, port );
 			
 			it = new InputThread(socket, inboundMsgQ);
@@ -92,7 +93,7 @@ public class IRCBot extends Thread {
 			}
 			
 
-			String nick = configs.getProperty("nick");
+			String nick = configs.getBotnick();
 
 			outboundMsgQ.add( "nick " + nick );
 			outboundMsgQ.add( "USER "+nick+" 0 * :"+nick );
