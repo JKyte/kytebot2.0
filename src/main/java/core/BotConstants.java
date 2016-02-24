@@ -9,7 +9,7 @@ package core;
  */
 public class BotConstants {
 	
-	public final static String PRODUCTION_DEFAULT = "./properties/secret.properties";
+	public final static String PRODUCTION_DEFAULT = "./properties/production.properties";
 	public final static String TEST_DEFAULT = "./properties/default.properties";
 
 }

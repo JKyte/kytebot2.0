@@ -15,7 +15,7 @@ import java.util.Properties;
 public class PropertyHandler {
 
 	//	User should change production default to point at production properties
-	public final String PRODUCTION_DEFAULT = "./properties/secret.properties";
+	public final String PRODUCTION_DEFAULT = "./properties/production.properties";
 	public final String TEST_DEFAULT = "./properties/default.properties";
 
 	public static void writePropertyFile(String filename, Properties prop){
