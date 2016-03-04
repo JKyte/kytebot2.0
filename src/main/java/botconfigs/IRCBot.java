@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import core.IRCMsgHandler;
 import msg.IRCMsg;
-import parsers.IRCMsgInterpreter;
 import triggers.Triggers;
 
 /**
@@ -35,7 +34,6 @@ public class IRCBot extends Thread {
 
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
-	private IRCMsgInterpreter interpreter;
 	
 	/**
 	 * Only initialize the queues at first
@@ -47,7 +45,6 @@ public class IRCBot extends Thread {
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
 		internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
 	}
-
 
 	/**
 	 * Handles initializing all threads, initial authorization
@@ -67,15 +64,12 @@ public class IRCBot extends Thread {
 			timedTriggers = new Triggers();
 			eventTriggers = new Triggers();
 			msgHandler = new IRCMsgHandler(this);
-			interpreter = new IRCMsgInterpreter(this);
 			
 			Thread t1 = new Thread( ot );
 			Thread t2 = new Thread( msgHandler );
-			Thread t3 = new Thread( interpreter );
-
+			
 			t1.start();
 			t2.start();
-			t3.start();
 			
 			System.out.println("All threads started.");
 			/**
@@ -86,14 +80,12 @@ public class IRCBot extends Thread {
 			} catch (InterruptedException e) {
 			//	log.error(e.getMessage());
 			}
-			
 
 			String nick = configs.getBotnick();
 
 			outboundMsgQ.add( "nick " + nick );
 			outboundMsgQ.add( "USER "+nick+" 0 * :"+nick );
 			
-
 			String msg = null;
 			try {
 				BufferedReader br = new BufferedReader(
@@ -113,7 +105,6 @@ public class IRCBot extends Thread {
 				System.out.println("FATAL: InputThread has crashed.");
 			}
 			
-			
 		} catch (UnknownHostException e1) {
 		//	log.error(e1.getStackTrace());
 		} catch (IOException e2) {
@@ -121,81 +112,65 @@ public class IRCBot extends Thread {
 		}
 	}
 
-
 	public BotConfigs getConfigs() {
 		return configs;
 	}
-
 
 	public void setConfigs(BotConfigs configs) {
 		this.configs = configs;
 	}
 
-
 	public Socket getSocket() {
 		return socket;
 	}
-
 
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
 
-
 	public long getHeartBeatInMillis() {
 		return heartBeatInMillis;
 	}
-
 
 	public void setHeartBeatInMillis(long heartBeatInMillis) {
 		this.heartBeatInMillis = heartBeatInMillis;
 	}
 
-
 	public ConcurrentLinkedQueue<String> getInboundMsgQ() {
 		return inboundMsgQ;
 	}
-
 
 	public void setInboundMsgQ(ConcurrentLinkedQueue<String> inboundMsgQ) {
 		this.inboundMsgQ = inboundMsgQ;
 	}
 
-
 	public ConcurrentLinkedQueue<String> getOutboundMsgQ() {
 		return outboundMsgQ;
 	}
-
 
 	public void setOutboundMsgQ(ConcurrentLinkedQueue<String> outboundMsgQ) {
 		this.outboundMsgQ = outboundMsgQ;
 	}
 
-
 	public ConcurrentLinkedQueue<IRCMsg> getInternalMsgQ() {
 		return internalMsgQ;
 	}
-
 
 	public void setInternalMsgQ(ConcurrentLinkedQueue<IRCMsg> internalMsgQ) {
 		this.internalMsgQ = internalMsgQ;
 	}
 
-
 	public Triggers getTimedTriggers() {
 		return timedTriggers;
 	}
-
 
 	public void setTimedTriggers(Triggers timedTriggers) {
 		this.timedTriggers = timedTriggers;
 	}
 
-
 	public Triggers getEventTriggers() {
 		return eventTriggers;
 	}
-
 
 	public void setEventTriggers(Triggers eventTriggers) {
 		this.eventTriggers = eventTriggers;
@@ -205,29 +180,16 @@ public class IRCBot extends Thread {
 		return ot;
 	}
 
-
 	public void setOt(OutputThread ot) {
 		this.ot = ot;
 	}
-
 
 	public IRCMsgHandler getIRCMsgHandler() {
 		return msgHandler;
 	}
 
-
 	public void setIRCMsgHandler(IRCMsgHandler msgHandler) {
 		this.msgHandler = msgHandler;
-	}
-
-
-	public IRCMsgInterpreter getInterpreter() {
-		return interpreter;
-	}
-
-
-	public void setInterpreter(IRCMsgInterpreter interpreter) {
-		this.interpreter = interpreter;
 	}
 	
 }
