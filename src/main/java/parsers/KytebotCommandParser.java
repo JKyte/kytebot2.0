@@ -13,7 +13,7 @@ import commands.JoinCommand;
 import commands.ListCommand;
 import commands.TradeCommand;
 import responses.KytebotResponses;
-import triggers.Triggers;
+import listeners.Listeners;
 import msg.IRCMsg;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
@@ -24,8 +24,8 @@ public class KytebotCommandParser {
 	private IRCCommands commands;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 
-	private Triggers timedTriggers;
-	private Triggers eventTriggers;
+	private Listeners timedListeners;
+	private Listeners eventListeners;
 	
 	private BotCommands botCommands;
 	private String admin;
@@ -51,8 +51,8 @@ public class KytebotCommandParser {
 		responses = new KytebotResponses();
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		
-		this.timedTriggers = bot.getTimedTriggers();
-		this.eventTriggers = bot.getEventTriggers();
+		this.timedListeners = bot.getTimedListeners();
+		this.eventListeners = bot.getEventListeners();
 		
 		admin = bot.getConfigs().getAdmin();
 		
@@ -61,11 +61,11 @@ public class KytebotCommandParser {
 	}
 	
 	private void loadKytebotCommands() {
-		botCommands.put("HELP", new HelpCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
-		botCommands.put("LIST", new ListCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
-		botCommands.put("TRADE", new TradeCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
-		botCommands.put("JOIN", new JoinCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
-		botCommands.put("FLIRT", new FlirtCommand(botCommands, timedTriggers, eventTriggers, outboundMsgQ));
+		botCommands.put("HELP", new HelpCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
+		botCommands.put("LIST", new ListCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
+		botCommands.put("TRADE", new TradeCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
+		botCommands.put("JOIN", new JoinCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
+		botCommands.put("FLIRT", new FlirtCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
 	}
 
 	

@@ -3,6 +3,8 @@ package core;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listeners.JoinChannelListener;
+import listeners.Listeners;
 import msg.IRCMsg;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import parsers.KytebotCommandParser;
 import responses.KytebotResponses;
-import triggers.JoinChannelTrigger;
-import triggers.Triggers;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import gui.UserInputBox;
@@ -35,8 +35,8 @@ public class IRCMsgHandler implements Runnable {
 	private String botnick;
 	private String startchan;
 
-	private Triggers timedTriggers;
-	private Triggers eventTriggers;
+	private Listeners timedListeners;
+	private Listeners eventListeners;
 	
 	private IRCCommands commands;
 	private KytebotCommandParser kytebotParser;
@@ -52,10 +52,10 @@ public class IRCMsgHandler implements Runnable {
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		this.internalMsgQ = bot.getInternalMsgQ();
 	
-		this.timedTriggers = bot.getTimedTriggers();
-		this.eventTriggers = bot.getEventTriggers();
+		this.timedListeners = bot.getTimedListeners();
+		this.eventListeners = bot.getEventListeners();
 		
-		loadEventTriggers();
+		loadEventListeners();
 		loadServerResponseCodesToIgnore();
 		
 		commands = new IRCCommands( bot.getConfigs() );
@@ -64,9 +64,9 @@ public class IRCMsgHandler implements Runnable {
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}
 	
-	private void loadEventTriggers() {
-		eventTriggers.put("GREET_1", new JoinChannelTrigger(commands, timedTriggers, eventTriggers, outboundMsgQ, "#kytebotlair", new KytebotResponses()));
-		eventTriggers.put("GREET_2", new JoinChannelTrigger(commands, timedTriggers, eventTriggers, outboundMsgQ, "#whitewalkers", new KytebotResponses()));
+	private void loadEventListeners() {
+		eventListeners.put("GREET_1", new JoinChannelListener(commands, timedListeners, eventListeners, outboundMsgQ, "#kytebotlair", new KytebotResponses()));
+		eventListeners.put("GREET_2", new JoinChannelListener(commands, timedListeners, eventListeners, outboundMsgQ, "#whitewalkers", new KytebotResponses()));
 		
 	}
 
@@ -129,10 +129,10 @@ public class IRCMsgHandler implements Runnable {
 		if( !isPing(rawMsg) ){
 			IRCMsg msg = parseRawMsg(rawMsg);
 			
-			timedTriggers.iterateAcrossTriggers(null);
+			timedListeners.iterateAcrossListeners(null);
 			
-			//	Check event-driven triggers up front
-			eventTriggers.iterateAcrossTriggers(msg);
+			//	Check event-driven listeners up front
+			eventListeners.iterateAcrossListeners(msg);
 			
 			interpretMsg(msg);
 			
@@ -180,8 +180,8 @@ public class IRCMsgHandler implements Runnable {
 	
 public void interpretMsg( IRCMsg msg ){
 		
-		//	Check event-driven triggers up front
-		eventTriggers.iterateAcrossTriggers(msg);
+		//	Check event-driven listeners up front
+		eventListeners.iterateAcrossListeners(msg);
 		
 		if( msg.getCommand().equals("PRIVMSG") ){
 			handlePrivMsg(msg);

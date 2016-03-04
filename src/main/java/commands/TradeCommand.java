@@ -5,22 +5,22 @@ import io.JsonParser;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Triggers;
 
 public class TradeCommand extends BaseCommand {
 
 	String resourceName;
 	ArrayList<String> validResources;
 	
-	public TradeCommand(BotCommands botCommands, Triggers timedTriggers,
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public TradeCommand(BotCommands botCommands, Listeners timedTriggers,
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 		loadValidResources();
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 
 		setTarget(msg);
 

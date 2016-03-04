@@ -58,7 +58,7 @@ public class BotCommands {
 	 */
 	public synchronized void iterateAcrossCommands(IRCMsg msg){	
 		for( Entry<String, BaseCommand> entry : commands.entrySet() ){
-			if( entry.getValue().isTriggered(msg) ){
+			if( entry.getValue().listen(msg) ){
 				entry.getValue().doAction();
 			}
 		}

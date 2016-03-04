@@ -1,4 +1,4 @@
-package triggers;
+package listeners;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -6,13 +6,13 @@ import botconfigs.IRCCommands;
 import responses.KytebotResponses;
 import msg.IRCMsg;
 
-public class JoinChannelTrigger extends BaseTrigger {
+public class JoinChannelListener extends BaseListener {
 	
 	String targetChan;
 	KytebotResponses responses;
 	
-	public JoinChannelTrigger(IRCCommands ircCommands, Triggers timedTriggers,
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ,
+	public JoinChannelListener(IRCCommands ircCommands, Listeners timedTriggers,
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ,
 			String targetChan, KytebotResponses responses) {
 		
 		super(ircCommands, timedTriggers, eventTriggers, outboundMsgQ);
@@ -22,7 +22,7 @@ public class JoinChannelTrigger extends BaseTrigger {
 	
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 		if( msg.getCommand().equalsIgnoreCase("JOIN") && msg.getTrailing().equalsIgnoreCase(targetChan)){
 			return true;
 		}
@@ -35,7 +35,7 @@ public class JoinChannelTrigger extends BaseTrigger {
 	}
 
 	@Override
-	public boolean triggerFinished() {
+	public boolean listenerFinished() {
 		return false;
 	}
 

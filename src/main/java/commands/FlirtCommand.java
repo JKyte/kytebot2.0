@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Triggers;
 
 public class FlirtCommand extends AdminCommand {
 	
@@ -15,17 +15,17 @@ public class FlirtCommand extends AdminCommand {
 	
 	private Random rand;
 
-	public FlirtCommand(BotCommands botCommands, Triggers timedTriggers,
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public FlirtCommand(BotCommands botCommands, Listeners timedTriggers,
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 		loadFlirts();
 		rand = new Random();
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg){
+	public boolean listen(IRCMsg msg){
 		//	Ensure an admin is making this call
-		if( !super.isTriggered(msg) ){
+		if( !super.listen(msg) ){
 			return false;
 		}
 		

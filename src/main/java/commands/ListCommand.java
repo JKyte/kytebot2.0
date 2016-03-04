@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Triggers;
 
 public class ListCommand extends BaseCommand {
 
-	public ListCommand(BotCommands botCommands, Triggers timedTriggers, Triggers eventTriggers,
+	public ListCommand(BotCommands botCommands, Listeners timedTriggers, Listeners eventTriggers,
 			ConcurrentLinkedQueue<String> outboundMsgQ) {
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 
@@ -24,7 +24,7 @@ public class ListCommand extends BaseCommand {
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 		if( msg.getTrailing().equalsIgnoreCase("LIST")){
 			//	Set the appropriate target
 			System.out.println("Prefix: " + msg.getPrefix());

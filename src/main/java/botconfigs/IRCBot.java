@@ -10,8 +10,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import core.IRCMsgHandler;
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Triggers;
 
 /**
  * 
@@ -29,8 +29,8 @@ public class IRCBot extends Thread {
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	private ConcurrentLinkedQueue<IRCMsg> internalMsgQ;
 	
-	private Triggers timedTriggers;
-	private Triggers eventTriggers;
+	private Listeners timedListeners;
+	private Listeners eventListeners;
 
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
@@ -61,8 +61,8 @@ public class IRCBot extends Thread {
 			
 			ot = new OutputThread(socket, outboundMsgQ);
 			
-			timedTriggers = new Triggers();
-			eventTriggers = new Triggers();
+			timedListeners = new Listeners();
+			eventListeners = new Listeners();
 			msgHandler = new IRCMsgHandler(this);
 			
 			Thread t1 = new Thread( ot );
@@ -160,20 +160,20 @@ public class IRCBot extends Thread {
 		this.internalMsgQ = internalMsgQ;
 	}
 
-	public Triggers getTimedTriggers() {
-		return timedTriggers;
+	public Listeners getTimedListeners() {
+		return timedListeners;
 	}
 
-	public void setTimedTriggers(Triggers timedTriggers) {
-		this.timedTriggers = timedTriggers;
+	public void setTimedListeners(Listeners timedListeners) {
+		this.timedListeners = timedListeners;
 	}
 
-	public Triggers getEventTriggers() {
-		return eventTriggers;
+	public Listeners getEventListeners() {
+		return eventListeners;
 	}
 
-	public void setEventTriggers(Triggers eventTriggers) {
-		this.eventTriggers = eventTriggers;
+	public void setEventListeners(Listeners eventListeners) {
+		this.eventListeners = eventListeners;
 	}
 
 	public OutputThread getOt() {

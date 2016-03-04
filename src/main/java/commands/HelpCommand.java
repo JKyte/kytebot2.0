@@ -3,15 +3,15 @@ package commands;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import triggers.Triggers;
+import listeners.Listeners;
 import msg.IRCMsg;
 
 public class HelpCommand extends BaseCommand {
 	
 	private String helpKey;
 	
-	public HelpCommand(BotCommands botCommands, Triggers timedTriggers, 
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public HelpCommand(BotCommands botCommands, Listeners timedTriggers, 
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
 
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 	}
@@ -24,7 +24,7 @@ public class HelpCommand extends BaseCommand {
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 		
 		System.out.println("Prefix: " + msg.getPrefix());
 		System.out.println("Command: " + msg.getCommand());

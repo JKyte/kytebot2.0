@@ -3,22 +3,22 @@ package commands;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Triggers;
 
 public class JoinCommand extends AdminCommand {
 
 	private String targetChannel;
 
-	public JoinCommand(BotCommands botCommands, Triggers timedTriggers,
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public JoinCommand(BotCommands botCommands, Listeners timedTriggers,
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 		//	Ensure an admin is making this call
-		if( !super.isTriggered(msg) ){
+		if( !super.listen(msg) ){
 			return false;
 		}
 		

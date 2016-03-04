@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import botconfigs.IRCCommands;
+import listeners.Listener;
+import listeners.Listeners;
 import msg.IRCMsg;
-import triggers.Trigger;
-import triggers.Triggers;
 
 /**
  * 
@@ -18,13 +18,13 @@ import triggers.Triggers;
  * All commands extend this class for storage in a ConcurrentHashMap of type BaseCommand. The
  * isTriggered() and doAction() methods MUST be overridden by child classes.
  */
-public abstract class BaseCommand implements Trigger {
+public abstract class BaseCommand implements Listener {
 
 	protected String target = null;
 	protected String admin = null;
 	
-	public Triggers timedTriggers;
-	public Triggers eventTriggers;
+	public Listeners timedTriggers;
+	public Listeners eventTriggers;
 	
 	protected BotCommands botCommands;
 	protected IRCCommands ircCommands;
@@ -35,7 +35,7 @@ public abstract class BaseCommand implements Trigger {
 	
 	public ArrayList<String> description;
 	
-	public BaseCommand(BotCommands botCommands, Triggers timedTriggers, Triggers eventTriggers, 
+	public BaseCommand(BotCommands botCommands, Listeners timedTriggers, Listeners eventTriggers, 
 			ConcurrentLinkedQueue<String> outboundMsgQ){
 
 		this.botCommands = botCommands;
@@ -51,16 +51,16 @@ public abstract class BaseCommand implements Trigger {
 	}
 	
 	@Override
-	public abstract boolean isTriggered(IRCMsg msg);
+	public abstract boolean listen(IRCMsg msg);
 
 	@Override
 	public abstract void doAction();
 
 	public abstract void loadCommandDescription();
 	
-	//	Commands are persistent triggers, always return false
+	//	Commands are persistent listeners, always return false
 	@Override
-	public boolean triggerFinished() { return false; };
+	public boolean listenerFinished() { return false; };
 	
 	public ArrayList<String> getCommandDescription() { 
 		return description; 

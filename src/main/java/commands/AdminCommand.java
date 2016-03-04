@@ -2,19 +2,19 @@ package commands;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import triggers.Triggers;
+import listeners.Listeners;
 import msg.IRCMsg;
 
 public abstract class AdminCommand extends BaseCommand {
 
-	public AdminCommand(BotCommands botCommands, Triggers timedTriggers,
-			Triggers eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public AdminCommand(BotCommands botCommands, Listeners timedTriggers,
+			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
 		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
 		//	Pass-through constructor
 	}
 
 	@Override
-	public boolean isTriggered(IRCMsg msg) {
+	public boolean listen(IRCMsg msg) {
 		return callerHasAdminPrivileges(msg);
 	}
 
