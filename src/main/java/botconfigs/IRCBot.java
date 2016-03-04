@@ -1,9 +1,10 @@
 package botconfigs;
 
-import io.InputThread;
 import io.OutputThread;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -32,7 +33,6 @@ public class IRCBot extends Thread {
 	private Triggers timedTriggers;
 	private Triggers eventTriggers;
 
-	private InputThread it;
 	private OutputThread ot;
 	private IRCMsgParser parser;
 	private IRCMsgInterpreter interpreter;
@@ -62,7 +62,6 @@ public class IRCBot extends Thread {
 			int port = configs.getIrcport();
 			socket = new Socket( host, port );
 			
-			it = new InputThread(socket, inboundMsgQ);
 			ot = new OutputThread(socket, outboundMsgQ);
 			
 			timedTriggers = new Triggers();
@@ -70,15 +69,13 @@ public class IRCBot extends Thread {
 			parser = new IRCMsgParser(this);
 			interpreter = new IRCMsgInterpreter(this);
 			
-			Thread t1 = new Thread( it );
-			Thread t2 = new Thread( ot );
-			Thread t3 = new Thread( parser );
-			Thread t4 = new Thread( interpreter );
+			Thread t1 = new Thread( ot );
+			Thread t2 = new Thread( parser );
+			Thread t3 = new Thread( interpreter );
 
 			t1.start();
 			t2.start();
 			t3.start();
-			t4.start();
 			
 			System.out.println("All threads started.");
 			/**
@@ -96,17 +93,27 @@ public class IRCBot extends Thread {
 			outboundMsgQ.add( "nick " + nick );
 			outboundMsgQ.add( "USER "+nick+" 0 * :"+nick );
 			
-			while( true ){
 
-			//	log.info("IRCBot keep alive loop");
-			//	System.out.println(nick + " keep alive loop");
-				try {
-					Thread.sleep(heartBeatInMillis);
-				} catch (InterruptedException e) {
-				//	log.error(e.getMessage());
+			String msg = null;
+			try {
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()));
+				
+				while ( true ){
+					
+					msg = br.readLine();
+					
+					if( msg != null ){
+						inboundMsgQ.add( msg );
+					}
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				System.out.println("FATAL: InputThread has crashed.");
 			}
-
+			
+			
 		} catch (UnknownHostException e1) {
 		//	log.error(e1.getStackTrace());
 		} catch (IOException e2) {
@@ -193,17 +200,6 @@ public class IRCBot extends Thread {
 	public void setEventTriggers(Triggers eventTriggers) {
 		this.eventTriggers = eventTriggers;
 	}
-
-
-	public InputThread getIt() {
-		return it;
-	}
-
-
-	public void setIt(InputThread it) {
-		this.it = it;
-	}
-
 
 	public OutputThread getOt() {
 		return ot;
