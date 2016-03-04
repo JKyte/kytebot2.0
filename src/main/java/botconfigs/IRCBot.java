@@ -9,9 +9,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import core.IRCMsgHandler;
 import msg.IRCMsg;
 import parsers.IRCMsgInterpreter;
-import parsers.IRCMsgParser;
 import triggers.Triggers;
 
 /**
@@ -34,7 +34,7 @@ public class IRCBot extends Thread {
 	private Triggers eventTriggers;
 
 	private OutputThread ot;
-	private IRCMsgParser parser;
+	private IRCMsgHandler msgHandler;
 	private IRCMsgInterpreter interpreter;
 	
 	/**
@@ -66,11 +66,11 @@ public class IRCBot extends Thread {
 			
 			timedTriggers = new Triggers();
 			eventTriggers = new Triggers();
-			parser = new IRCMsgParser(this);
+			msgHandler = new IRCMsgHandler(this);
 			interpreter = new IRCMsgInterpreter(this);
 			
 			Thread t1 = new Thread( ot );
-			Thread t2 = new Thread( parser );
+			Thread t2 = new Thread( msgHandler );
 			Thread t3 = new Thread( interpreter );
 
 			t1.start();
@@ -211,13 +211,13 @@ public class IRCBot extends Thread {
 	}
 
 
-	public IRCMsgParser getParser() {
-		return parser;
+	public IRCMsgHandler getIRCMsgHandler() {
+		return msgHandler;
 	}
 
 
-	public void setParser(IRCMsgParser parser) {
-		this.parser = parser;
+	public void setIRCMsgHandler(IRCMsgHandler msgHandler) {
+		this.msgHandler = msgHandler;
 	}
 
 

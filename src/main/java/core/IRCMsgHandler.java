@@ -1,6 +1,4 @@
-package parsers;
-
-import gui.UserInputBox;
+package core;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -10,29 +8,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import botconfigs.IRCBot;
+import gui.UserInputBox;
 
 /**
+ * 
  * @author JKyte
  * 
- * This class reads messages off a queue and parses raw IRC messages into an object for further 
+ * This class will combine the functionality of two legacy classes by both parsing raw IRC messages
+ * and interpreting them.
+ *
  */
-public class IRCMsgParser implements Runnable {
+public class IRCMsgHandler implements Runnable {
 
 	public ConcurrentLinkedQueue<String> inboundMsgQ;
 	public ConcurrentLinkedQueue<String> outboundMsgQ;
 	public ConcurrentLinkedQueue<IRCMsg> internalMsgQ;
 
-	private Logger log = LogManager.getLogger(IRCMsgParser.class);
-
-	public IRCMsgParser( IRCBot bot ){
-
+	private Logger log = LogManager.getLogger(IRCMsgHandler.class);
+	
+	public IRCMsgHandler( IRCBot bot ){
 		this.inboundMsgQ = bot.getInboundMsgQ();
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		this.internalMsgQ = bot.getInternalMsgQ();
 	
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}
-
+	
 	@Override
 	public void run() {
 
@@ -43,6 +44,7 @@ public class IRCMsgParser implements Runnable {
 				rawMsg = inboundMsgQ.poll();
 				if( null != rawMsg ){
 					try {
+						
 					//	long start = System.currentTimeMillis();
 						handleRawMsg(rawMsg);
 					//	updateParseStats( (System.currentTimeMillis() - start) );
@@ -103,5 +105,4 @@ public class IRCMsgParser implements Runnable {
 		
 		internalMsgQ.add( new IRCMsg(copyOfRawMsg, prefix, command, args, trailing) );
 	}
-
 }

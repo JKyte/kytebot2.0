@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import botconfigs.IRCBot;
 import core.BotConstants;
-import parsers.IRCMsgParser;
 
+//	Keeping this class around for IRCMsgHandler unit tests
 public class IRCMsgParserTest {
-
+/*
 	private final String CHANNEL = "#channelname";
 	private final String BOTNICK = "botnick";
 	
@@ -120,5 +120,5 @@ public class IRCMsgParserTest {
 		Assert.assertEquals( 1, result.getArgs().length);
 		Assert.assertEquals( "null", result.getArgs()[0] );
 		Assert.assertEquals( "You have not registered", result.getTrailing() );
-	}
+	}	*/
 }
