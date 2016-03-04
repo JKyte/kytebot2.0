@@ -15,7 +15,7 @@ import commands.TradeCommand;
 import responses.KytebotResponses;
 import triggers.Triggers;
 import msg.IRCMsg;
-import botconfigs.BotConfigs;
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 
 public class KytebotCommandParser {
@@ -38,24 +38,23 @@ public class KytebotCommandParser {
 
 	KytebotResponses responses;
 
-	public KytebotCommandParser(BotConfigs configs, IRCCommands commands, ConcurrentLinkedQueue<String> outboundMsgQ, 
-			Triggers timedTriggers, Triggers eventTriggers, String botnick){
+	public KytebotCommandParser( IRCBot bot, IRCCommands commands ){
 		
-		this.botnick = botnick;
+		this.botnick = bot.getConfigs().getBotnick();
 		this.commands = commands;
 
-		greetingChans = configs.getGreetingChans();
-		farewellChans = configs.getFarewellChans();
+		greetingChans = bot.getConfigs().getGreetingChans();
+		farewellChans = bot.getConfigs().getFarewellChans();
 		
 		loadGreetings();
 		loadFarewells();
 		responses = new KytebotResponses();
-		this.outboundMsgQ = outboundMsgQ;
+		this.outboundMsgQ = bot.getOutboundMsgQ();
 		
-		this.timedTriggers = timedTriggers;
-		this.eventTriggers = eventTriggers;
+		this.timedTriggers = bot.getTimedTriggers();
+		this.eventTriggers = bot.getEventTriggers();
 		
-		admin = configs.getAdmin();
+		admin = bot.getConfigs().getAdmin();
 		
 		botCommands = new BotCommands(admin, botnick);
 		loadKytebotCommands();

@@ -9,6 +9,8 @@ import msg.IRCMsg;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import botconfigs.IRCBot;
+
 /**
  * @author JKyte
  * 
@@ -22,13 +24,11 @@ public class IRCMsgParser implements Runnable {
 
 	private Logger log = LogManager.getLogger(IRCMsgParser.class);
 
-	public IRCMsgParser( ConcurrentLinkedQueue<String> inboundMsgQ, 
-			ConcurrentLinkedQueue<String> outboundMsgQ,
-			ConcurrentLinkedQueue<IRCMsg> internalMsgQ){
+	public IRCMsgParser( IRCBot bot ){
 
-		this.inboundMsgQ = inboundMsgQ;
-		this.outboundMsgQ = outboundMsgQ;
-		this.internalMsgQ = internalMsgQ;
+		this.inboundMsgQ = bot.getInboundMsgQ();
+		this.outboundMsgQ = bot.getOutboundMsgQ();
+		this.internalMsgQ = bot.getInternalMsgQ();
 	
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}

@@ -6,10 +6,8 @@ import io.OutputThread;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import core.BotConstants;
 import msg.IRCMsg;
 import parsers.IRCMsgInterpreter;
 import parsers.IRCMsgParser;
@@ -42,9 +40,9 @@ public class IRCBot extends Thread {
 	/**
 	 * Only initialize the queues at first
 	 */
-	public IRCBot( Properties prop ){
-		this.configs = BotConfigFactory.createBotConfigs(BotConstants.PRODUCTION_DEFAULT);
-		this.heartBeatInMillis = Long.parseLong(prop.getProperty("heartbeat"));
+	public IRCBot( String configPath ){
+		this.configs = BotConfigFactory.createBotConfigs(configPath);
+		this.heartBeatInMillis = configs.getHeartbeat();
 		inboundMsgQ = new ConcurrentLinkedQueue<String>();
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
 		internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
@@ -69,8 +67,8 @@ public class IRCBot extends Thread {
 			
 			timedTriggers = new Triggers();
 			eventTriggers = new Triggers();
-			parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
-			interpreter = new IRCMsgInterpreter(configs, internalMsgQ, outboundMsgQ, timedTriggers, eventTriggers);
+			parser = new IRCMsgParser(this);
+			interpreter = new IRCMsgInterpreter(this);
 			
 			Thread t1 = new Thread( it );
 			Thread t2 = new Thread( ot );
@@ -114,6 +112,126 @@ public class IRCBot extends Thread {
 		} catch (IOException e2) {
 		//	log.error(e2.getStackTrace());
 		}
+	}
+
+
+	public BotConfigs getConfigs() {
+		return configs;
+	}
+
+
+	public void setConfigs(BotConfigs configs) {
+		this.configs = configs;
+	}
+
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+
+	public long getHeartBeatInMillis() {
+		return heartBeatInMillis;
+	}
+
+
+	public void setHeartBeatInMillis(long heartBeatInMillis) {
+		this.heartBeatInMillis = heartBeatInMillis;
+	}
+
+
+	public ConcurrentLinkedQueue<String> getInboundMsgQ() {
+		return inboundMsgQ;
+	}
+
+
+	public void setInboundMsgQ(ConcurrentLinkedQueue<String> inboundMsgQ) {
+		this.inboundMsgQ = inboundMsgQ;
+	}
+
+
+	public ConcurrentLinkedQueue<String> getOutboundMsgQ() {
+		return outboundMsgQ;
+	}
+
+
+	public void setOutboundMsgQ(ConcurrentLinkedQueue<String> outboundMsgQ) {
+		this.outboundMsgQ = outboundMsgQ;
+	}
+
+
+	public ConcurrentLinkedQueue<IRCMsg> getInternalMsgQ() {
+		return internalMsgQ;
+	}
+
+
+	public void setInternalMsgQ(ConcurrentLinkedQueue<IRCMsg> internalMsgQ) {
+		this.internalMsgQ = internalMsgQ;
+	}
+
+
+	public Triggers getTimedTriggers() {
+		return timedTriggers;
+	}
+
+
+	public void setTimedTriggers(Triggers timedTriggers) {
+		this.timedTriggers = timedTriggers;
+	}
+
+
+	public Triggers getEventTriggers() {
+		return eventTriggers;
+	}
+
+
+	public void setEventTriggers(Triggers eventTriggers) {
+		this.eventTriggers = eventTriggers;
+	}
+
+
+	public InputThread getIt() {
+		return it;
+	}
+
+
+	public void setIt(InputThread it) {
+		this.it = it;
+	}
+
+
+	public OutputThread getOt() {
+		return ot;
+	}
+
+
+	public void setOt(OutputThread ot) {
+		this.ot = ot;
+	}
+
+
+	public IRCMsgParser getParser() {
+		return parser;
+	}
+
+
+	public void setParser(IRCMsgParser parser) {
+		this.parser = parser;
+	}
+
+
+	public IRCMsgInterpreter getInterpreter() {
+		return interpreter;
+	}
+
+
+	public void setInterpreter(IRCMsgInterpreter interpreter) {
+		this.interpreter = interpreter;
 	}
 	
 }

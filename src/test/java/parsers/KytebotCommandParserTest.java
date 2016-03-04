@@ -1,16 +1,14 @@
 package parsers;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import core.BotConstants;
 import parsers.KytebotCommandParser;
-import triggers.Triggers;
 import botconfigs.BotConfigFactory;
 import botconfigs.BotConfigs;
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 
 public class KytebotCommandParserTest {
@@ -25,13 +23,9 @@ public class KytebotCommandParserTest {
 	@Test
 	public void testGetGreetingScore(){
 		
-		String botnick = "botnick";
 		IRCCommands commands = new IRCCommands(configs);
-		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
-		Triggers timedTriggers = new Triggers();
-		Triggers eventTriggers = new Triggers();
-		
-		KytebotCommandParser kcp = new KytebotCommandParser(configs, commands, outQ, timedTriggers, eventTriggers, botnick);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
 		
 		Assert.assertEquals(2, kcp.getGreetingScore("HELLO"));
 		Assert.assertEquals(2, kcp.getGreetingScore("HI"));
@@ -42,14 +36,9 @@ public class KytebotCommandParserTest {
 
 	@Test
 	public void testIsGreeting(){
-		//	TODO -- case sensitivity matters for nicks
-		String botnick = "botnick";
 		IRCCommands commands = new IRCCommands(configs);
-		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
-		Triggers timedTriggers = new Triggers();
-		Triggers eventTriggers = new Triggers();
-		
-		KytebotCommandParser kcp = new KytebotCommandParser(configs, commands, outQ, timedTriggers, eventTriggers, botnick);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
 		
 		String[] validGreetings = {"hello botnick", "hi botnick", "good morning botnick",
 				"good evening botnick", "morning botnick", "evening botnick"};
@@ -69,13 +58,9 @@ public class KytebotCommandParserTest {
 	@Test
 	public void testCleanKytebotCommand_isKytebotCommand(){
 		
-		String botnick = "botnick";
 		IRCCommands commands = new IRCCommands(configs);
-		ConcurrentLinkedQueue<String> outQ = new ConcurrentLinkedQueue<String>();
-		Triggers timedTriggers = new Triggers();
-		Triggers eventTriggers = new Triggers();
-		
-		KytebotCommandParser kcp = new KytebotCommandParser(configs, commands, outQ, timedTriggers, eventTriggers, botnick);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
 		String kytebotCommand_v1 = "!botnick command";
 		String kytebotCommand_v2 = "!b command";
 		

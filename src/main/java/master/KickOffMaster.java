@@ -1,9 +1,7 @@
 package master;
 
-import java.util.Properties;
-
+import core.BotConstants;
 import botconfigs.IRCBot;
-import botconfigs.PropertyHandler;
 
 /**
  * 
@@ -16,9 +14,7 @@ public class KickOffMaster {
 
 	public static void main(String[] args){
 
-		PropertyHandler propHandler = new PropertyHandler();
-		Properties configs = PropertyHandler.readPropertyFile(propHandler.PRODUCTION_DEFAULT);
-		IRCBot bot = new IRCBot(configs);
+		IRCBot bot = new IRCBot(BotConstants.PRODUCTION_DEFAULT);
 		Thread t0 = new Thread(bot);
 		t0.start();	
 	}

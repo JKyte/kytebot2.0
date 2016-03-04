@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import responses.KytebotResponses;
 import triggers.JoinChannelTrigger;
 import triggers.Triggers;
-import botconfigs.BotConfigs;
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
@@ -34,25 +34,22 @@ public class IRCMsgInterpreter implements Runnable {
 	private IRCCommands commands;
 	private KytebotCommandParser kytebotParser;
 	
-	public IRCMsgInterpreter(BotConfigs configs, ConcurrentLinkedQueue<IRCMsg> internalMsgQ, 
-			ConcurrentLinkedQueue<String> outboundMsgQ,
-			Triggers timedTriggers, Triggers eventTriggers){
+	public IRCMsgInterpreter( IRCBot bot ){
 		
-		botnick = configs.getBotnick();
-		startchan = configs.getStartChan();
+		botnick = bot.getConfigs().getBotnick();
+		startchan = bot.getConfigs().getStartChan();
 		
-		this.internalMsgQ = internalMsgQ;
-		this.outboundMsgQ = outboundMsgQ;
+		this.internalMsgQ = bot.getInternalMsgQ();
+		this.outboundMsgQ = bot.getOutboundMsgQ();
 		
-		this.timedTriggers = timedTriggers;
-		this.eventTriggers = eventTriggers;
+		this.timedTriggers = bot.getTimedTriggers();
+		this.eventTriggers = bot.getEventTriggers();
 		
 		loadEventTriggers();
 		
 		loadServerResponseCodesToIgnore();
-		commands = new IRCCommands(configs);
-		kytebotParser = new KytebotCommandParser(configs, commands, this.outboundMsgQ, 
-				this.timedTriggers, this.eventTriggers, botnick);
+		commands = new IRCCommands( bot.getConfigs() );
+		kytebotParser = new KytebotCommandParser( bot, commands );
 	}
 
 	private void loadEventTriggers() {

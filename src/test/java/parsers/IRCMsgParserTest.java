@@ -1,12 +1,12 @@
 package parsers;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import msg.IRCMsg;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import botconfigs.IRCBot;
+import core.BotConstants;
 import parsers.IRCMsgParser;
 
 public class IRCMsgParserTest {
@@ -18,11 +18,8 @@ public class IRCMsgParserTest {
 	public void testParse_ChannelMsg(){
 		String channelMsg = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG #channelname :hello botnick, channel msg";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		
@@ -39,11 +36,8 @@ public class IRCMsgParserTest {
 	public void testParse_PrivateMsg(){
 		String channelMsg = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :hello botnick, private msg";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		
@@ -60,11 +54,8 @@ public class IRCMsgParserTest {
 	public void testParse_ChannelMsg2(){
 		String channelMsg = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG #channelname :here's a link, http://www.website.com/some-random-page/";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		
@@ -81,11 +72,8 @@ public class IRCMsgParserTest {
 	public void testParse_Join(){
 		String channelMsg = ":User!User@server-ABCD1234.areacode.network.isp.net JOIN #channelname";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		
@@ -102,11 +90,8 @@ public class IRCMsgParserTest {
 	public void testParse_userWithIPv6(){
 		String channelMsg = ":User!uid123456@ABCD123:1234ABCD:ABCD1234:IP PRIVMSG #channelname :Look! A UUID";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		
@@ -123,11 +108,8 @@ public class IRCMsgParserTest {
 	public void testParse_serverCode(){
 		String channelMsg = ":server.name.net 451 null :You have not registered";
 		
-		ConcurrentLinkedQueue<String> inboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<String> outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		ConcurrentLinkedQueue<IRCMsg> internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
-		
-		IRCMsgParser parser = new IRCMsgParser(inboundMsgQ, outboundMsgQ, internalMsgQ);
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsgParser parser = new IRCMsgParser(mockBot);
 		parser.parseRawMsg(channelMsg);
 		Assert.assertNotNull( parser.internalMsgQ.peek() );
 		

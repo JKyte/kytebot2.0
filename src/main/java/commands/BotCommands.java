@@ -34,7 +34,7 @@ public class BotCommands {
 	 * @param trigger
 	 * @returns - TRUE if the trigger added, FALSE if the trigger already exists
 	 */
-	public synchronized boolean put(String triggerName, BaseCommand trigger){
+	public boolean put(String triggerName, BaseCommand trigger){
 		if( !commands.containsKey(triggerName) ){
 			commands.put(triggerName, trigger);
 			return true;
