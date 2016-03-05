@@ -5,13 +5,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import core.BotConstants;
-import parsers.KytebotCommandParser;
+import parsers.BotCommandParser;
 import botconfigs.BotConfigFactory;
 import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 
-public class KytebotCommandParserTest {
+public class BotCommandParserTest {
 	
 	private static BotConfigs configs;
 	
@@ -25,7 +25,7 @@ public class KytebotCommandParserTest {
 		
 		IRCCommands commands = new IRCCommands(configs);
 		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
+		BotCommandParser kcp = new BotCommandParser(mockBot, commands);
 		
 		Assert.assertEquals(2, kcp.getGreetingScore("HELLO"));
 		Assert.assertEquals(2, kcp.getGreetingScore("HI"));
@@ -38,7 +38,7 @@ public class KytebotCommandParserTest {
 	public void testIsGreeting(){
 		IRCCommands commands = new IRCCommands(configs);
 		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
+		BotCommandParser kcp = new BotCommandParser(mockBot, commands);
 		
 		String[] validGreetings = {"hello botnick", "hi botnick", "good morning botnick",
 				"good evening botnick", "morning botnick", "evening botnick"};
@@ -56,19 +56,19 @@ public class KytebotCommandParserTest {
 	}
 	
 	@Test
-	public void testCleanKytebotCommand_isKytebotCommand(){
+	public void testCleanBotCommand_isBotCommand(){
 		
 		IRCCommands commands = new IRCCommands(configs);
 		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		KytebotCommandParser kcp = new KytebotCommandParser(mockBot, commands);
-		String kytebotCommand_v1 = "!botnick command";
-		String kytebotCommand_v2 = "!b command";
+		BotCommandParser bcp = new BotCommandParser(mockBot, commands);
+		String botCommand_v1 = "!botnick command";
+		String botCommand_v2 = "!b command";
 		
-		Assert.assertEquals("command", kcp.cleanKytebotCommand(kytebotCommand_v1));
-		Assert.assertEquals("command", kcp.cleanKytebotCommand(kytebotCommand_v2));
+		Assert.assertEquals("command", bcp.cleanBotCommand(botCommand_v1));
+		Assert.assertEquals("command", bcp.cleanBotCommand(botCommand_v2));
 		
-		Assert.assertEquals(true, kcp.isKytebotCommand(kytebotCommand_v1));
-		Assert.assertEquals(true, kcp.isKytebotCommand(kytebotCommand_v2));
-		Assert.assertFalse(kcp.isKytebotCommand("random string"));
+		Assert.assertEquals(true, bcp.isBotCommand(botCommand_v1));
+		Assert.assertEquals(true, bcp.isBotCommand(botCommand_v2));
+		Assert.assertFalse(bcp.isBotCommand("random string"));
 	}
 }

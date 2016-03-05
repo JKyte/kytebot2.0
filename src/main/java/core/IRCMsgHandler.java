@@ -10,8 +10,8 @@ import msg.IRCMsg;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import parsers.KytebotCommandParser;
-import responses.KytebotResponses;
+import parsers.BotCommandParser;
+import responses.BotResponses;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import gui.UserInputBox;
@@ -35,11 +35,16 @@ public class IRCMsgHandler implements Runnable {
 	private String botnick;
 	private String startchan;
 
-	private Listeners timedListeners;
+	private Listeners interruptListeners;
+	
+	//	generic and botCommand listeners unused for the moment
+	private Listeners genericListeners;
+	private Listeners botCommandListeners;
+	
 	private Listeners eventListeners;
 	
 	private IRCCommands commands;
-	private KytebotCommandParser kytebotParser;
+	private BotCommandParser botCommandParser;
 
 	private Logger log = LogManager.getLogger(IRCMsgHandler.class);
 	
@@ -52,21 +57,21 @@ public class IRCMsgHandler implements Runnable {
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		this.internalMsgQ = bot.getInternalMsgQ();
 	
-		this.timedListeners = bot.getTimedListeners();
+		this.interruptListeners = bot.getTimedListeners();
 		this.eventListeners = bot.getEventListeners();
 		
 		loadEventListeners();
 		loadServerResponseCodesToIgnore();
 		
 		commands = new IRCCommands( bot.getConfigs() );
-		kytebotParser = new KytebotCommandParser( bot, commands );
+		botCommandParser = new BotCommandParser( bot, commands );
 		
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}
 	
 	private void loadEventListeners() {
-		eventListeners.put("GREET_1", new JoinChannelListener(commands, timedListeners, eventListeners, outboundMsgQ, "#kytebotlair", new KytebotResponses()));
-		eventListeners.put("GREET_2", new JoinChannelListener(commands, timedListeners, eventListeners, outboundMsgQ, "#whitewalkers", new KytebotResponses()));
+		eventListeners.put("GREET_1", new JoinChannelListener(commands, interruptListeners, eventListeners, outboundMsgQ, "#kytebotlair", new BotResponses()));
+		eventListeners.put("GREET_2", new JoinChannelListener(commands, interruptListeners, eventListeners, outboundMsgQ, "#whitewalkers", new BotResponses()));
 		
 	}
 
@@ -129,7 +134,7 @@ public class IRCMsgHandler implements Runnable {
 		if( !isPing(rawMsg) ){
 			IRCMsg msg = parseRawMsg(rawMsg);
 			
-			timedListeners.iterateAcrossListeners(null);
+			interruptListeners.iterateAcrossListeners(null);
 			
 			//	Check event-driven listeners up front
 			eventListeners.iterateAcrossListeners(msg);
@@ -241,8 +246,8 @@ public void interpretMsg( IRCMsg msg ){
 
 	private void handlePrivateMsg(IRCMsg msg) {
 		// TODO extend this
-		if( kytebotParser.isKytebotCommand(msg.getTrailing()) ){
-			kytebotParser.parsePrivateMsg(msg);
+		if( botCommandParser.isBotCommand(msg.getTrailing()) ){
+			botCommandParser.parsePrivateMsg(msg);
 		}else{
 		//	System.out.println("PRIVATE message");
 		}
@@ -250,8 +255,8 @@ public void interpretMsg( IRCMsg msg ){
 
 	private void handleChannelMsg(IRCMsg msg) {
 		//	TODO extend this
-		if( kytebotParser.isKytebotCommand(msg.getTrailing()) ){
-			kytebotParser.parseChannelMsg(msg);
+		if( botCommandParser.isBotCommand(msg.getTrailing()) ){
+			botCommandParser.parseChannelMsg(msg);
 		}else{
 		//	System.out.println("CHANNEL message");	
 		}

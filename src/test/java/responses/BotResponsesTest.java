@@ -4,13 +4,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class KytebotResponsesTest {
+public class BotResponsesTest {
 	
-	static KytebotResponses responses;
+	static BotResponses responses;
 	
 	@BeforeClass
 	public static void setup(){
-		responses = new KytebotResponses();
+		responses = new BotResponses();
 	}
 	
 	@Test

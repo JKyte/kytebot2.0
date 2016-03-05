@@ -3,17 +3,17 @@ package listeners;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import botconfigs.IRCCommands;
-import responses.KytebotResponses;
+import responses.BotResponses;
 import msg.IRCMsg;
 
 public class JoinChannelListener extends BaseListener {
 	
 	String targetChan;
-	KytebotResponses responses;
+	BotResponses responses;
 	
 	public JoinChannelListener(IRCCommands ircCommands, Listeners timedTriggers,
 			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ,
-			String targetChan, KytebotResponses responses) {
+			String targetChan, BotResponses responses) {
 		
 		super(ircCommands, timedTriggers, eventTriggers, outboundMsgQ);
 		this.targetChan = targetChan;

@@ -12,13 +12,13 @@ import commands.HelpCommand;
 import commands.JoinCommand;
 import commands.ListCommand;
 import commands.TradeCommand;
-import responses.KytebotResponses;
+import responses.BotResponses;
 import listeners.Listeners;
 import msg.IRCMsg;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 
-public class KytebotCommandParser {
+public class BotCommandParser {
 
 	private String botnick;
 	private IRCCommands commands;
@@ -36,9 +36,9 @@ public class KytebotCommandParser {
 	HashMap<String, Integer> greetings = new HashMap<String, Integer>();
 	HashMap<String, Integer> farewells = new HashMap<String, Integer>();
 
-	KytebotResponses responses;
+	BotResponses responses;
 
-	public KytebotCommandParser( IRCBot bot, IRCCommands commands ){
+	public BotCommandParser( IRCBot bot, IRCCommands commands ){
 		
 		this.botnick = bot.getConfigs().getBotnick();
 		this.commands = commands;
@@ -48,7 +48,7 @@ public class KytebotCommandParser {
 		
 		loadGreetings();
 		loadFarewells();
-		responses = new KytebotResponses();
+		responses = new BotResponses();
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		
 		this.timedListeners = bot.getTimedListeners();
@@ -57,10 +57,10 @@ public class KytebotCommandParser {
 		admin = bot.getConfigs().getAdmin();
 		
 		botCommands = new BotCommands(admin, botnick);
-		loadKytebotCommands();
+		loadBotCommands();
 	}
 	
-	private void loadKytebotCommands() {
+	private void loadBotCommands() {
 		botCommands.put("HELP", new HelpCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
 		botCommands.put("LIST", new ListCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
 		botCommands.put("TRADE", new TradeCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
@@ -96,17 +96,17 @@ public class KytebotCommandParser {
 		
 		if( isValidGreetingChan(msg.getArgs()[0]) && isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotGreeting(msg.getNickFromPrefix());
+			String response = responses.getBotGreeting(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 			
 		}else if( isValidFairwellChan(msg.getArgs()[0]) && isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotFarewell(msg.getNickFromPrefix());
+			String response = responses.getBotFarewell(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
-		}else if( isKytebotCommand(msg.getTrailing()) ){
-			handleKytebotCommand(msg);
+		}else if( isBotCommand(msg.getTrailing()) ){
+			handleBototCommand(msg);
 		}
 
 	}
@@ -194,20 +194,20 @@ public class KytebotCommandParser {
 		System.out.println("PRIVATE " + botnick + " command!");
 		if( isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotGreeting(msg.getNickFromPrefix());
+			String response = responses.getBotGreeting(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getKytebotFarewell(msg.getNickFromPrefix());
+			String response = responses.getBotFarewell(msg.getNickFromPrefix());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
-		}else if( isKytebotCommand(msg.getTrailing()) ){
-			handleKytebotCommand(msg);
+		}else if( isBotCommand(msg.getTrailing()) ){
+			handleBototCommand(msg);
 		}
 	}
 
-	public boolean isKytebotCommand(String trailing) {
+	public boolean isBotCommand(String trailing) {
 		if( trailing.startsWith("!"+botnick.charAt(0)) ){ 
 			return true; 
 		}else if( trailing.contains(botnick) ){
@@ -217,12 +217,12 @@ public class KytebotCommandParser {
 	}
 
 	//	Cleans the command indicator before passing the message
-	public void handleKytebotCommand(IRCMsg msg) {
-		msg.setTrailing( cleanKytebotCommand(msg.getTrailing()) );
+	public void handleBototCommand(IRCMsg msg) {
+		msg.setTrailing( cleanBotCommand(msg.getTrailing()) );
 		botCommands.iterateAcrossCommands(msg);
 	}
 
-	public String cleanKytebotCommand(String trailing) {
+	public String cleanBotCommand(String trailing) {
 		return trailing.substring(trailing.indexOf(" ")+1);
 	}
 

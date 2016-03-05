@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class KytebotResponses {
+public class BotResponses {
 	
 	private Random rand;
 	private HashMap<Integer, String> greetings;
@@ -12,7 +12,7 @@ public class KytebotResponses {
 	
 	private ArrayList<String> joinActions;
 	
-	public KytebotResponses(){
+	public BotResponses(){
 		rand = new Random();
 		loadGreetings();
 		loadFarewells();
@@ -65,7 +65,7 @@ public class KytebotResponses {
 		return greetings.get(1+rand.nextInt(greetings.size()));
 	}
 
-	public String getKytebotGreeting( String nick ){
+	public String getBotGreeting( String nick ){
 		return getRandomGreeting() + " " + nick;
 	}
 		
@@ -73,7 +73,7 @@ public class KytebotResponses {
 		return farewells.get(1+rand.nextInt(farewells.size()));
 	}
 
-	public String getKytebotFarewell( String nick ){
+	public String getBotFarewell( String nick ){
 		return getRandomFarewell() + " " + nick;
 	}
 }
