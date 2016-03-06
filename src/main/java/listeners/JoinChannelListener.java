@@ -1,7 +1,6 @@
 package listeners;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import responses.BotResponses;
 import msg.IRCMsg;
@@ -11,11 +10,9 @@ public class JoinChannelListener extends BaseListener {
 	String targetChan;
 	BotResponses responses;
 	
-	public JoinChannelListener(IRCCommands ircCommands, Listeners timedTriggers,
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ,
+	public JoinChannelListener(IRCBot ircbot, IRCCommands ircCommands,
 			String targetChan, BotResponses responses) {
-		
-		super(ircCommands, timedTriggers, eventTriggers, outboundMsgQ);
+		super(ircbot, ircCommands);
 		this.targetChan = targetChan;
 		this.responses = responses;
 	}

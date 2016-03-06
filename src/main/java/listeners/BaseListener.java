@@ -2,6 +2,7 @@ package listeners;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
@@ -20,15 +21,14 @@ public abstract class BaseListener implements Listener {
 	
 	protected IRCCommands ircCommands;
 	
-	public BaseListener(IRCCommands ircCommands, Listeners timedListeners, Listeners eventListeners, 
-			ConcurrentLinkedQueue<String> outboundMsgQ){
+	public BaseListener(IRCBot ircbot, IRCCommands ircCommands){
 		
 		this.ircCommands = ircCommands;
 		this.ircCommands = new IRCCommands();
 		
-		this.timedListeners = timedListeners;
-		this.eventListeners = eventListeners;
-		this.outboundMsgQ = outboundMsgQ;
+		this.timedListeners = ircbot.getTimedListeners();
+		this.eventListeners = ircbot.getEventListeners();
+		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 	}
 	
 	public ConcurrentLinkedQueue<String> outboundMsgQ;

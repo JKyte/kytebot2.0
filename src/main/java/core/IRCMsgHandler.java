@@ -61,7 +61,7 @@ public class IRCMsgHandler implements Runnable {
 		this.interruptListeners = bot.getTimedListeners();
 		this.eventListeners = bot.getEventListeners();
 		
-		loadEventListeners();
+		loadEventListeners(bot);
 		loadServerResponseCodesToIgnore();
 		
 		commands = new IRCCommands( bot.getConfigs() );
@@ -70,9 +70,9 @@ public class IRCMsgHandler implements Runnable {
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}
 	
-	private void loadEventListeners() {
-		eventListeners.put("GREET_1", new JoinChannelListener(commands, interruptListeners, eventListeners, outboundMsgQ, "#kytebotlair", new BotResponses()));
-		eventListeners.put("GREET_2", new JoinChannelListener(commands, interruptListeners, eventListeners, outboundMsgQ, "#whitewalkers", new BotResponses()));
+	private void loadEventListeners(IRCBot ircbot) {
+		eventListeners.put("GREET_1", new JoinChannelListener(ircbot, commands, "#kytebotlair", new BotResponses()));
+		eventListeners.put("GREET_2", new JoinChannelListener(ircbot, commands, "#whitewalkers", new BotResponses()));
 		
 	}
 
