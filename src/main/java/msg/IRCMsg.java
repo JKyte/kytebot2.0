@@ -8,20 +8,20 @@ public class IRCMsg {
 	private String[] args;
 	private String trailing;
 	
+	//	These fields set by decorator
+	private String fromNick;
+	private boolean fromAdmin;
+	private boolean fromTrustedUser;
+	
 	public IRCMsg(String originalMsg, String prefix, String command, String[] args, String trailing){
 		this.originalMsg = originalMsg;
 		this.prefix = prefix;
 		this.command = command;
 		this.args = args;
 		this.setTrailing(trailing);
-	}
-
-	/**
-	 * 
-	 * @returns a NICK from the prefix
-	 */
-	public String getNickFromPrefix(){
-		return prefix.substring(0,prefix.indexOf("!"));
+		
+		fromAdmin = false;
+		fromTrustedUser = true;
 	}
 	
 	public String getOriginalMsg() {
@@ -64,7 +64,27 @@ public class IRCMsg {
 		this.trailing = trailing;
 	}
 	
-	public String toPrivString(){
-		return getNickFromPrefix() + "\t" + args[0] + "\t" + trailing;
+	public String getFromNick() {
+		return fromNick;
+	}
+
+	public void setFromNick(String fromNick) {
+		this.fromNick = fromNick;
+	}
+
+	public boolean isFromAdmin() {
+		return fromAdmin;
+	}
+
+	public void setFromAdmin(boolean fromAdmin) {
+		this.fromAdmin = fromAdmin;
+	}
+
+	public boolean isFromTrustedUser() {
+		return fromTrustedUser;
+	}
+
+	public void setFromTrustedUser(boolean fromTrustedUser) {
+		this.fromTrustedUser = fromTrustedUser;
 	}
 }

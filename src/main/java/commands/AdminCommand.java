@@ -19,7 +19,7 @@ public abstract class AdminCommand extends BaseCommand {
 	}
 
 	public boolean callerHasAdminPrivileges(IRCMsg msg) {
-		return msg.getNickFromPrefix().equalsIgnoreCase(admin);
+		return msg.getFromNick().equalsIgnoreCase(admin);
 	}
 
 	@Override

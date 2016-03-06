@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import listenerFactories.EventListenerFactory;
-import listeners.JoinChannelListener;
 import listeners.Listeners;
 import msg.IRCMsg;
 import msg.IRCMsgFactory;
@@ -12,8 +11,8 @@ import msg.IRCMsgFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import decorators.IRCMessageDecorator;
 import parsers.BotCommandParser;
-import responses.BotResponses;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import gui.UserInputBox;
@@ -34,6 +33,8 @@ public class IRCMsgHandler implements Runnable {
 	
 	private HashSet<String> serverResponseCodesToIgnore;
 	
+	private IRCBot bot;
+	
 	private String botnick;
 	private String startchan;
 
@@ -51,6 +52,8 @@ public class IRCMsgHandler implements Runnable {
 	private Logger log = LogManager.getLogger(IRCMsgHandler.class);
 	
 	public IRCMsgHandler( IRCBot bot ){
+		
+		this.bot = bot;
 		
 		botnick = bot.getConfigs().getBotnick();
 		startchan = bot.getConfigs().getStartChan();
@@ -128,6 +131,7 @@ public class IRCMsgHandler implements Runnable {
 	public void handleMsg(String rawMsg){
 		if( !isPing(rawMsg) ){
 			IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
+			msg = IRCMessageDecorator.decorateMessage(bot.getConfigs(), msg);
 			
 			interruptListeners.iterateAcrossListeners(null);
 			
@@ -187,19 +191,19 @@ public class IRCMsgHandler implements Runnable {
 	}
 	
 	private void handleNick(IRCMsg msg) {
-		System.out.println( "NICK: " + msg.getNickFromPrefix() + " changed to " + msg.getTrailing());
+		System.out.println( "NICK: " + msg.getFromNick() + " changed to " + msg.getTrailing());
 	}
 
 	private void handleQuit(IRCMsg msg) {
-		System.out.println( msg.getNickFromPrefix() + " QUIT " + msg.getTrailing() );
+		System.out.println( msg.getFromNick() + " QUIT " + msg.getTrailing() );
 	}
 
 	private void handlePrivMsg(IRCMsg msg) {
 		if( msg.getArgs()[0].startsWith("#") ){
-			System.out.println( msg.toPrivString() );
+			System.out.println( msg.getOriginalMsg() );
 			handleChannelMsg(msg);
 		}else if( msg.getArgs()[0].equals(botnick) ){
-			System.out.println( msg.toPrivString() );
+			System.out.println( msg.getOriginalMsg() );
 			handlePrivateMsg(msg);
 		}else{
 			System.err.println("Something went very wrong parsing: " + msg.getOriginalMsg());
@@ -236,7 +240,7 @@ public class IRCMsgHandler implements Runnable {
 	}
 
 	private void handleJoin(IRCMsg msg) {
-		System.out.println( msg.getNickFromPrefix() + " joined " + msg.getTrailing());
+		System.out.println( msg.getFromNick() + " joined " + msg.getTrailing());
 	}
 
 	private void handleInvite(IRCMsg msg) {

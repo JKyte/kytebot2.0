@@ -37,7 +37,7 @@ public class TradeCommand extends BaseCommand {
 	private void setTarget(IRCMsg msg) {
 		target = msg.getArgs()[0];
 		if( target.equals(botCommands.getBotnick()) ){
-			target = msg.getNickFromPrefix();
+			target = msg.getFromNick();
 		}
 	}
 

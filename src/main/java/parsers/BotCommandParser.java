@@ -96,13 +96,13 @@ public class BotCommandParser {
 		
 		if( isValidGreetingChan(msg.getArgs()[0]) && isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getBotGreeting(msg.getNickFromPrefix());
+			String response = responses.getBotGreeting(msg.getFromNick());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 			
 		}else if( isValidFairwellChan(msg.getArgs()[0]) && isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getBotFarewell(msg.getNickFromPrefix());
+			String response = responses.getBotFarewell(msg.getFromNick());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
@@ -194,12 +194,12 @@ public class BotCommandParser {
 		System.out.println("PRIVATE " + botnick + " command!");
 		if( isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getBotGreeting(msg.getNickFromPrefix());
+			String response = responses.getBotGreeting(msg.getFromNick());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
-			String response = responses.getBotFarewell(msg.getNickFromPrefix());
+			String response = responses.getBotFarewell(msg.getFromNick());
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
