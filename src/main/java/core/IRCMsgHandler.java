@@ -3,6 +3,7 @@ package core;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listenerFactories.EventListenerFactory;
 import listeners.JoinChannelListener;
 import listeners.Listeners;
 import msg.IRCMsg;
@@ -57,23 +58,16 @@ public class IRCMsgHandler implements Runnable {
 		this.inboundMsgQ = bot.getInboundMsgQ();
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		this.internalMsgQ = bot.getInternalMsgQ();
-	
-		this.interruptListeners = bot.getTimedListeners();
-		this.eventListeners = bot.getEventListeners();
 		
-		loadEventListeners(bot);
 		loadServerResponseCodesToIgnore();
 		
 		commands = new IRCCommands( bot.getConfigs() );
 		botCommandParser = new BotCommandParser( bot, commands );
 		
-		UserInputBox uib = new UserInputBox(outboundMsgQ);
-	}
-	
-	private void loadEventListeners(IRCBot ircbot) {
-		eventListeners.put("GREET_1", new JoinChannelListener(ircbot, commands, "#kytebotlair", new BotResponses()));
-		eventListeners.put("GREET_2", new JoinChannelListener(ircbot, commands, "#whitewalkers", new BotResponses()));
+		this.interruptListeners = bot.getTimedListeners();
+		this.eventListeners = EventListenerFactory.createEventListeners(bot, commands);
 		
+		UserInputBox uib = new UserInputBox(outboundMsgQ);
 	}
 
 	private void loadServerResponseCodesToIgnore() {
@@ -154,12 +148,7 @@ public class IRCMsgHandler implements Runnable {
 		return false;
 	}
 
-
-	
 	public void interpretMsg( IRCMsg msg ){
-		
-		//	Check event-driven listeners up front
-		eventListeners.iterateAcrossListeners(msg);
 		
 		if( msg.getCommand().equals("PRIVMSG") ){
 			handlePrivMsg(msg);
