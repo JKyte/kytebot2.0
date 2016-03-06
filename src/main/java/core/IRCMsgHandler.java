@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import listeners.JoinChannelListener;
 import listeners.Listeners;
 import msg.IRCMsg;
+import msg.IRCMsgFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -132,7 +133,7 @@ public class IRCMsgHandler implements Runnable {
 	
 	public void handleMsg(String rawMsg){
 		if( !isPing(rawMsg) ){
-			IRCMsg msg = parseRawMsg(rawMsg);
+			IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
 			
 			interruptListeners.iterateAcrossListeners(null);
 			
@@ -153,37 +154,9 @@ public class IRCMsgHandler implements Runnable {
 		return false;
 	}
 
-	public IRCMsg parseRawMsg( String rawMsg ){
-		
-		String copyOfRawMsg = rawMsg;
-		String prefix = null;
-		String command = null;
-		String[] args = null;
-		String trailing = null;
-		
-		if( rawMsg.charAt(0) == ':' ){
-			rawMsg = rawMsg.substring(1);
-			prefix = rawMsg.split(" ")[0];
-			rawMsg = rawMsg.substring(rawMsg.indexOf(" ")+1);
-		}
-		
-		if( rawMsg.indexOf(" :") != -1 ){
-			trailing = rawMsg.substring(rawMsg.indexOf(":")+1);
-			command = rawMsg.substring(0, rawMsg.indexOf(" "));
-			
-			rawMsg = rawMsg.substring(rawMsg.indexOf(" "), rawMsg.indexOf(":")).trim();
-			args = rawMsg.split(" :")[0].split(" ");
-		}else{
-			command = rawMsg.substring(0, rawMsg.indexOf(" "));
-			rawMsg = rawMsg.substring(rawMsg.indexOf(" ")).trim();
-			args = rawMsg.split(" ");
-		}
-		
-		IRCMsg msg = new IRCMsg(copyOfRawMsg, prefix, command, args, trailing);
-		return msg;
-	}
+
 	
-public void interpretMsg( IRCMsg msg ){
+	public void interpretMsg( IRCMsg msg ){
 		
 		//	Check event-driven listeners up front
 		eventListeners.iterateAcrossListeners(msg);
