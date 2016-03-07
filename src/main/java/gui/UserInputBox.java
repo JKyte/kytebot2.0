@@ -27,7 +27,6 @@ import javax.swing.KeyStroke;
 public class UserInputBox extends JFrame implements ActionListener {
 
 	private JButton sendMsgBtn = new JButton("Send msg");
-	private JButton sendCmdBtn = new JButton("Send cmd");
 
 	private JTextArea textArea = new JTextArea(8, 40);
 
@@ -36,7 +35,6 @@ public class UserInputBox extends JFrame implements ActionListener {
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	
 
-	@SuppressWarnings("deprecation")
 	public UserInputBox(  ConcurrentLinkedQueue<String> msgQ ) {
 
 		this.outboundMsgQ = msgQ;
@@ -45,9 +43,6 @@ public class UserInputBox extends JFrame implements ActionListener {
 
 		p.add(sendMsgBtn);
 		sendMsgBtn.addActionListener(this);
-		
-		p.add(sendCmdBtn);
-		sendCmdBtn.addActionListener(this);
 
 		getContentPane().add(p, "South");
 
@@ -62,32 +57,8 @@ public class UserInputBox extends JFrame implements ActionListener {
 			}
 		});
 
-		this.show();
+		this.setVisible(true);
 	}
-
-	protected JButton createButton(String name, int virtualKey) {
-        JButton btn = new JButton(name);
-        btn.addActionListener(new ActionListener() {
-            
-            @Override
-			public void actionPerformed(ActionEvent e) {
-            //    log.info(e.getActionCommand() + " was clicked");
-            }
-        });
-        btn.setMargin(new Insets(8, 8, 8, 8));
-        InputMap im = btn.getInputMap(0);
-        ActionMap am = btn.getActionMap();
-        im.put(KeyStroke.getKeyStroke(virtualKey, 0), "clickMe");
-        am.put("clickMe", new AbstractAction() {
-            
-            @Override
-			public void actionPerformed(ActionEvent e) {
-                JButton btn = (JButton) e.getSource();
-                btn.doClick();
-            }
-        });
-        return btn;
-    }
 	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
@@ -98,11 +69,8 @@ public class UserInputBox extends JFrame implements ActionListener {
 			outboundMsgQ.add(cmd);
 			textArea.setText("");
 			
-		}else if (source == sendCmdBtn) {
-			
-			String cmd = textArea.getText();
-			outboundMsgQ.add(cmd);
-			textArea.setText("");
+		}else{
+			System.err.println("Unhandled action event!");
 		}
 	}
 
