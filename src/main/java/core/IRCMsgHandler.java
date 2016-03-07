@@ -29,7 +29,6 @@ public class IRCMsgHandler implements Runnable {
 
 	public ConcurrentLinkedQueue<String> inboundMsgQ;
 	public ConcurrentLinkedQueue<String> outboundMsgQ;
-	public ConcurrentLinkedQueue<IRCMsg> internalMsgQ;
 	
 	private HashSet<String> serverResponseCodesToIgnore;
 	
@@ -60,7 +59,6 @@ public class IRCMsgHandler implements Runnable {
 		
 		this.inboundMsgQ = bot.getInboundMsgQ();
 		this.outboundMsgQ = bot.getOutboundMsgQ();
-		this.internalMsgQ = bot.getInternalMsgQ();
 		
 		loadServerResponseCodesToIgnore();
 		

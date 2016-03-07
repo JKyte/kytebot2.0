@@ -27,7 +27,6 @@ public class IRCBot extends Thread {
 
 	private ConcurrentLinkedQueue<String> inboundMsgQ;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
-	private ConcurrentLinkedQueue<IRCMsg> internalMsgQ;
 	
 	private Listeners timedListeners;
 	private Listeners eventListeners;
@@ -43,7 +42,6 @@ public class IRCBot extends Thread {
 		this.heartBeatInMillis = configs.getHeartbeat();
 		inboundMsgQ = new ConcurrentLinkedQueue<String>();
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
-		internalMsgQ = new ConcurrentLinkedQueue<IRCMsg>();
 	}
 
 	/**
@@ -150,14 +148,6 @@ public class IRCBot extends Thread {
 
 	public void setOutboundMsgQ(ConcurrentLinkedQueue<String> outboundMsgQ) {
 		this.outboundMsgQ = outboundMsgQ;
-	}
-
-	public ConcurrentLinkedQueue<IRCMsg> getInternalMsgQ() {
-		return internalMsgQ;
-	}
-
-	public void setInternalMsgQ(ConcurrentLinkedQueue<IRCMsg> internalMsgQ) {
-		this.internalMsgQ = internalMsgQ;
 	}
 
 	public Listeners getTimedListeners() {
