@@ -1,18 +1,15 @@
 package commands;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public class JoinCommand extends AdminCommand {
 
 	private String targetChannel;
 
-	public JoinCommand(BotCommands botCommands, Listeners timedTriggers,
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+	public JoinCommand(IRCBot ircbot, BotCommands botCommands) {
+		super(ircbot, botCommands);
 	}
 
 	@Override

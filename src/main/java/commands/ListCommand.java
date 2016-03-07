@@ -3,16 +3,13 @@ package commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public class ListCommand extends BaseCommand {
 
-	public ListCommand(BotCommands botCommands, Listeners timedTriggers, Listeners eventTriggers,
-			ConcurrentLinkedQueue<String> outboundMsgQ) {
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+	public ListCommand(IRCBot ircbot, BotCommands botCommands) {
+		super(ircbot, botCommands);
 
 	}
 	

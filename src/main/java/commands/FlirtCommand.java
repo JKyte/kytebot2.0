@@ -2,9 +2,7 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public class FlirtCommand extends AdminCommand {
@@ -15,9 +13,8 @@ public class FlirtCommand extends AdminCommand {
 	
 	private Random rand;
 
-	public FlirtCommand(BotCommands botCommands, Listeners timedTriggers,
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+	public FlirtCommand( IRCBot ircbot, BotCommands botCommands) {
+		super(ircbot, botCommands);
 		loadFlirts();
 		rand = new Random();
 	}

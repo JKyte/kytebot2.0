@@ -26,7 +26,8 @@ public class BotCommandParser {
 
 	private Listeners timedListeners;
 	private Listeners eventListeners;
-	
+
+	private IRCBot ircbot;
 	private BotCommands botCommands;
 	private String admin;
 	
@@ -38,34 +39,36 @@ public class BotCommandParser {
 
 	BotResponses responses;
 
-	public BotCommandParser( IRCBot bot, IRCCommands commands ){
+	public BotCommandParser( IRCBot ircbot, IRCCommands commands ){
 		
-		this.botnick = bot.getConfigs().getBotnick();
+		this.ircbot = ircbot;
+		
+		this.botnick = ircbot.getConfigs().getBotnick();
 		this.commands = commands;
 
-		greetingChans = bot.getConfigs().getGreetingChans();
-		farewellChans = bot.getConfigs().getFarewellChans();
+		greetingChans = ircbot.getConfigs().getGreetingChans();
+		farewellChans = ircbot.getConfigs().getFarewellChans();
 		
 		loadGreetings();
 		loadFarewells();
 		responses = new BotResponses();
-		this.outboundMsgQ = bot.getOutboundMsgQ();
+		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 		
-		this.timedListeners = bot.getTimedListeners();
-		this.eventListeners = bot.getEventListeners();
+		this.timedListeners = ircbot.getTimedListeners();
+		this.eventListeners = ircbot.getEventListeners();
 		
-		admin = bot.getConfigs().getAdmin();
+		admin = ircbot.getConfigs().getAdmin();
 		
 		botCommands = new BotCommands(admin, botnick);
 		loadBotCommands();
 	}
 	
 	private void loadBotCommands() {
-		botCommands.put("HELP", new HelpCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
-		botCommands.put("LIST", new ListCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
-		botCommands.put("TRADE", new TradeCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
-		botCommands.put("JOIN", new JoinCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
-		botCommands.put("FLIRT", new FlirtCommand(botCommands, timedListeners, eventListeners, outboundMsgQ));
+		botCommands.put("HELP", new HelpCommand(ircbot, botCommands));
+		botCommands.put("LIST", new ListCommand(ircbot, botCommands));
+		botCommands.put("TRADE", new TradeCommand(ircbot, botCommands));
+		botCommands.put("JOIN", new JoinCommand(ircbot, botCommands));
+		botCommands.put("FLIRT", new FlirtCommand(ircbot, botCommands));
 	}
 
 	

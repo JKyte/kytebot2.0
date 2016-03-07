@@ -3,9 +3,7 @@ package commands;
 import io.JsonParser;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public class TradeCommand extends BaseCommand {
@@ -13,9 +11,8 @@ public class TradeCommand extends BaseCommand {
 	String resourceName;
 	ArrayList<String> validResources;
 	
-	public TradeCommand(BotCommands botCommands, Listeners timedTriggers,
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+	public TradeCommand(IRCBot ircbot, BotCommands botCommands) {
+		super(ircbot, botCommands);
 		loadValidResources();
 	}
 

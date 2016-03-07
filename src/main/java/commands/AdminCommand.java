@@ -1,15 +1,12 @@
 package commands;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public abstract class AdminCommand extends BaseCommand {
 
-	public AdminCommand(BotCommands botCommands, Listeners timedTriggers,
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+	public AdminCommand( IRCBot ircbot, BotCommands botCommands) {
+		super(ircbot, botCommands);
 		//	Pass-through constructor
 	}
 

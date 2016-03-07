@@ -3,6 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import listeners.Listener;
 import listeners.Listeners;
@@ -35,15 +36,14 @@ public abstract class BaseCommand implements Listener {
 	
 	public ArrayList<String> description;
 	
-	public BaseCommand(BotCommands botCommands, Listeners timedTriggers, Listeners eventTriggers, 
-			ConcurrentLinkedQueue<String> outboundMsgQ){
+	public BaseCommand(IRCBot ircbot, BotCommands botCommands){
 
 		this.botCommands = botCommands;
 		this.ircCommands = new IRCCommands();
 		
-		this.timedTriggers = timedTriggers;
-		this.eventTriggers = eventTriggers;
-		this.outboundMsgQ = outboundMsgQ;
+		this.timedTriggers = ircbot.getTimedListeners();
+		this.eventTriggers = ircbot.getEventListeners();
+		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 		
 		this.admin = this.botCommands.getAdminNick();
 		this.botnick = this.botCommands.getBotnick();

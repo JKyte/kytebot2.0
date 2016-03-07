@@ -1,19 +1,16 @@
 package commands;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import listeners.Listeners;
+import botconfigs.IRCBot;
 import msg.IRCMsg;
 
 public class HelpCommand extends BaseCommand {
 	
 	private String helpKey;
 	
-	public HelpCommand(BotCommands botCommands, Listeners timedTriggers, 
-			Listeners eventTriggers, ConcurrentLinkedQueue<String> outboundMsgQ) {
+	public HelpCommand( IRCBot ircbot, BotCommands botCommands ) {
 
-		super(botCommands, timedTriggers, eventTriggers, outboundMsgQ);
+		super(ircbot, botCommands);
 	}
 
 	@Override
