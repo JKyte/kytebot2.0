@@ -14,14 +14,14 @@ public class IRCMsg {
 	private boolean fromTrustedUser;
 	
 	public IRCMsg(String originalMsg, String prefix, String command, String[] args, String trailing){
-		this.originalMsg = originalMsg;
-		this.prefix = prefix;
-		this.command = command;
-		this.args = args;
+		this.setOriginalMsg(originalMsg);
+		this.setPrefix(prefix);
+		this.setCommand(command);
+		this.setArgs(args);
 		this.setTrailing(trailing);
 		
 		fromAdmin = false;
-		fromTrustedUser = true;
+		fromTrustedUser = false;
 	}
 	
 	public String getOriginalMsg() {
