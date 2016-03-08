@@ -27,13 +27,13 @@ public class IRCBot extends Thread {
 
 	private ConcurrentLinkedQueue<String> inboundMsgQ;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
-	
+
 	private Listeners timedListeners;
 	private Listeners eventListeners;
 
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
-	
+
 	/**
 	 * Only initialize the queues at first
 	 */
@@ -42,6 +42,11 @@ public class IRCBot extends Thread {
 		this.heartBeatInMillis = configs.getHeartbeat();
 		inboundMsgQ = new ConcurrentLinkedQueue<String>();
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
+
+		timedListeners = new Listeners();
+		eventListeners = new Listeners();
+
+		msgHandler = new IRCMsgHandler(this);
 	}
 
 	/**
@@ -49,64 +54,46 @@ public class IRCBot extends Thread {
 	 */
 	@Override
 	public void run() {
-
-		System.out.println("IRCBot is running");
-
 		try {
-			String host = configs.getIrcserver();
-			int port = configs.getIrcport();
-			socket = new Socket( host, port );
-			
+			//	Connect to server
+			socket = new Socket( configs.getIrcserver(), configs.getIrcport() );
 			ot = new OutputThread(socket, outboundMsgQ);
-			
-			timedListeners = new Listeners();
-			eventListeners = new Listeners();
-			msgHandler = new IRCMsgHandler(this);
-			
+
+			//	Setup threads
 			Thread t1 = new Thread( ot );
 			Thread t2 = new Thread( msgHandler );
-			
+
+			//	Start threads
 			t1.start();
 			t2.start();
-			
+
 			System.out.println("All threads started.");
 			/**
 			 * Sleep to let things initialize
 			 */
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-			//	log.error(e.getMessage());
-			}
+			Thread.sleep(3000);
 
 			String nick = configs.getBotnick();
 
 			outboundMsgQ.add( "nick " + nick );
 			outboundMsgQ.add( "USER "+nick+" 0 * :"+nick );
-			
+
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(socket.getInputStream()));
+
 			String msg = null;
-			try {
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(socket.getInputStream()));
+			while ( true ){
+
+				msg = br.readLine();
 				
-				while ( true ){
-					
-					msg = br.readLine();
-					
-					if( msg != null ){
-						inboundMsgQ.add( msg );
-					}
+				if( msg != null ){
+					inboundMsgQ.add( msg );
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				System.out.println("FATAL: InputThread has crashed.");
 			}
-			
-		} catch (UnknownHostException e1) {
-		//	log.error(e1.getStackTrace());
-		} catch (IOException e2) {
-		//	log.error(e2.getStackTrace());
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("FATAL: InputThread has crashed.");
 		}
 	}
 
@@ -181,5 +168,5 @@ public class IRCBot extends Thread {
 	public void setIRCMsgHandler(IRCMsgHandler msgHandler) {
 		this.msgHandler = msgHandler;
 	}
-	
+
 }

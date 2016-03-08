@@ -16,7 +16,7 @@ public class IRCMsgFactory {
 		}
 		
 		if( rawMsg.indexOf(" :") != -1 ){
-			trailing = rawMsg.substring(rawMsg.indexOf(":")+1);
+			trailing = rawMsg.substring(rawMsg.indexOf(":")+1).trim();
 			command = rawMsg.substring(0, rawMsg.indexOf(" "));
 			
 			rawMsg = rawMsg.substring(rawMsg.indexOf(" "), rawMsg.indexOf(":")).trim();

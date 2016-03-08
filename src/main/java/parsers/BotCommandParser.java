@@ -109,7 +109,7 @@ public class BotCommandParser {
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
-			handleBototCommand(msg);
+			botCommands.iterateAcrossCommands(msg);
 		}
 
 	}
@@ -206,7 +206,7 @@ public class BotCommandParser {
 			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
-			handleBototCommand(msg);
+			botCommands.iterateAcrossCommands(msg);
 		}
 	}
 
@@ -217,16 +217,6 @@ public class BotCommandParser {
 			return true;
 		}
 		return false;
-	}
-
-	//	Cleans the command indicator before passing the message
-	public void handleBototCommand(IRCMsg msg) {
-		msg.setTrailing( cleanBotCommand(msg.getTrailing()) );
-		botCommands.iterateAcrossCommands(msg);
-	}
-
-	public String cleanBotCommand(String trailing) {
-		return trailing.substring(trailing.indexOf(" ")+1);
 	}
 
 }

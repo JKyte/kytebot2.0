@@ -126,18 +126,21 @@ public class IRCMsgHandler implements Runnable {
 		}
 	}
 	
-	public void handleMsg(String rawMsg){
+	public IRCMsg handleMsg(String rawMsg){
 		if( !isPing(rawMsg) ){
 			IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
 			msg = IRCMessageDecorator.decorateMessage(bot.getConfigs(), msg);
 			
-			interruptListeners.iterateAcrossListeners(null);
+			interruptListeners.iterateAcrossListeners(msg);
 			
 			//	Check event-driven listeners up front
 			eventListeners.iterateAcrossListeners(msg);
 			
-			interpretMsg(msg);
 			
+			return interpretMsg(msg);
+		}else{
+			//	Wrap the raw PING msg, mostly for unit test purposes
+			return IRCMsgFactory.createIRCMsg(rawMsg);
 		}
 	}
 	
@@ -150,7 +153,7 @@ public class IRCMsgHandler implements Runnable {
 		return false;
 	}
 
-	public void interpretMsg( IRCMsg msg ){
+	public IRCMsg interpretMsg( IRCMsg msg ){
 		
 		if( msg.getCommand().equals("PRIVMSG") ){
 			handlePrivMsg(msg);
@@ -186,6 +189,8 @@ public class IRCMsgHandler implements Runnable {
 			System.out.println("Args[0]: " + msg.getArgs()[0]);
 			System.out.println("Trailing: " + msg.getTrailing());
 		}
+		
+		return msg;
 	}
 	
 	private void handleNick(IRCMsg msg) {

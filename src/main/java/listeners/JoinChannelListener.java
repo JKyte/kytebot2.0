@@ -20,7 +20,8 @@ public class JoinChannelListener extends BaseListener {
 
 	@Override
 	public boolean listen(IRCMsg msg) {
-		if( msg.getCommand().equalsIgnoreCase("JOIN") && msg.getTrailing().equalsIgnoreCase(targetChan)){
+		if( msg.getCommand().equalsIgnoreCase("JOIN") 
+				&& ( null != msg.getTrailing() && msg.getTrailing().equalsIgnoreCase(targetChan) )){
 			return true;
 		}
 		return false;

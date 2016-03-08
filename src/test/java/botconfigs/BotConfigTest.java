@@ -35,7 +35,7 @@ public class BotConfigTest {
 		Assert.assertEquals(true, assertAjoins(configs.getAjoins()) );
 
 		//	Assert Security Configurations
-		Assert.assertEquals("yournick", configs.getAdmin() );
+		Assert.assertEquals("adminnick", configs.getAdmin() );
 		Assert.assertEquals(true, assertTrustedUsers(configs.getTrustedUsers()) );
 
 		//	Assert Action Configurations
@@ -56,8 +56,8 @@ public class BotConfigTest {
 	}
 
 	private boolean assertTrustedUsers( HashSet<String> trustedUsers ){
-		if( trustedUsers.contains("tr1") && 
-				trustedUsers.contains("tr2") ){
+		if( trustedUsers.contains("trusteduser1") && 
+				trustedUsers.contains("trusteduser2") ){
 			return true;
 		}else{
 			return false;

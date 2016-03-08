@@ -56,16 +56,13 @@ public class BotCommandParserTest {
 	}
 	
 	@Test
-	public void testCleanBotCommand_isBotCommand(){
+	public void testIsBotCommand(){
 		
 		IRCCommands commands = new IRCCommands(configs);
 		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
 		BotCommandParser bcp = new BotCommandParser(mockBot, commands);
 		String botCommand_v1 = "!botnick command";
 		String botCommand_v2 = "!b command";
-		
-		Assert.assertEquals("command", bcp.cleanBotCommand(botCommand_v1));
-		Assert.assertEquals("command", bcp.cleanBotCommand(botCommand_v2));
 		
 		Assert.assertEquals(true, bcp.isBotCommand(botCommand_v1));
 		Assert.assertEquals(true, bcp.isBotCommand(botCommand_v2));

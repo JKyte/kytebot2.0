@@ -14,7 +14,7 @@ import msg.IRCMsg;
 public class IRCMessageDecorator {
 	
 	public static IRCMsg decorateMessage( BotConfigs configs, IRCMsg msg){
-		System.out.println("DECORATOR: " + msg.getOriginalMsg() );
+	//	System.out.println("DECORATOR: " + msg.getOriginalMsg() );
 		String fromNick = extractNickFromPrefix( msg.getPrefix() );
 		if( null == fromNick ){
 			return msg;	//	Do nothing
