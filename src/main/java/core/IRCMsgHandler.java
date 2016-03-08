@@ -41,7 +41,7 @@ public class IRCMsgHandler implements Runnable {
 	private Listeners eventListeners;
 	private Listeners botCommandListeners;
 	
-	private IRCCommands commands;
+	private IRCCommands ircCommands;
 	private BotCommandParser botCommandParser;
 
 	private Logger log = LogManager.getLogger(IRCMsgHandler.class);
@@ -58,11 +58,11 @@ public class IRCMsgHandler implements Runnable {
 		
 		loadServerResponseCodesToIgnore();
 		
-		commands = new IRCCommands( bot.getConfigs() );
-		botCommandParser = new BotCommandParser( bot, commands );
+		ircCommands = new IRCCommands( bot.getConfigs() );
+		botCommandParser = new BotCommandParser( bot, ircCommands );
 		
 		this.interruptListeners = bot.getInterruptListeners();
-		this.eventListeners = EventListenerFactory.createEventListeners(bot, commands);
+		this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
 		this.botCommandListeners = bot.getBotCommandListeners();
 		
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
@@ -259,29 +259,29 @@ public class IRCMsgHandler implements Runnable {
 
 	private void handleErrorInviteOnly(IRCMsg msg) {
 		if( msg.getArgs()[1].equals(startchan) ){
-			outboundMsgQ.add( commands.chanservInvite() );
+			outboundMsgQ.add( ircCommands.chanservInvite() );
 		}
 	}
 
 	public void handleNotice(IRCMsg msg) {
 		
 		if( msg.getTrailing().contains( "This nickname is registered and protected.") ){
-			outboundMsgQ.add( commands.nickservIdentify() );
+			outboundMsgQ.add( ircCommands.nickservIdentify() );
 		
 		}else if( msg.getTrailing().contains("Password accepted -- you are now recognized.") ){
-			outboundMsgQ.add( commands.joinChannel() );
+			outboundMsgQ.add( ircCommands.joinChannel() );
 			
 		}else if( msg.getTrailing().contains("Inviting "+botnick+" to channel "+startchan+".") ){
 
 			System.out.println("Single-vector join");
-			outboundMsgQ.add( commands.joinChannel() );
+			outboundMsgQ.add( ircCommands.joinChannel() );
 			
 		}else if( msg.getTrailing().contains("Inviting") && 
 				msg.getTrailing().contains("to channel") && 
 				msg.getTrailing().contains(startchan)){
 			
 			System.out.println("Multi-vector join");
-			outboundMsgQ.add( commands.joinChannel() );
+			outboundMsgQ.add( ircCommands.joinChannel() );
 		}
 	}
 }

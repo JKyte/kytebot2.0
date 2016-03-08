@@ -21,7 +21,7 @@ import botconfigs.IRCCommands;
 public class BotCommandParser {
 
 	private String botnick;
-	private IRCCommands commands;
+	private IRCCommands ircCommands;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 
 	private Listeners interruptListeners;
@@ -39,12 +39,12 @@ public class BotCommandParser {
 
 	BotResponses responses;
 
-	public BotCommandParser( IRCBot ircbot, IRCCommands commands ){
+	public BotCommandParser( IRCBot ircbot, IRCCommands ircCommands ){
 		
 		this.ircbot = ircbot;
 		
 		this.botnick = ircbot.getConfigs().getBotnick();
-		this.commands = commands;
+		this.ircCommands = ircCommands;
 
 		greetingChans = ircbot.getConfigs().getGreetingChans();
 		farewellChans = ircbot.getConfigs().getFarewellChans();
@@ -100,13 +100,13 @@ public class BotCommandParser {
 		if( isValidGreetingChan(msg.getArgs()[0]) && isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
 			String response = responses.getBotGreeting(msg.getFromNick());
-			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
+			String responseMsg = ircCommands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 			
 		}else if( isValidFairwellChan(msg.getArgs()[0]) && isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
 			String response = responses.getBotFarewell(msg.getFromNick());
-			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
+			String responseMsg = ircCommands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
 			botCommands.iterateAcrossCommands(msg);
@@ -198,12 +198,12 @@ public class BotCommandParser {
 		if( isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
 			String response = responses.getBotGreeting(msg.getFromNick());
-			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
+			String responseMsg = ircCommands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isFarewell(msg.getTrailing()) ){
 			//	send response to greeting
 			String response = responses.getBotFarewell(msg.getFromNick());
-			String responseMsg = commands.privmsg(msg.getArgs()[0], response);
+			String responseMsg = ircCommands.privmsg(msg.getArgs()[0], response);
 			outboundMsgQ.add( responseMsg );
 		}else if( isBotCommand(msg.getTrailing()) ){
 			botCommands.iterateAcrossCommands(msg);
