@@ -24,7 +24,7 @@ public class BotCommandParser {
 	private IRCCommands commands;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 
-	private Listeners timedListeners;
+	private Listeners interruptListeners;
 	private Listeners eventListeners;
 
 	private IRCBot ircbot;
@@ -54,7 +54,7 @@ public class BotCommandParser {
 		responses = new BotResponses();
 		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 		
-		this.timedListeners = ircbot.getTimedListeners();
+		this.interruptListeners = ircbot.getInterruptListeners();
 		this.eventListeners = ircbot.getEventListeners();
 		
 		admin = ircbot.getConfigs().getAdmin();

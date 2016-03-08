@@ -5,13 +5,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
+import msg.IRCMessageDecorator;
 import msg.IRCMsg;
 import msg.IRCMsgFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import decorators.IRCMessageDecorator;
 import parsers.BotCommandParser;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
@@ -38,12 +38,8 @@ public class IRCMsgHandler implements Runnable {
 	private String startchan;
 
 	private Listeners interruptListeners;
-	
-	//	generic and botCommand listeners unused for the moment
-	private Listeners genericListeners;
-	private Listeners botCommandListeners;
-	
 	private Listeners eventListeners;
+	private Listeners botCommandListeners;
 	
 	private IRCCommands commands;
 	private BotCommandParser botCommandParser;
@@ -65,10 +61,12 @@ public class IRCMsgHandler implements Runnable {
 		commands = new IRCCommands( bot.getConfigs() );
 		botCommandParser = new BotCommandParser( bot, commands );
 		
-		this.interruptListeners = bot.getTimedListeners();
+		this.interruptListeners = bot.getInterruptListeners();
 		this.eventListeners = EventListenerFactory.createEventListeners(bot, commands);
+		this.botCommandListeners = bot.getBotCommandListeners();
 		
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
+		uib.stub();
 	}
 
 	private void loadServerResponseCodesToIgnore() {
@@ -128,14 +126,17 @@ public class IRCMsgHandler implements Runnable {
 	
 	public IRCMsg handleMsg(String rawMsg){
 		if( !isPing(rawMsg) ){
-			IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
-			msg = IRCMessageDecorator.decorateMessage(bot.getConfigs(), msg);
+
+			IRCMsg msg = createAndDecorateMsg(rawMsg);
 			
+			//	Check to see if this is an expected msg
 			interruptListeners.iterateAcrossListeners(msg);
 			
-			//	Check event-driven listeners up front
+			//	Check to see if the bot should perform an action, like greet someone
 			eventListeners.iterateAcrossListeners(msg);
 			
+			//	Check to see if this is a bot command
+			botCommandListeners.iterateAcrossListeners(msg);
 			
 			return interpretMsg(msg);
 		}else{
@@ -151,6 +152,11 @@ public class IRCMsgHandler implements Runnable {
 			return true;
 		}
 		return false;
+	}
+	
+	public IRCMsg createAndDecorateMsg( String rawMsg ){
+		IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
+		return IRCMessageDecorator.decorateMessage(bot.getConfigs(), msg);
 	}
 
 	public IRCMsg interpretMsg( IRCMsg msg ){

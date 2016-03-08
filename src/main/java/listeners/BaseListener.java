@@ -16,7 +16,7 @@ import msg.IRCMsg;
  */
 public abstract class BaseListener implements Listener {
 	
-	public Listeners timedListeners;
+	public Listeners interruptListeners;
 	public Listeners eventListeners;
 	
 	protected IRCCommands ircCommands;
@@ -26,7 +26,7 @@ public abstract class BaseListener implements Listener {
 		this.ircCommands = ircCommands;
 		this.ircCommands = new IRCCommands();
 		
-		this.timedListeners = ircbot.getTimedListeners();
+		this.interruptListeners = ircbot.getInterruptListeners();
 		this.eventListeners = ircbot.getEventListeners();
 		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 	}

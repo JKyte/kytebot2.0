@@ -24,8 +24,8 @@ public abstract class BaseCommand implements Listener {
 	protected String target = null;
 	protected String admin = null;
 	
-	public Listeners timedTriggers;
-	public Listeners eventTriggers;
+	public Listeners interruptListeners;
+	public Listeners eventListeners;
 	
 	protected BotCommands botCommands;
 	protected IRCCommands ircCommands;
@@ -41,8 +41,8 @@ public abstract class BaseCommand implements Listener {
 		this.botCommands = botCommands;
 		this.ircCommands = new IRCCommands();
 		
-		this.timedTriggers = ircbot.getTimedListeners();
-		this.eventTriggers = ircbot.getEventListeners();
+		this.interruptListeners = ircbot.getInterruptListeners();
+		this.eventListeners = ircbot.getEventListeners();
 		this.outboundMsgQ = ircbot.getOutboundMsgQ();
 		
 		this.admin = this.botCommands.getAdminNick();

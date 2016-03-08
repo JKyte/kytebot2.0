@@ -6,18 +6,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import core.IRCMsgHandler;
 import listeners.Listeners;
-import msg.IRCMsg;
 
 /**
  * 
  * @author JKyte
  *
- * A basic implementation of an IRCBot modeled closely after the PIRCBot framework
+ * A basic implementation of an IRCBot inspired somewhat by the PIRCBot framework
  */
 public class IRCBot extends Thread {
 
@@ -28,8 +26,9 @@ public class IRCBot extends Thread {
 	private ConcurrentLinkedQueue<String> inboundMsgQ;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 
-	private Listeners timedListeners;
+	private Listeners interruptListeners;
 	private Listeners eventListeners;
+	private Listeners botCommandListeners;
 
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
@@ -43,8 +42,9 @@ public class IRCBot extends Thread {
 		inboundMsgQ = new ConcurrentLinkedQueue<String>();
 		outboundMsgQ = new ConcurrentLinkedQueue<String>();
 
-		timedListeners = new Listeners();
+		interruptListeners = new Listeners();
 		eventListeners = new Listeners();
+		botCommandListeners = new Listeners();
 
 		msgHandler = new IRCMsgHandler(this);
 	}
@@ -137,14 +137,14 @@ public class IRCBot extends Thread {
 		this.outboundMsgQ = outboundMsgQ;
 	}
 
-	public Listeners getTimedListeners() {
-		return timedListeners;
+	public Listeners getInterruptListeners() {
+		return interruptListeners;
 	}
 
-	public void setTimedListeners(Listeners timedListeners) {
-		this.timedListeners = timedListeners;
+	public void setInterruptListeners(Listeners interruptListeners) {
+		this.interruptListeners = interruptListeners;
 	}
-
+	
 	public Listeners getEventListeners() {
 		return eventListeners;
 	}
@@ -153,12 +153,12 @@ public class IRCBot extends Thread {
 		this.eventListeners = eventListeners;
 	}
 
-	public OutputThread getOt() {
-		return ot;
+	public Listeners getBotCommandListeners() {
+		return botCommandListeners;
 	}
 
-	public void setOt(OutputThread ot) {
-		this.ot = ot;
+	public void setBotCommandListeners(Listeners botCommandListeners) {
+		this.botCommandListeners = botCommandListeners;
 	}
 
 	public IRCMsgHandler getIRCMsgHandler() {
@@ -169,4 +169,11 @@ public class IRCBot extends Thread {
 		this.msgHandler = msgHandler;
 	}
 
+	public OutputThread getOt() {
+		return ot;
+	}
+
+	public void setOt(OutputThread ot) {
+		this.ot = ot;
+	}
 }

@@ -1,7 +1,6 @@
-package decorators;
+package msg;
 
 import botconfigs.BotConfigs;
-import msg.IRCMsg;
 
 /**
  * 
