@@ -110,4 +110,41 @@ public class IRCMsgHandlerTest {
 		Assert.assertEquals( "null", result.getArgs()[0] );
 		Assert.assertEquals( "You have not registered", result.getTrailing() );
 	}
+	
+	
+	@Test
+	public void testParse_MsgIsCommand(){
+		
+		//	Not yet implemented
+		String fullcmd_0 = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :!cmd args";
+		
+		//	Implemented
+		String fullcmd_1 = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :!B cmd args";
+		String fullcmd_2 = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :!b cmd args";
+		String fullcmd_3 = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :!Botnick cmd args";
+		String fullcmd_4 = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG botnick :!botnick cmd args";
+		
+		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
+		IRCMsg result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_0);
+		
+		result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_1);
+		Assert.assertEquals("!B cmd args", result.getTrailing());
+		Assert.assertTrue( mockBot.getIRCMsgHandler().msgIsCommand(result) );
+		Assert.assertEquals("cmd args", mockBot.getIRCMsgHandler().stripLeadingWordFromTrailing(result).getTrailing());
+		
+		result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_2);
+		Assert.assertEquals("!b cmd args", result.getTrailing());
+		Assert.assertTrue( mockBot.getIRCMsgHandler().msgIsCommand(result) );
+		Assert.assertEquals("cmd args", mockBot.getIRCMsgHandler().stripLeadingWordFromTrailing(result).getTrailing());		
+		
+		result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_3);		
+		Assert.assertEquals("!Botnick cmd args", result.getTrailing());
+		Assert.assertTrue( mockBot.getIRCMsgHandler().msgIsCommand(result) );
+		Assert.assertEquals("cmd args", mockBot.getIRCMsgHandler().stripLeadingWordFromTrailing(result).getTrailing());
+
+		result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_4);
+		Assert.assertEquals("!botnick cmd args", result.getTrailing());
+		Assert.assertTrue( mockBot.getIRCMsgHandler().msgIsCommand(result) );
+		Assert.assertEquals("cmd args", mockBot.getIRCMsgHandler().stripLeadingWordFromTrailing(result).getTrailing());
+	}
 }

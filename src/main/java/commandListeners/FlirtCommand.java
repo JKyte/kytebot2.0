@@ -1,8 +1,10 @@
-package commands;
+package commandListeners;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 public class FlirtCommand extends AdminCommand {
@@ -13,8 +15,8 @@ public class FlirtCommand extends AdminCommand {
 	
 	private Random rand;
 
-	public FlirtCommand( IRCBot ircbot, BotCommands botCommands) {
-		super(ircbot, botCommands);
+	public FlirtCommand( IRCBot ircbot, IRCCommands ircCommands) {
+		super(ircbot, ircCommands);
 		loadFlirts();
 		rand = new Random();
 	}
@@ -40,7 +42,7 @@ public class FlirtCommand extends AdminCommand {
 	
 	private void setTarget(IRCMsg msg) {
 		target = msg.getArgs()[0];
-		if( target.equals(botCommands.getBotnick()) ){
+		if( target.equals(ircbot.getConfigs().getBotnick()) ){
 			target = msg.getFromNick();
 		}
 	}

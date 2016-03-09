@@ -6,18 +6,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import commands.BotCommands;
-import commands.FlirtCommand;
-import commands.HelpCommand;
-import commands.JoinCommand;
-import commands.ListCommand;
-import commands.TradeCommand;
+import commandListeners.BotCommands;
+import commandListeners.FlirtCommand;
+import commandListeners.HelpCommand;
+import commandListeners.JoinCommand;
+import commandListeners.ListCommand;
+import commandListeners.TradeCommand;
 import responses.BotResponses;
 import listeners.Listeners;
 import msg.IRCMsg;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 
+/**
+ * 
+ * @author JKyte
+ * 
+ * Legacy class sticking around waiting for it's usefulness to be refactored 
+ * into other, newer, shinier classes.
+ *
+ */
 public class BotCommandParser {
 
 	private String botnick;
@@ -64,11 +72,11 @@ public class BotCommandParser {
 	}
 	
 	private void loadBotCommands() {
-		botCommands.put("HELP", new HelpCommand(ircbot, botCommands));
-		botCommands.put("LIST", new ListCommand(ircbot, botCommands));
-		botCommands.put("TRADE", new TradeCommand(ircbot, botCommands));
-		botCommands.put("JOIN", new JoinCommand(ircbot, botCommands));
-		botCommands.put("FLIRT", new FlirtCommand(ircbot, botCommands));
+		botCommands.put("HELP", new HelpCommand(ircbot, ircCommands));
+		botCommands.put("LIST", new ListCommand(ircbot, ircCommands));
+		botCommands.put("TRADE", new TradeCommand(ircbot, ircCommands));
+		botCommands.put("JOIN", new JoinCommand(ircbot, ircCommands));
+		botCommands.put("FLIRT", new FlirtCommand(ircbot, ircCommands));
 	}
 
 	
@@ -210,6 +218,7 @@ public class BotCommandParser {
 		}
 	}
 
+	//	This is too permissive, will likely be refactored out
 	public boolean isBotCommand(String trailing) {
 		if( trailing.startsWith("!"+botnick.charAt(0)) ){ 
 			return true; 

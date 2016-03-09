@@ -1,15 +1,17 @@
-package commands;
+package commandListeners;
 
 import java.util.ArrayList;
+
 import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 public class JoinCommand extends AdminCommand {
 
 	private String targetChannel;
 
-	public JoinCommand(IRCBot ircbot, BotCommands botCommands) {
-		super(ircbot, botCommands);
+	public JoinCommand(IRCBot ircbot, IRCCommands ircCommands) {
+		super(ircbot, ircCommands);
 	}
 
 	@Override

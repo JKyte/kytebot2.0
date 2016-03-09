@@ -1,9 +1,11 @@
-package commands;
+package commandListeners;
 
 import io.JsonParser;
 
 import java.util.ArrayList;
+
 import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 public class TradeCommand extends BaseCommand {
@@ -11,8 +13,8 @@ public class TradeCommand extends BaseCommand {
 	String resourceName;
 	ArrayList<String> validResources;
 	
-	public TradeCommand(IRCBot ircbot, BotCommands botCommands) {
-		super(ircbot, botCommands);
+	public TradeCommand(IRCBot ircbot, IRCCommands ircCommands) {
+		super(ircbot, ircCommands);
 		loadValidResources();
 	}
 
@@ -33,7 +35,7 @@ public class TradeCommand extends BaseCommand {
 
 	private void setTarget(IRCMsg msg) {
 		target = msg.getArgs()[0];
-		if( target.equals(botCommands.getBotnick()) ){
+		if( target.equals(botnick) ){
 			target = msg.getFromNick();
 		}
 	}

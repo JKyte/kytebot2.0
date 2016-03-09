@@ -136,7 +136,12 @@ public class IRCMsgHandler implements Runnable {
 			eventListeners.iterateAcrossListeners(msg);
 			
 			//	Check to see if this is a bot command
-			botCommandListeners.iterateAcrossListeners(msg);
+			if( msgIsCommand(msg) ){
+				
+				msg = stripLeadingWordFromTrailing(msg);
+				botCommandListeners.iterateAcrossListeners(msg);				
+			}
+
 			
 			return interpretMsg(msg);
 		}else{
@@ -157,6 +162,43 @@ public class IRCMsgHandler implements Runnable {
 	public IRCMsg createAndDecorateMsg( String rawMsg ){
 		IRCMsg msg = IRCMsgFactory.createIRCMsg(rawMsg);
 		return IRCMessageDecorator.decorateMessage(bot.getConfigs(), msg);
+	}
+	
+	/**
+	 * Valid bot commands for nick Botnick are...
+	 * 1. !Botnick cmd
+	 * 2. !botnick cmd
+	 * 
+	 * Not yet implemented
+	 * 1. !cmd
+	 * 2. !B cmd
+	 * 3. !b cmd
+	 * 
+	 * @param msg
+	 * @return
+	 */
+	public boolean msgIsCommand(IRCMsg msg){
+		
+		if( null == msg.getTrailing() ){
+			return false;
+		}
+		
+		String tmpTrailing = msg.getTrailing().toLowerCase();
+		
+		if( tmpTrailing.startsWith("!"+botnick.charAt(0)) ){ 
+			return true; 
+		}else if( tmpTrailing.startsWith("!"+botnick) ){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public IRCMsg stripLeadingWordFromTrailing( IRCMsg msg ){
+		String lesser = msg.getTrailing().substring( msg.getTrailing().indexOf(" ")+1 );
+		msg.setTrailing(lesser);
+		System.out.println("Lesser: " + lesser);
+		return msg;
 	}
 
 	public IRCMsg interpretMsg( IRCMsg msg ){

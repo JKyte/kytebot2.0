@@ -1,15 +1,17 @@
-package commands;
+package commandListeners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+
 import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 public class ListCommand extends BaseCommand {
 
-	public ListCommand(IRCBot ircbot, BotCommands botCommands) {
-		super(ircbot, botCommands);
+	public ListCommand(IRCBot ircbot, IRCCommands ircCommands) {
+		super(ircbot, ircCommands);
 
 	}
 	
@@ -37,15 +39,15 @@ public class ListCommand extends BaseCommand {
 
 	@Override
 	public void doAction() {
-		HashMap<String, ArrayList<String>> commandsAndDescriptions = botCommands.getCommandsAndDescription();
-		Set<String> commandKeys = commandsAndDescriptions.keySet();
-		for( String key : commandKeys ){
-			ArrayList<String> descriptionLines = commandsAndDescriptions.get(key);
-			
-			for( String line : descriptionLines ){
-				outboundMsgQ.add( ircCommands.privmsg(target, line) );
-			}
-		}
+//		HashMap<String, ArrayList<String>> commandsAndDescriptions = botCommands.getCommandsAndDescription();
+//		Set<String> commandKeys = commandsAndDescriptions.keySet();
+//		for( String key : commandKeys ){
+//			ArrayList<String> descriptionLines = commandsAndDescriptions.get(key);
+//			
+//			for( String line : descriptionLines ){
+//				outboundMsgQ.add( ircCommands.privmsg(target, line) );
+//			}
+//		}
 
 		//	Reset target once command has executed
 		target = null;

@@ -16,19 +16,26 @@ import msg.IRCMsg;
  */
 public abstract class BaseListener implements Listener {
 	
+	protected IRCBot ircbot;
+	
 	public Listeners interruptListeners;
 	public Listeners eventListeners;
+	
+	//	Local copy of the botnick
+	protected String botnick;
 	
 	protected IRCCommands ircCommands;
 	
 	public BaseListener(IRCBot ircbot, IRCCommands ircCommands){
 		
-		this.ircCommands = ircCommands;
-		this.ircCommands = new IRCCommands();
+		this.ircbot = ircbot;
+		this.botnick = ircbot.getConfigs().getBotnick();
 		
-		this.interruptListeners = ircbot.getInterruptListeners();
-		this.eventListeners = ircbot.getEventListeners();
-		this.outboundMsgQ = ircbot.getOutboundMsgQ();
+		this.ircCommands = ircCommands;
+		
+		this.interruptListeners = this.ircbot.getInterruptListeners();
+		this.eventListeners = this.ircbot.getEventListeners();
+		this.outboundMsgQ = this.ircbot.getOutboundMsgQ();
 	}
 	
 	public ConcurrentLinkedQueue<String> outboundMsgQ;
