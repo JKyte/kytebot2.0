@@ -3,6 +3,7 @@ package core;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import listenerFactories.BotCommandListenerFactory;
 import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
 import msg.IRCMessageDecorator;
@@ -63,7 +64,7 @@ public class IRCMsgHandler implements Runnable {
 		
 		this.interruptListeners = bot.getInterruptListeners();
 		this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
-		this.botCommandListeners = bot.getBotCommandListeners();
+		this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot, ircCommands);
 		
 		UserInputBox uib = new UserInputBox(outboundMsgQ);
 		uib.stub();
