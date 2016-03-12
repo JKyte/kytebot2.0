@@ -1,22 +1,17 @@
 package parsers;
 
+import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
+import commandListeners.*;
+import listeners.Listeners;
+import msg.IRCMsg;
+import responses.BotResponses;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import commandListeners.BotCommands;
-import commandListeners.FlirtCommand;
-import commandListeners.HelpCommand;
-import commandListeners.JoinCommand;
-import commandListeners.ListCommand;
-import commandListeners.TradeCommand;
-import responses.BotResponses;
-import listeners.Listeners;
-import msg.IRCMsg;
-import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 
 /**
  * 
@@ -28,24 +23,19 @@ import botconfigs.IRCCommands;
  */
 public class BotCommandParser {
 
-	private String botnick;
+    HashMap<String, Integer> greetings = new HashMap<>();
+    HashMap<String, Integer> farewells = new HashMap<>();
+    BotResponses responses;
+    private String botnick;
 	private IRCCommands ircCommands;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
-
 	private Listeners interruptListeners;
 	private Listeners eventListeners;
-
 	private IRCBot ircbot;
 	private BotCommands botCommands;
 	private String admin;
-	
 	private HashSet<String> greetingChans;
 	private HashSet<String> farewellChans;
-	
-	HashMap<String, Integer> greetings = new HashMap<String, Integer>();
-	HashMap<String, Integer> farewells = new HashMap<String, Integer>();
-
-	BotResponses responses;
 
 	public BotCommandParser( IRCBot ircbot, IRCCommands ircCommands ){
 		
@@ -153,12 +143,8 @@ public class BotCommandParser {
 		}
 
 		//	do something here
-		if( greetingScore >= 3 ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return greetingScore >= 3;
+    }
 
 	public int getGreetingScore(String key){
 		if( greetings.containsKey(key) ){
@@ -186,12 +172,8 @@ public class BotCommandParser {
 		}
 
 		//	do something here
-		if( farewellScore >= 3 ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return farewellScore >= 3;
+    }
 
 	public int getFarewellScore(String key){
 		if( farewells.containsKey(key) ){

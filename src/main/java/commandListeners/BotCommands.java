@@ -1,11 +1,11 @@
 package commandListeners;
 
+import msg.IRCMsg;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
-import msg.IRCMsg;
 
 /**
  * 
@@ -22,8 +22,8 @@ public class BotCommands {
 	private String botnick;
 
 	public BotCommands(String admin, String botnick){
-		commands = new ConcurrentHashMap<String, BaseCommand>();
-				//new ConcurrentHashMap<String, ?>(8, 0.9f, 2);
+        commands = new ConcurrentHashMap<>();
+        //new ConcurrentHashMap<String, ?>(8, 0.9f, 2);
 		this.admin = admin;
 		this.botnick = botnick;
 	}
@@ -65,8 +65,8 @@ public class BotCommands {
 	}
 	
 	public synchronized HashMap<String, ArrayList<String>> getCommandsAndDescription(){
-		HashMap<String, ArrayList<String>> commandDescriptions = new HashMap<String, ArrayList<String>>();
-		for( Entry<String, BaseCommand> entry : commands.entrySet() ){
+        HashMap<String, ArrayList<String>> commandDescriptions = new HashMap<>();
+        for( Entry<String, BaseCommand> entry : commands.entrySet() ){
 			commandDescriptions.put(entry.getKey(), entry.getValue().getCommandDescription());
 		}
 		return commandDescriptions;

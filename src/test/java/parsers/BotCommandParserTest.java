@@ -1,15 +1,13 @@
 package parsers;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import core.BotConstants;
-import parsers.BotCommandParser;
 import botconfigs.BotConfigFactory;
 import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
+import core.BotConstants;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class BotCommandParserTest {
 	

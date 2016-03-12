@@ -1,12 +1,12 @@
 package io;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.json.*;
 
 public class JsonParser {
 
@@ -38,9 +38,9 @@ public class JsonParser {
 				scan.close();	//	Prevent mem leaks
 				return;
 			}
-			
-			String str = new String();
-			while (scan.hasNext())
+
+            String str = null;
+            while (scan.hasNext())
 				str += scan.nextLine();
 			scan.close();
 			System.out.println("Canary");
@@ -70,8 +70,8 @@ public class JsonParser {
 	}
 	
 	public ArrayList<String> buildResponse(){
-		ArrayList<String> lines = new ArrayList<String>();
-		lines.add( resource.toUpperCase() + "\t$" + avgPrice );	
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add( resource.toUpperCase() + "\t$" + avgPrice );
 	//	lines.add( "HI: $"+highestBuyAmount+" @ "+highestBuyDate);
 	//	lines.add( "LO: $"+lowBuyAmount+" @ "+lowBuyDate);
 		return lines;

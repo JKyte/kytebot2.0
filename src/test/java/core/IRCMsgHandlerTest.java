@@ -1,12 +1,9 @@
 package core;
 
+import botconfigs.IRCBot;
 import msg.IRCMsg;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import botconfigs.IRCBot;
-import core.BotConstants;
 
 /**
  * 
@@ -126,7 +123,8 @@ public class IRCMsgHandlerTest {
 		
 		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
 		IRCMsg result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_0);
-		
+        Assert.assertNotNull(result);
+
 		result = mockBot.getIRCMsgHandler().createAndDecorateMsg(fullcmd_1);
 		Assert.assertEquals("!B cmd args", result.getTrailing());
 		Assert.assertTrue( mockBot.getIRCMsgHandler().msgIsCommand(result) );

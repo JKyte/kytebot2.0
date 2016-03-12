@@ -1,12 +1,10 @@
 package commandListeners;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
 
 public class ListCommand extends BaseCommand {
 
@@ -17,8 +15,8 @@ public class ListCommand extends BaseCommand {
 	
 	@Override
 	public void loadCommandDescription() {
-		description = new ArrayList<String>();
-		description.add( "LIST - usage: ![botnick] LIST");
+        description = new ArrayList<>();
+        description.add( "LIST - usage: ![botnick] LIST");
 		description.add( "  - prints a list of available bot commands");
 	}
 

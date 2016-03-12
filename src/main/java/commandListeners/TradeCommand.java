@@ -1,12 +1,11 @@
 package commandListeners;
 
-import io.JsonParser;
-
-import java.util.ArrayList;
-
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
+import io.JsonParser;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
 
 public class TradeCommand extends BaseCommand {
 
@@ -66,16 +65,16 @@ public class TradeCommand extends BaseCommand {
 	
 	@Override
 	public void loadCommandDescription() {
-		description = new ArrayList<String>();
-		description.add( "TRADE - usage: ![botnick] TRADE [RESOURCE]");
+        description = new ArrayList<>();
+        description.add( "TRADE - usage: ![botnick] TRADE [RESOURCE]");
 		description.add( "  - returns the average trade prices for a resource on the Politics & War market.");
 	}
 
 	
 	private void loadValidResources() {
-		validResources = new ArrayList<String>();
-		
-		validResources.add("aluminum");
+        validResources = new ArrayList<>();
+
+        validResources.add("aluminum");
 		validResources.add("bauxite");
 		validResources.add("coal");
 		validResources.add("credits");

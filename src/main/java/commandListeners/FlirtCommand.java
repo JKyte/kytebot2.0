@@ -1,11 +1,11 @@
 package commandListeners;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class FlirtCommand extends AdminCommand {
 	
@@ -55,8 +55,8 @@ public class FlirtCommand extends AdminCommand {
 
 	@Override
 	public void loadCommandDescription() {
-		description = new ArrayList<String>();
-		description.add( "FLIRT - usage: ![botnick] FLIRT [nick]");
+        description = new ArrayList<>();
+        description.add( "FLIRT - usage: ![botnick] FLIRT [nick]");
 		description.add( "  - orders the bot to flirt with somebody.");	
 	}
 	
@@ -65,9 +65,9 @@ public class FlirtCommand extends AdminCommand {
 	}
 
 	private void loadFlirts() {
-		flirts = new ArrayList<String>();
-		
-		flirts.add(this.botnick + " snuggles NICKTOBEFLIRTED" );
+        flirts = new ArrayList<>();
+
+        flirts.add(this.botnick + " snuggles NICKTOBEFLIRTED" );
 		flirts.add(this.botnick + " nuzzles NICKTOBEFLIRTED" );
 		flirts.add(this.botnick + " seduces NICKTOBEFLIRTED" );
 		flirts.add(this.botnick + " gazes at NICKTOBEFLIRTED longingly" );

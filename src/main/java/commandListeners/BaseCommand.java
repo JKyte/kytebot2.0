@@ -1,10 +1,11 @@
 package commandListeners;
 
-import java.util.ArrayList;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import listeners.BaseListener;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -37,8 +38,10 @@ public abstract class BaseCommand extends BaseListener {
 	 * Always returns false, bot commands are persistent
 	 */
 	@Override
-	public boolean listenerFinished() { return false; };
-	
+	public boolean listenerFinished() {
+		return false;
+	}
+
 	public ArrayList<String> getCommandDescription() { 
 		return description; 
 	}

@@ -1,10 +1,10 @@
 package botconfigs;
 
+import core.BotConstants;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
-
-import core.BotConstants;
 
 /**
  * 
@@ -65,17 +65,17 @@ public class BotConfigFactory {
 	public static HashSet<String> getPropertyAsHashSet( String propertyKey ){
 		
 		String[] propertyArray = properties.getProperty(propertyKey).split(",");
-		HashSet<String> propertySet = new HashSet<String>();
-		for( String property : propertyArray ){
-			propertySet.add(property);
+        HashSet<String> propertySet = new HashSet<>();
+        for (String property : propertyArray) {
+            propertySet.add(property);
 		}
 		return propertySet;
 	}
 	
 	public static ArrayList<String> getPropertyAsList( String propertyKey ){
 		String[] propertyArray = properties.getProperty(propertyKey).split(",");
-		ArrayList<String> propertyList = new ArrayList<String>();
-		for( String property : propertyArray ){
+        ArrayList<String> propertyList = new ArrayList<>();
+        for( String property : propertyArray ){
 			propertyList.add(property);
 		}
 		return propertyList;

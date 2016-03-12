@@ -1,7 +1,7 @@
 package master;
 
-import core.BotConstants;
 import botconfigs.IRCBot;
+import core.BotConstants;
 
 /**
  * 

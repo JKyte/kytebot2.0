@@ -1,12 +1,11 @@
 package botconfigs;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
+import core.BotConstants;
 import org.junit.Assert;
 import org.junit.Test;
 
-import core.BotConstants;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class BotConfigTest {
 
@@ -46,51 +45,31 @@ public class BotConfigTest {
 	}
 
 	private boolean assertAjoins( ArrayList<String> ajoins){
-		if( ajoins.contains("#chan1") && 
-				ajoins.contains("#chan2") && 
-				ajoins.contains("#chan3") ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return ajoins.contains("#chan1") &&
+                ajoins.contains("#chan2") &&
+                ajoins.contains("#chan3");
+    }
 
 	private boolean assertTrustedUsers( HashSet<String> trustedUsers ){
-		if( trustedUsers.contains("trusteduser1") && 
-				trustedUsers.contains("trusteduser2") ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return trustedUsers.contains("trusteduser1") &&
+                trustedUsers.contains("trusteduser2");
+    }
 
 	
 	private boolean assertStoryChannels( HashSet<String> storyChans ){
-		if( storyChans.contains("#chan1") && 
-				storyChans.contains("#chan4") ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return storyChans.contains("#chan1") &&
+                storyChans.contains("#chan4");
+    }
 
 	private boolean assertGreetingChannels( HashSet<String> greetChans ){
-		if( greetChans.contains("#chan1") && 
-				greetChans.contains("#chan2") && 
-				greetChans.contains("#chan3") ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return greetChans.contains("#chan1") &&
+                greetChans.contains("#chan2") &&
+                greetChans.contains("#chan3");
+    }
 
 	private boolean assertFarewellChannels( HashSet<String> farewellChans ){
-		if( farewellChans.contains("#chan1") && 
-				farewellChans.contains("#chan2") && 
-				farewellChans.contains("#chan3") ){
-			return true;
-		}else{
-			return false;
-		}
-	}
+        return farewellChans.contains("#chan1") &&
+                farewellChans.contains("#chan2") &&
+                farewellChans.contains("#chan3");
+    }
 }

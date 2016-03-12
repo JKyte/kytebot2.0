@@ -1,22 +1,18 @@
 package core;
 
-import java.util.HashSet;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
+import botconfigs.IRCBot;
+import botconfigs.IRCCommands;
+import gui.UserInputBox;
 import listenerFactories.BotCommandListenerFactory;
 import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
 import msg.IRCMessageDecorator;
 import msg.IRCMsg;
 import msg.IRCMsgFactory;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import parsers.BotCommandParser;
-import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
-import gui.UserInputBox;
+
+import java.util.HashSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * 
@@ -44,8 +40,6 @@ public class IRCMsgHandler implements Runnable {
 	
 	private IRCCommands ircCommands;
 	private BotCommandParser botCommandParser;
-
-	private Logger log = LogManager.getLogger(IRCMsgHandler.class);
 	
 	public IRCMsgHandler( IRCBot bot ){
 		
@@ -71,8 +65,8 @@ public class IRCMsgHandler implements Runnable {
 	}
 
 	private void loadServerResponseCodesToIgnore() {
-		serverResponseCodesToIgnore = new HashSet<String>();
-		serverResponseCodesToIgnore.add("372");
+        serverResponseCodesToIgnore = new HashSet<>();
+        serverResponseCodesToIgnore.add("372");
 		
 		serverResponseCodesToIgnore.add("001");
 		serverResponseCodesToIgnore.add("002");
@@ -107,22 +101,17 @@ public class IRCMsgHandler implements Runnable {
 				rawMsg = inboundMsgQ.poll();
 				if( null != rawMsg ){
 					try {
-						
-					//	long start = System.currentTimeMillis();
+
 						handleMsg(rawMsg);
-					//	updateParseStats( (System.currentTimeMillis() - start) );
-						
-					} catch (Exception e) {
+
+                    } catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		} catch (Exception e) {
-			//	log.error(msg, e);
-		} finally {
-			//	log.fatal("FATAL:" + msg.toString());
-			//	log.fatal("FATAL: InputThread crashed.");
-		}
+            e.printStackTrace();
+        }
 	}
 	
 	public IRCMsg handleMsg(String rawMsg){
@@ -198,7 +187,6 @@ public class IRCMsgHandler implements Runnable {
 	public IRCMsg stripLeadingWordFromTrailing( IRCMsg msg ){
 		String lesser = msg.getTrailing().substring( msg.getTrailing().indexOf(" ")+1 );
 		msg.setTrailing(lesser);
-		System.out.println("Lesser: " + lesser);
 		return msg;
 	}
 

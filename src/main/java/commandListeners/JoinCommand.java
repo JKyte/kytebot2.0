@@ -1,10 +1,10 @@
 package commandListeners;
 
-import java.util.ArrayList;
-
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
 
 public class JoinCommand extends AdminCommand {
 
@@ -37,8 +37,8 @@ public class JoinCommand extends AdminCommand {
 
 	@Override
 	public void loadCommandDescription() {
-		description = new ArrayList<String>();
-		description.add( "JOIN - usage: ![botnick] JOIN [#channel]");
+        description = new ArrayList<>();
+        description.add( "JOIN - usage: ![botnick] JOIN [#channel]");
 		description.add( "  - orders the bot to join a channel.");	
 	}
 }

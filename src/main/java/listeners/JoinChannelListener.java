@@ -2,8 +2,8 @@ package listeners;
 
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
-import responses.BotResponses;
 import msg.IRCMsg;
+import responses.BotResponses;
 
 public class JoinChannelListener extends BaseListener {
 	
@@ -20,12 +20,9 @@ public class JoinChannelListener extends BaseListener {
 
 	@Override
 	public boolean listen(IRCMsg msg) {
-		if( msg.getCommand().equalsIgnoreCase("JOIN") 
-				&& ( null != msg.getTrailing() && msg.getTrailing().equalsIgnoreCase(targetChan) )){
-			return true;
-		}
-		return false;
-	}
+        return msg.getCommand().equalsIgnoreCase("JOIN")
+                && (null != msg.getTrailing() && msg.getTrailing().equalsIgnoreCase(targetChan));
+    }
 
 	@Override
 	public void doAction() {

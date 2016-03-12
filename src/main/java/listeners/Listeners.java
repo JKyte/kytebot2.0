@@ -1,9 +1,9 @@
 package listeners;
 
+import msg.IRCMsg;
+
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
-import msg.IRCMsg;
 
 /**
  * 
@@ -17,15 +17,15 @@ public class Listeners {
 	private ConcurrentHashMap<String, BaseListener> listeners;
 	
 	public Listeners(){
-		listeners = new ConcurrentHashMap<String, BaseListener>();
-				//new ConcurrentHashMap<String, ?>(8, 0.9f, 2);
+        listeners = new ConcurrentHashMap<>();
+        //new ConcurrentHashMap<String, ?>(8, 0.9f, 2);
 	}
 	
 	/**
 	 * Wrapper method
-	 * @param listenerName
-	 * @param listener
-	 * @returns - TRUE if the trigger added, FALSE if the trigger already exists
+     * @param listenerName - The Key, i.e, the Name of the Listener
+     * @param listener - The Value, i.e., the Listener
+     * @returns - TRUE if the trigger added, FALSE if the trigger already exists
 	 */
 	public synchronized boolean put(String listenerName, BaseListener listener){
 		if( !listeners.containsKey(listenerName) ){
@@ -35,12 +35,12 @@ public class Listeners {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Wrapper method
-	 * @param triggerName
-	 * @return
-	 */
+     *
+     * @param listenerName
+     * @returns a listener for the provided key
+     */
 	public BaseListener get(String listenerName){
 		return listeners.get(listenerName);
 	}

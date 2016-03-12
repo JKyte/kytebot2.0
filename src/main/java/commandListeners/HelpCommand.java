@@ -1,11 +1,11 @@
 package commandListeners;
 
-import java.util.ArrayList;
-
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import listeners.Listeners;
 import msg.IRCMsg;
+
+import java.util.ArrayList;
 
 public class HelpCommand extends BaseCommand {
 	
@@ -19,8 +19,8 @@ public class HelpCommand extends BaseCommand {
 
 	@Override
 	public void loadCommandDescription() {
-		description = new ArrayList<String>();
-		description.add( "HELP - usage: ![botnick] HELP [COMMAND]");
+        description = new ArrayList<>();
+        description.add( "HELP - usage: ![botnick] HELP [COMMAND]");
 		description.add( "  - for a list of commands run ![botnick] LIST");
 	}
 

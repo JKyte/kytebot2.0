@@ -1,14 +1,9 @@
 package listenerFactories;
 
-import commandListeners.FlirtCommand;
-import commandListeners.HelpCommand;
-import commandListeners.JoinCommand;
-import commandListeners.ListCommand;
-import commandListeners.TradeCommand;
-
-import listeners.Listeners;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
+import commandListeners.*;
+import listeners.Listeners;
 
 public class BotCommandListenerFactory {
 

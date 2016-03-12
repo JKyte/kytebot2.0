@@ -1,10 +1,10 @@
 package listenerFactories;
 
-import responses.BotResponses;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import listeners.JoinChannelListener;
 import listeners.Listeners;
+import responses.BotResponses;
 
 public class EventListenerFactory {
 	
