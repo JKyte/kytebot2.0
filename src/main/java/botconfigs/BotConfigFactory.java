@@ -64,7 +64,7 @@ public class BotConfigFactory {
 	
 	public static HashSet<String> getPropertyAsHashSet( String propertyKey ){
 		
-		String[] propertyArray = properties.getProperty(propertyKey).split(",");
+        String[] propertyArray = properties.getProperty(propertyKey).split(",");
         HashSet<String> propertySet = new HashSet<>();
         for (String property : propertyArray) {
             propertySet.add(property);

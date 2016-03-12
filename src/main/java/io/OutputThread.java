@@ -1,5 +1,8 @@
 package io;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -14,10 +17,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class OutputThread extends Thread{
 
-	private Socket socket;
+    private final static String CRLF = "\r\n";
+    Logger log = LogManager.getLogger(getClass());
+    private Socket socket;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	private BufferedWriter bw;
-	private final static String CRLF = "\r\n";
 
 	public OutputThread( Socket socket, ConcurrentLinkedQueue<String> outboundMsgQ){
 
@@ -45,7 +49,8 @@ public class OutputThread extends Thread{
 
 				if( ircMsg != null ){
 				//System.out.println("out: " + ircMsg );
-					sendMsg(ircMsg);
+                    log.info("OUT: " + ircMsg);
+                    sendMsg(ircMsg);
 				}
 
 			//	Thread.sleep(1000);

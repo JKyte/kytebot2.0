@@ -3,6 +3,8 @@ package botconfigs;
 import core.IRCMsgHandler;
 import io.OutputThread;
 import listeners.Listeners;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,17 +20,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class IRCBot extends Thread {
 
-	private BotConfigs configs;
+    Logger log = LogManager.getLogger(getClass());
+    private BotConfigs configs;
 	private Socket socket;
 	private long heartBeatInMillis = -1;
-
 	private ConcurrentLinkedQueue<String> inboundMsgQ;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
-
 	private Listeners interruptListeners;
 	private Listeners eventListeners;
 	private Listeners botCommandListeners;
-
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
 
@@ -86,7 +86,8 @@ public class IRCBot extends Thread {
 				msg = br.readLine();
 				
 				if( msg != null ){
-					inboundMsgQ.add( msg );
+                    log.info("IN: " + msg);
+                    inboundMsgQ.add( msg );
 				}
 			}
 		} catch (IOException | InterruptedException e) {
