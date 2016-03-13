@@ -1,6 +1,5 @@
 package botconfigs;
 
-import core.BotConstants;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,10 +10,9 @@ public class BotConfigTest {
 
 	@Test
 	public void testBotConfigsAgainstDefaultProperties(){
-		String configFilePath = BotConstants.TEST_DEFAULT;
-		BotConfigs configs = BotConfigFactory.createBotConfigs(configFilePath);
-		
-		Assert.assertNotNull( configs );
+        BotConfigs configs = BotConfigFactory.createBotConfigs(false);
+
+        Assert.assertNotNull( configs );
 		Assert.assertTrue( defaultConfigsAreValid(configs) );
 	}
 	
@@ -32,6 +30,9 @@ public class BotConfigTest {
 		//	Assert Starting channels and ajoins
 		Assert.assertEquals("#startchan", configs.getStartChan() );
 		Assert.assertEquals(true, assertAjoins(configs.getAjoins()) );
+
+        //  Assert that default property value for headless is false
+        Assert.assertFalse(configs.isHeadless());
 
 		//	Assert Security Configurations
 		Assert.assertEquals("adminnick", configs.getAdmin() );

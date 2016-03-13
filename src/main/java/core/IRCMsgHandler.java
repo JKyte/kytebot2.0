@@ -59,10 +59,12 @@ public class IRCMsgHandler implements Runnable {
 		this.interruptListeners = bot.getInterruptListeners();
 		this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
 		this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot, ircCommands);
-		
-		UserInputBox uib = new UserInputBox(outboundMsgQ);
-		uib.stub();
-	}
+
+        if (bot.getConfigs().isHeadless()) {
+            UserInputBox uib = new UserInputBox(outboundMsgQ);
+            uib.stub();
+        }
+    }
 
 	private void loadServerResponseCodesToIgnore() {
         serverResponseCodesToIgnore = new HashSet<>();

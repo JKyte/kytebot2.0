@@ -4,7 +4,6 @@ import botconfigs.BotConfigFactory;
 import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
-import core.BotConstants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,15 +14,15 @@ public class BotCommandParserTest {
 	
 	@BeforeClass
 	public static void setup(){
-		configs = BotConfigFactory.createBotConfigs(BotConstants.TEST_DEFAULT);
-	}
+        configs = BotConfigFactory.createBotConfigs(false);
+    }
 	
 	@Test
 	public void testGetGreetingScore(){
 		
 		IRCCommands commands = new IRCCommands(configs);
-		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		BotCommandParser kcp = new BotCommandParser(mockBot, commands);
+        IRCBot mockBot = new IRCBot(false);
+        BotCommandParser kcp = new BotCommandParser(mockBot, commands);
 		
 		Assert.assertEquals(2, kcp.getGreetingScore("HELLO"));
 		Assert.assertEquals(2, kcp.getGreetingScore("HI"));
@@ -35,8 +34,8 @@ public class BotCommandParserTest {
 	@Test
 	public void testIsGreeting(){
 		IRCCommands commands = new IRCCommands(configs);
-		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		BotCommandParser kcp = new BotCommandParser(mockBot, commands);
+        IRCBot mockBot = new IRCBot(false);
+        BotCommandParser kcp = new BotCommandParser(mockBot, commands);
 		
 		String[] validGreetings = {"hello botnick", "hi botnick", "good morning botnick",
 				"good evening botnick", "morning botnick", "evening botnick"};
@@ -57,8 +56,8 @@ public class BotCommandParserTest {
 	public void testIsBotCommand(){
 		
 		IRCCommands commands = new IRCCommands(configs);
-		IRCBot mockBot = new IRCBot(BotConstants.TEST_DEFAULT);
-		BotCommandParser bcp = new BotCommandParser(mockBot, commands);
+        IRCBot mockBot = new IRCBot(false);
+        BotCommandParser bcp = new BotCommandParser(mockBot, commands);
 		String botCommand_v1 = "!botnick command";
 		String botCommand_v2 = "!b command";
 		

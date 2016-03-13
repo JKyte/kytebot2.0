@@ -35,9 +35,9 @@ public class IRCBot extends Thread {
 	/**
 	 * Only initialize the queues at first
 	 */
-	public IRCBot( String configPath ){
-		this.configs = BotConfigFactory.createBotConfigs(configPath);
-		this.heartBeatInMillis = configs.getHeartbeat();
+    public IRCBot(boolean useProductionConfigs) {
+        this.configs = BotConfigFactory.createBotConfigs(useProductionConfigs);
+        this.heartBeatInMillis = configs.getHeartbeat();
         inboundMsgQ = new ConcurrentLinkedQueue<>();
         outboundMsgQ = new ConcurrentLinkedQueue<>();
 

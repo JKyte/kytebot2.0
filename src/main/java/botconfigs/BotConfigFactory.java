@@ -21,13 +21,18 @@ public class BotConfigFactory {
 	 * One more layer of indirection never hurt anyone, right?
 	 * @returns BotConfigs loaded with PRODUCTION defaults
 	 */
-	public static BotConfigs createBotConfigs(){
-		return createBotConfigs(BotConstants.PRODUCTION_DEFAULT);
+    public static BotConfigs createBotConfigs(boolean useProductionAsDefault) {
+        if (useProductionAsDefault) {
+            return createBotConfigs(BotConstants.PRODUCTION_DEFAULT);
+        } else {
+            return createBotConfigs(BotConstants.TEST_DEFAULT);
+        }
+
 	}
-		
-	public static BotConfigs createBotConfigs( String filePath ){
-		
-		//	Setup the BotConfigs and the PropertyHandler
+
+    private static BotConfigs createBotConfigs(String filePath) {
+
+        //	Setup the BotConfigs and the PropertyHandler
 		BotConfigs configs = new BotConfigs();
 		properties = PropertyHandler.readPropertyFile(filePath);
 		
@@ -44,8 +49,10 @@ public class BotConfigFactory {
 		//	Starting channels and ajoins
 		configs.setStartChan( properties.getProperty("startchan") );
 		configs.setAjoins( getPropertyAsList("ajoins") );
-		
-		//	Security Configurations
+
+        configs.setHeadless(getPropertyAsBoolean("headless"));
+
+        //	Security Configurations
 		configs.setAdmin( properties.getProperty("admin") );
 		configs.setTrustedUsers( getPropertyAsHashSet("trustedusers") );
 		
@@ -80,5 +87,21 @@ public class BotConfigFactory {
 		}
 		return propertyList;
 	}
-	
+
+    /**
+     * @param propertyKey
+     * @returns FALSE if property key does not match any existing properties
+     */
+    public static boolean getPropertyAsBoolean(String propertyKey) {
+        String propertyValue = properties.getProperty(propertyKey);
+        if (propertyValue.toLowerCase().equals("false")) {
+            return false;
+        } else if (propertyValue.toLowerCase().equals("true")) {
+            return true;
+        } else {
+            System.err.println("Failure to load property with key: " + propertyKey + " and value: " + propertyValue);
+            return false;
+        }
+    }
+
 }
