@@ -1,6 +1,8 @@
 package botconfigs;
 
 import core.BotConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ import java.util.Properties;
  */
 public class BotConfigFactory {
 	
+    private static final Logger log = LogManager.getLogger(BotConfigFactory.class);
 	private static Properties properties;
 
 	/**
@@ -99,7 +102,7 @@ public class BotConfigFactory {
         } else if (propertyValue.toLowerCase().equals("true")) {
             return true;
         } else {
-            System.err.println("Failure to load property with key: " + propertyKey + " and value: " + propertyValue);
+            log.error("Failure to load property with key: " + propertyKey + " and value: " + propertyValue);
             return false;
         }
     }

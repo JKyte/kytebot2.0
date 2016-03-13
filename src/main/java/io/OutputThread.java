@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class OutputThread extends Thread{
 
     private final static String CRLF = "\r\n";
-    Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
     private Socket socket;
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	private BufferedWriter bw;
@@ -39,8 +39,8 @@ public class OutputThread extends Thread{
 	@Override
 	public void run() {
 
-		System.out.println("OutputThread started.");
-		try {
+        log.info("OutputThread started.");
+        try {
 
 			String ircMsg = null;
 			while( true ){
@@ -61,8 +61,8 @@ public class OutputThread extends Thread{
 	//		e.printStackTrace();
 		} finally {
 		//	log.fatal("FATAL: OutputThread has stopped.");
-			System.out.println("FATAL: OutputThread has stopped.");
-		}
+            log.fatal("FATAL: OutputThread has stopped.");
+        }
 	}
 
 	public void sendMsg( String msg ){
@@ -74,8 +74,8 @@ public class OutputThread extends Thread{
 
 		} catch (IOException e) {
 		//	log.fatal("WARN: OutputThread failed to send command: " + msg );
-			System.out.println("WARN: OutputThread failed to send command: " + msg);
-			e.printStackTrace();
+            log.warn("WARN: OutputThread failed to send command: " + msg);
+            e.printStackTrace();
 		}
 	}
 

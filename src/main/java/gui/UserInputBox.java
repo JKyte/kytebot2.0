@@ -1,5 +1,8 @@
 package gui;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,14 +19,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @SuppressWarnings("serial")
 public class UserInputBox extends JFrame implements ActionListener {
 
-	private JButton sendMsgBtn = new JButton("Send msg");
-
+    private final Logger log = LogManager.getLogger(getClass());
+    private JButton sendMsgBtn = new JButton("Send msg");
 	private JTextArea textArea = new JTextArea(8, 40);
-
 	private JScrollPane scrollPane = new JScrollPane(textArea);
-
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
-	
 
 	public UserInputBox(  ConcurrentLinkedQueue<String> msgQ ) {
 
@@ -60,8 +60,8 @@ public class UserInputBox extends JFrame implements ActionListener {
 			textArea.setText("");
 			
 		}else{
-			System.err.println("Unhandled action event!");
-		}
+            log.error("Unhandled action event!");
+        }
 	}
 	
 	public void stub(){

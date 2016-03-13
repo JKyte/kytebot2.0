@@ -66,8 +66,8 @@ public class IRCBot extends Thread {
 			t1.start();
 			t2.start();
 
-			System.out.println("All threads started.");
-			/**
+            log.info("All threads started.");
+            /**
 			 * Sleep to let things initialize
 			 */
 			Thread.sleep(3000);
@@ -93,8 +93,8 @@ public class IRCBot extends Thread {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("FATAL: InputThread has crashed.");
-		}
+            log.fatal("FATAL: InputThread has crashed.");
+        }
 	}
 
 	public BotConfigs getConfigs() {

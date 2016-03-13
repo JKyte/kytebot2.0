@@ -24,12 +24,12 @@ public class ListCommand extends BaseCommand {
 	public boolean listen(IRCMsg msg) {
 		if( msg.getTrailing().equalsIgnoreCase("LIST")){
 			//	Set the appropriate target
-			System.out.println("Prefix: " + msg.getPrefix());
-			System.out.println("Command: " + msg.getCommand());
-			System.out.println("Args[0]: " + msg.getArgs()[0]);
-			System.out.println("Trailing: " + msg.getTrailing());
-			
-			target = msg.getArgs()[0];
+            log.info("Prefix: " + msg.getPrefix());
+            log.info("Command: " + msg.getCommand());
+            log.info("Args[0]: " + msg.getArgs()[0]);
+            log.info("Trailing: " + msg.getTrailing());
+
+            target = msg.getArgs()[0];
 			return true;
 		}
 		return false;

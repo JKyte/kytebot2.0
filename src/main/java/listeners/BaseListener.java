@@ -3,6 +3,8 @@ package listeners;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -15,8 +17,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * 
  */
 public abstract class BaseListener implements Listener {
-	
-	public Listeners interruptListeners;
+
+    protected final Logger log = LogManager.getLogger(getClass());
+    public Listeners interruptListeners;
 	public Listeners eventListeners;
     public ConcurrentLinkedQueue<String> outboundMsgQ;
     protected IRCBot ircbot;

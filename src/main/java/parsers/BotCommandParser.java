@@ -5,6 +5,8 @@ import botconfigs.IRCCommands;
 import commandListeners.*;
 import listeners.Listeners;
 import msg.IRCMsg;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import responses.BotResponses;
 
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class BotCommandParser {
 
+    private final Logger log = LogManager.getLogger(getClass());
     HashMap<String, Integer> greetings = new HashMap<>();
     HashMap<String, Integer> farewells = new HashMap<>();
     BotResponses responses;
@@ -184,8 +187,8 @@ public class BotCommandParser {
 
 	//	TODO also prime candidate for pattern matching
 	public void parsePrivateMsg( IRCMsg msg ){
-		System.out.println("PRIVATE " + botnick + " command!");
-		if( isGreeting(msg.getTrailing()) ){
+        log.info("PRIVATE " + botnick + " command!");
+        if( isGreeting(msg.getTrailing()) ){
 			//	send response to greeting
 			String response = responses.getBotGreeting(msg.getFromNick());
 			String responseMsg = ircCommands.privmsg(msg.getArgs()[0], response);

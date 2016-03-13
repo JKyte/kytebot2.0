@@ -1,5 +1,7 @@
 package io;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -10,22 +12,22 @@ import java.util.Scanner;
 
 public class JsonParser {
 
-	String baseUrl = "https://politicsandwar.com/api/tradeprice/resource=";
+    private final Logger log = LogManager.getLogger(getClass());
+    String baseUrl = "https://politicsandwar.com/api/tradeprice/resource=";
 	String resource;
 	String avgPrice;
-	
 	String lowBuyDate;
 	String lowBuyAmount;
 	String highestBuyDate;
 	String highestBuyAmount;
-	
+
 	public JsonParser( String resource ){
 		this.resource = resource;
 	}
 
 	public void fetchJson(){
-		System.out.println("Start fetch");
-		String fullUrl = baseUrl + resource;
+        log.info("Start Fetch.");
+        String fullUrl = baseUrl + resource;
 		try {
 			
 			URL url = new URL(fullUrl);
@@ -33,7 +35,8 @@ public class JsonParser {
 			httpcon.addRequestProperty("User-Agent", "Mozilla/4.76"); 
 			
 			Scanner scan = new Scanner(httpcon.getInputStream());
-			System.out.println("ResponseCode: " + httpcon.getResponseCode());
+            log.info("Response code: " + httpcon.getResponseCode());
+
 			if( httpcon.getResponseCode() != 200 ){
 				scan.close();	//	Prevent mem leaks
 				return;
@@ -43,11 +46,11 @@ public class JsonParser {
             while (scan.hasNext())
 				str += scan.nextLine();
 			scan.close();
-			System.out.println("Canary");
-			
-			// build a JSON object
+
+            log.info(str);
+
+            // build a JSON object
 			JSONObject obj = new JSONObject(str);
-			System.out.println("Canary4.5: " + obj.getString("resource"));
 			
 			avgPrice = obj.getString("avgprice");
 			
@@ -62,8 +65,8 @@ public class JsonParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("End fetch");
-	}
+        log.info("End Fetch.");
+    }
 	
 	public String getResourceAverage(){
 		return resource + ":" + avgPrice;
