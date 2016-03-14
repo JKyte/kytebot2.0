@@ -117,6 +117,8 @@ public class IRCMsgHandler implements Runnable {
 	public IRCMsg handleMsg(String rawMsg){
 		if( !isPing(rawMsg) ){
 
+            log.info("IN: " + rawMsg);
+
 			IRCMsg msg = createAndDecorateMsg(rawMsg);
 			
 			//	Check to see if this is an expected msg
@@ -246,8 +248,8 @@ public class IRCMsgHandler implements Runnable {
             log.info(msg.getOriginalMsg());
             handlePrivateMsg(msg);
 		}else{
-			System.err.println("Something went very wrong parsing: " + msg.getOriginalMsg());
-		}
+            log.error("Something went very wrong parsing: " + msg.getOriginalMsg());
+        }
 	}
 
 	private void handlePrivateMsg(IRCMsg msg) {

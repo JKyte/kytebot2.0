@@ -30,7 +30,15 @@ public class IRCCommands {
 	public String joinChannel( String channel ){
 		return "join " + channel;
 	}
-	
+
+    public String setNick(String nick) {
+        return "nick " + nick;
+    }
+
+    public String userIdent(String nick) {
+        return "USER " + nick + " 0 * :" + nick;
+    }
+
 	public String nickservIdentify(){
 		return "nickserv identify " + password;
 	}

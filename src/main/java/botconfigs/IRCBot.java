@@ -32,11 +32,15 @@ public class IRCBot extends Thread {
 	private OutputThread ot;
 	private IRCMsgHandler msgHandler;
 
+    private IRCCommands ircCommands;
+
 	/**
 	 * Only initialize the queues at first
 	 */
     public IRCBot(boolean useProductionConfigs) {
         this.configs = BotConfigFactory.createBotConfigs(useProductionConfigs);
+        this.ircCommands = new IRCCommands(configs);
+
         this.heartBeatInMillis = configs.getHeartbeat();
         inboundMsgQ = new ConcurrentLinkedQueue<>();
         outboundMsgQ = new ConcurrentLinkedQueue<>();
@@ -74,8 +78,8 @@ public class IRCBot extends Thread {
 
 			String nick = configs.getBotnick();
 
-			outboundMsgQ.add( "nick " + nick );
-			outboundMsgQ.add( "USER "+nick+" 0 * :"+nick );
+            outboundMsgQ.add(ircCommands.setNick(nick));
+            outboundMsgQ.add(ircCommands.userIdent(nick));
 
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(socket.getInputStream()));
@@ -86,7 +90,6 @@ public class IRCBot extends Thread {
 				msg = br.readLine();
 				
 				if( msg != null ){
-                    log.info("IN: " + msg);
                     inboundMsgQ.add( msg );
 				}
 			}

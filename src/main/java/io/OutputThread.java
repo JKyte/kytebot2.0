@@ -48,8 +48,9 @@ public class OutputThread extends Thread{
 				ircMsg = outboundMsgQ.poll();
 
 				if( ircMsg != null ){
-				//System.out.println("out: " + ircMsg );
-                    log.info("OUT: " + ircMsg);
+                    if (!ircMsg.startsWith("PONG")) {
+                        log.info("OUT: " + ircMsg);
+                    }
                     sendMsg(ircMsg);
 				}
 
