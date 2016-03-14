@@ -44,18 +44,23 @@ public class Listeners {
 	public BaseListener get(String listenerName){
 		return listeners.get(listenerName);
 	}
-	
+
+    public boolean hasListener(String listenerName) {
+        return listeners.containsKey(listenerName);
+    }
+
 	public void iterateAcrossListeners(IRCMsg msg){
-		
+
 		for( Entry<String, BaseListener> entry : listeners.entrySet() ){
 			if( entry.getValue().listen(msg) ){
 				entry.getValue().doAction();
-				
-				if( entry.getValue().listenerFinished() ){
-					listeners.remove(entry.getKey());
-				}
 			}
-		}
+
+            //  This block is independent of any listen/actions to support InterruptListeners
+            if (entry.getValue().listenerFinished()) {
+                listeners.remove(entry.getKey());
+            }
+        }
 	}
 
 	//	Will not be 100% accurate

@@ -53,9 +53,9 @@ public class IRCMsgHandler implements Runnable {
 		
 		ircCommands = new IRCCommands( bot.getConfigs() );
 		botCommandParser = new BotCommandParser( bot, ircCommands );
-		
-		this.interruptListeners = bot.getInterruptListeners();
-		this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
+
+        this.setInterruptListeners(bot.getInterruptListeners());
+        this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
 		this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot, ircCommands);
 
         if (bot.getConfigs().isHeadless()) {
@@ -122,9 +122,9 @@ public class IRCMsgHandler implements Runnable {
 			IRCMsg msg = createAndDecorateMsg(rawMsg);
 			
 			//	Check to see if this is an expected msg
-			interruptListeners.iterateAcrossListeners(msg);
-			
-			//	Check to see if the bot should perform an action, like greet someone
+            getInterruptListeners().iterateAcrossListeners(msg);
+
+            //	Check to see if the bot should perform an action, like greet someone
 			eventListeners.iterateAcrossListeners(msg);
 			
 			//	Check to see if this is a bot command
@@ -299,22 +299,30 @@ public class IRCMsgHandler implements Runnable {
 	public void handleNotice(IRCMsg msg) {
 		
 		if( msg.getTrailing().contains( "This nickname is registered and protected.") ){
-			outboundMsgQ.add( ircCommands.nickservIdentify() );
-		
-		}else if( msg.getTrailing().contains("Password accepted -- you are now recognized.") ){
-			outboundMsgQ.add( ircCommands.joinChannel() );
-			
-		}else if( msg.getTrailing().contains("Inviting "+botnick+" to channel "+startchan+".") ){
+            //	outboundMsgQ.add( ircCommands.nickservIdentify() );
+
+        }else if( msg.getTrailing().contains("Password accepted -- you are now recognized.") ){
+            outboundMsgQ.add(ircCommands.joinHomeChannel());
+
+        }else if( msg.getTrailing().contains("Inviting "+botnick+" to channel "+startchan+".") ){
 
             log.info("Single-vector join");
-            outboundMsgQ.add( ircCommands.joinChannel() );
-			
-		}else if( msg.getTrailing().contains("Inviting") && 
+            outboundMsgQ.add(ircCommands.joinHomeChannel());
+
+        }else if( msg.getTrailing().contains("Inviting") &&
 				msg.getTrailing().contains("to channel") && 
 				msg.getTrailing().contains(startchan)){
 
             log.info("Multi-vector join");
-            outboundMsgQ.add( ircCommands.joinChannel() );
-		}
+            outboundMsgQ.add(ircCommands.joinHomeChannel());
+        }
 	}
+
+    public Listeners getInterruptListeners() {
+        return interruptListeners;
+    }
+
+    public void setInterruptListeners(Listeners interruptListeners) {
+        this.interruptListeners = interruptListeners;
+    }
 }

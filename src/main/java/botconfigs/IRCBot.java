@@ -3,6 +3,7 @@ package botconfigs;
 import core.IRCMsgHandler;
 import io.OutputThread;
 import listeners.Listeners;
+import listeners.ircfunctions.AuthenticateInterrupt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,6 +72,11 @@ public class IRCBot extends Thread {
 			t2.start();
 
             log.info("All threads started.");
+
+
+            this.getIRCMsgHandler().getInterruptListeners().put("AuthListener", new AuthenticateInterrupt(this, ircCommands, 30));
+
+
             /**
 			 * Sleep to let things initialize
 			 */

@@ -67,25 +67,25 @@ public class FlirtCommand extends AdminCommand {
 	private void loadFlirts() {
         flirts = new ArrayList<>();
 
-        flirts.add(this.botnick + " snuggles NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " nuzzles NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " seduces NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " gazes at NICKTOBEFLIRTED longingly" );
-		flirts.add(this.botnick + " daydreams about NICKTOBEFLIRTED and tries not to lose himself" );
-		flirts.add(this.botnick + " fantasizes about NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " scoots closer to NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " looks NICKTOBEFLIRTED up and down and likes what he sees" );
-		flirts.add(this.botnick + " tries hard not to think naughty thoughts about NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " wonders what life would be like with NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " wants to give NICKTOBEFLIRTED a backrub" );
-		flirts.add(this.botnick + " pours NICKTOBEFLIRTED a glass of red wine" );
-		flirts.add(this.botnick + " poses seductively for NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " wants NICKTOBEFLIRTED to jump in bed. For a pillow fight." );
-		flirts.add(this.botnick + " hugs NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " thinks he and NICKTOBEFLIRTED should be together" );
-		flirts.add(this.botnick + " writes a Taylor Swift song about himself and NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " writes a love poem about NICKTOBEFLIRTED" );
-		flirts.add(this.botnick + " thinks NICKTOBEFLIRTED is sexy" );
-		flirts.add(this.botnick + "'s thoughts aren't PG-rated right now" );
-	}
+        flirts.add("snuggles NICKTOBEFLIRTED");
+        flirts.add("nuzzles NICKTOBEFLIRTED");
+        flirts.add("seduces NICKTOBEFLIRTED");
+        flirts.add("gazes at NICKTOBEFLIRTED longingly");
+        flirts.add("daydreams about NICKTOBEFLIRTED and tries not to lose himself");
+        flirts.add("fantasizes about NICKTOBEFLIRTED");
+        flirts.add("scoots closer to NICKTOBEFLIRTED");
+        flirts.add("looks NICKTOBEFLIRTED up and down and likes what he sees");
+        flirts.add("tries hard not to think naughty thoughts about NICKTOBEFLIRTED");
+        flirts.add("wonders what life would be like with NICKTOBEFLIRTED");
+        flirts.add("wants to give NICKTOBEFLIRTED a backrub");
+        flirts.add("pours NICKTOBEFLIRTED a glass of red wine");
+        flirts.add("poses seductively for NICKTOBEFLIRTED");
+        flirts.add("wants NICKTOBEFLIRTED to jump in bed. For a pillow fight.");
+        flirts.add("hugs NICKTOBEFLIRTED");
+        flirts.add("thinks he and NICKTOBEFLIRTED should be together");
+        flirts.add("writes a Taylor Swift song about himself and NICKTOBEFLIRTED");
+        flirts.add("writes a love poem about NICKTOBEFLIRTED");
+        flirts.add("thinks NICKTOBEFLIRTED is sexy");
+        flirts.add("'s thoughts aren't PG-rated right now");
+    }
 }

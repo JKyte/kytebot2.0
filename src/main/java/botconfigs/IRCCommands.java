@@ -22,9 +22,9 @@ public class IRCCommands {
 	public String chanservInvite( String channel ){
 		return "chanserv invite " + channel;
 	}
-	
-	public String joinChannel(){
-		return "join " + homeChannel;
+
+    public String joinHomeChannel() {
+        return "join " + homeChannel;
 	}
 	
 	public String joinChannel( String channel ){
