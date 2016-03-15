@@ -3,6 +3,7 @@ package commandListeners;
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import msg.IRCMsg;
+import util.RandomList;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,15 +12,15 @@ public class FlirtCommand extends AdminCommand {
 	
 	private String target = null;
 	private String nickToBeFlirted = null;
-	private ArrayList<String> flirts = null;
-	
-	private Random rand;
+    private RandomList flirts = null;
+
+    private Random rand;
 
 	public FlirtCommand( IRCBot ircbot, IRCCommands ircCommands) {
 		super(ircbot, ircCommands);
-		loadFlirts();
-		rand = new Random();
-	}
+        flirts = new RandomList(loadFlirts());
+        rand = new Random();
+    }
 
 	@Override
 	public boolean listen(IRCMsg msg){
@@ -61,31 +62,32 @@ public class FlirtCommand extends AdminCommand {
 	}
 	
 	private String getRandomFlirt() {
-		return flirts.get( rand.nextInt(flirts.size())).replaceAll("NICKTOBEFLIRTED", nickToBeFlirted);
-	}
+        String flirt = flirts.getListEntry();
+        return flirt.replaceAll("NICKTOBEFLIRTED", nickToBeFlirted);
+    }
 
-	private void loadFlirts() {
-        flirts = new ArrayList<>();
-
-        flirts.add("snuggles NICKTOBEFLIRTED");
-        flirts.add("nuzzles NICKTOBEFLIRTED");
-        flirts.add("seduces NICKTOBEFLIRTED");
-        flirts.add("gazes at NICKTOBEFLIRTED longingly");
-        flirts.add("daydreams about NICKTOBEFLIRTED and tries not to lose himself");
-        flirts.add("fantasizes about NICKTOBEFLIRTED");
-        flirts.add("scoots closer to NICKTOBEFLIRTED");
-        flirts.add("looks NICKTOBEFLIRTED up and down and likes what he sees");
-        flirts.add("tries hard not to think naughty thoughts about NICKTOBEFLIRTED");
-        flirts.add("wonders what life would be like with NICKTOBEFLIRTED");
-        flirts.add("wants to give NICKTOBEFLIRTED a backrub");
-        flirts.add("pours NICKTOBEFLIRTED a glass of red wine");
-        flirts.add("poses seductively for NICKTOBEFLIRTED");
-        flirts.add("wants NICKTOBEFLIRTED to jump in bed. For a pillow fight.");
-        flirts.add("hugs NICKTOBEFLIRTED");
-        flirts.add("thinks he and NICKTOBEFLIRTED should be together");
-        flirts.add("writes a Taylor Swift song about himself and NICKTOBEFLIRTED");
-        flirts.add("writes a love poem about NICKTOBEFLIRTED");
-        flirts.add("thinks NICKTOBEFLIRTED is sexy");
-        flirts.add("'s thoughts aren't PG-rated right now");
+    private ArrayList<String> loadFlirts() {
+        ArrayList<String> flirtList = new ArrayList<>();
+        flirtList.add("snuggles NICKTOBEFLIRTED");
+        flirtList.add("nuzzles NICKTOBEFLIRTED");
+        flirtList.add("seduces NICKTOBEFLIRTED");
+        flirtList.add("gazes at NICKTOBEFLIRTED longingly");
+        flirtList.add("daydreams about NICKTOBEFLIRTED and tries not to lose himself");
+        flirtList.add("fantasizes about NICKTOBEFLIRTED");
+        flirtList.add("scoots closer to NICKTOBEFLIRTED");
+        flirtList.add("looks NICKTOBEFLIRTED up and down and likes what he sees");
+        flirtList.add("tries hard not to think naughty thoughts about NICKTOBEFLIRTED");
+        flirtList.add("wonders what life would be like with NICKTOBEFLIRTED");
+        flirtList.add("wants to give NICKTOBEFLIRTED a backrub");
+        flirtList.add("pours NICKTOBEFLIRTED a glass of red wine");
+        flirtList.add("poses seductively for NICKTOBEFLIRTED");
+        flirtList.add("wants NICKTOBEFLIRTED to jump in bed. For a pillow fight.");
+        flirtList.add("hugs NICKTOBEFLIRTED");
+        flirtList.add("thinks he and NICKTOBEFLIRTED should be together");
+        flirtList.add("writes a Taylor Swift song about himself and NICKTOBEFLIRTED");
+        flirtList.add("writes a love poem about NICKTOBEFLIRTED");
+        flirtList.add("thinks NICKTOBEFLIRTED is sexy");
+        flirtList.add("'s thoughts aren't PG-rated right now");
+        return flirtList;
     }
 }
