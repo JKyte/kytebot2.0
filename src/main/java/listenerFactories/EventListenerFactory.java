@@ -2,23 +2,29 @@ package listenerFactories;
 
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
-import listeners.JoinChannelListener;
 import listeners.Listeners;
-import responses.BotResponses;
+import listeners.botFunctions.UserFarewellsBotListener;
+import listeners.botFunctions.UserGreetsBotListener;
+import listeners.botFunctions.UserJoinsChannelListener;
 
 public class EventListenerFactory {
 	
 	public static Listeners createEventListeners(IRCBot ircbot, IRCCommands ircCommands){
 		
 		Listeners listeners = new Listeners();
-		
-		//	Currently only handle GREETING listeners this way
-		int curListener = 0;
-		for( String greetingChan : ircbot.getConfigs().getGreetingChans() ){
-			String greetingName = "GREET_" + ++curListener;
-			listeners.put(greetingName, new JoinChannelListener(ircbot, ircCommands, greetingChan, new BotResponses()));		
-		}
-		
+
+        if (null != ircbot.getConfigs().getGreetingChans()) {
+            listeners.put("GreetingListener", new UserJoinsChannelListener(ircbot, ircCommands));
+        }
+
+        if (null != ircbot.getConfigs().getGreetingChans()) {
+            listeners.put("UserGreetsBotListener", new UserGreetsBotListener(ircbot, ircCommands));
+        }
+
+        if (null != ircbot.getConfigs().getFarewellChans()) {
+            listeners.put("UserFarewellsBotListener", new UserFarewellsBotListener(ircbot, ircCommands));
+        }
+
 		return listeners;
 	}
 }

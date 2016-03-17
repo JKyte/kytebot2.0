@@ -11,7 +11,6 @@ import msg.IRCMsg;
 import msg.IRCMsgFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import parsers.BotCommandParser;
 
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -37,7 +36,6 @@ public class IRCMsgHandler implements Runnable {
 	private Listeners eventListeners;
 	private Listeners botCommandListeners;
 	private IRCCommands ircCommands;
-	private BotCommandParser botCommandParser;
 	
 	public IRCMsgHandler( IRCBot bot ){
 		
@@ -52,7 +50,6 @@ public class IRCMsgHandler implements Runnable {
 		loadServerResponseCodesToIgnore();
 		
 		ircCommands = new IRCCommands( bot.getConfigs() );
-		botCommandParser = new BotCommandParser( bot, ircCommands );
 
         this.setInterruptListeners(bot.getInterruptListeners());
         this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
@@ -254,20 +251,10 @@ public class IRCMsgHandler implements Runnable {
 
 	private void handlePrivateMsg(IRCMsg msg) {
 		// TODO extend this
-		if( botCommandParser.isBotCommand(msg.getTrailing()) ){
-			botCommandParser.parsePrivateMsg(msg);
-		}else{
-            //	log.info("PRIVATE message");
-        }
 	}
 
 	private void handleChannelMsg(IRCMsg msg) {
 		//	TODO extend this
-		if( botCommandParser.isBotCommand(msg.getTrailing()) ){
-			botCommandParser.parseChannelMsg(msg);
-		}else{
-            //	log.info("CHANNEL message");
-        }
 	}
 
 	private void handleMode(IRCMsg msg) {

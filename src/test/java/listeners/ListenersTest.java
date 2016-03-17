@@ -8,7 +8,6 @@ import msg.IRCMsgFactory;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import parsers.BotCommandParser;
 
 /**
  * Created by JKyte on 3/12/2016.
@@ -29,7 +28,6 @@ public class ListenersTest {
 
         IRCCommands commands = new IRCCommands(configs);
         IRCBot mockBot = new IRCBot(false);
-        BotCommandParser kcp = new BotCommandParser(mockBot, commands);
         InterruptListener interruptListener = new InterruptListener(mockBot, commands, 0);
         Listeners listeners = new Listeners();
 
