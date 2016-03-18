@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import io.JsonParser;
 import msg.IRCMsg;
 
@@ -11,10 +10,10 @@ public class TradeCommand extends BaseCommand {
 
 	String resourceName;
 	ArrayList<String> validResources;
-	
-	public TradeCommand(IRCBot ircbot, IRCCommands ircCommands) {
-		super(ircbot, ircCommands);
-		loadValidResources();
+
+    public TradeCommand(IRCBot ircbot) {
+        super(ircbot);
+        loadValidResources();
 	}
 
 	@Override

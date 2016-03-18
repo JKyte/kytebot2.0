@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 /**
@@ -13,8 +12,8 @@ import msg.IRCMsg;
  */
 public abstract class AdminCommand extends BaseCommand {
 
-	public AdminCommand( IRCBot ircbot, IRCCommands ircCommands) {
-		super(ircbot, ircCommands);
+	public AdminCommand( IRCBot ircbot) {
+		super(ircbot);
 		//	Pass-through constructor
 	}
 

@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.Listeners;
 import msg.IRCMsg;
 
@@ -11,10 +10,10 @@ public class HelpCommand extends BaseCommand {
 	
 	private String helpKey;
 	private Listeners commandListeners;
-	
-	public HelpCommand( IRCBot ircbot, IRCCommands ircCommands ) {
-		super(ircbot, ircCommands);
-		this.commandListeners = ircbot.getBotCommandListeners();
+
+    public HelpCommand(IRCBot ircbot) {
+        super(ircbot);
+        this.commandListeners = ircbot.getBotCommandListeners();
 	}
 
 	@Override

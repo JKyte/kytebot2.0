@@ -1,9 +1,6 @@
 package listeners.botFunctions;
 
-import botconfigs.BotConfigFactory;
-import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,19 +10,13 @@ import org.junit.Test;
  */
 public class UserFarewellsBotListenerTest {
 
-    private static BotConfigs configs;
     private static IRCBot mockBot;
-    private static IRCCommands commands;
     private static UserFarewellsBotListener listener;
 
     @BeforeClass
     public static void setup() {
-
-        configs = BotConfigFactory.createBotConfigs(false);
-
         mockBot = new IRCBot(false);
-        commands = new IRCCommands(configs);
-        listener = new UserFarewellsBotListener(mockBot, commands);
+        listener = new UserFarewellsBotListener(mockBot);
     }
 
     @Test

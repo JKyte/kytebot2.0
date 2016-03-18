@@ -40,7 +40,7 @@ public class IRCBot extends Thread {
 	 */
     public IRCBot(boolean useProductionConfigs) {
         this.configs = BotConfigFactory.createBotConfigs(useProductionConfigs);
-        this.ircCommands = new IRCCommands(configs);
+        this.setIrcCommands(new IRCCommands(configs));
 
         this.heartBeatInMillis = configs.getHeartbeat();
         inboundMsgQ = new ConcurrentLinkedQueue<>();
@@ -74,7 +74,7 @@ public class IRCBot extends Thread {
             log.info("All threads started.");
 
 
-            this.getIRCMsgHandler().getInterruptListeners().put("AuthListener", new AuthenticateInterrupt(this, ircCommands, 30));
+            this.getIRCMsgHandler().getInterruptListeners().put("AuthListener", new AuthenticateInterrupt(this, 30));
 
 
             /**
@@ -84,8 +84,8 @@ public class IRCBot extends Thread {
 
 			String nick = configs.getBotnick();
 
-            outboundMsgQ.add(ircCommands.setNick(nick));
-            outboundMsgQ.add(ircCommands.userIdent(nick));
+            outboundMsgQ.add(getIrcCommands().setNick(nick));
+            outboundMsgQ.add(getIrcCommands().userIdent(nick));
 
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(socket.getInputStream()));
@@ -185,4 +185,12 @@ public class IRCBot extends Thread {
 	public void setOt(OutputThread ot) {
 		this.ot = ot;
 	}
+
+    public IRCCommands getIrcCommands() {
+        return ircCommands;
+    }
+
+    public void setIrcCommands(IRCCommands ircCommands) {
+        this.ircCommands = ircCommands;
+    }
 }

@@ -1,7 +1,6 @@
 package listeners.botFunctions;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.BaseListener;
 import msg.IRCMsg;
 import util.RandomList;
@@ -18,8 +17,8 @@ public class UserFarewellsBotListener extends BaseListener {
     String userToFarewell;
     private HashSet<String> farewellChannels;
 
-    public UserFarewellsBotListener(IRCBot ircbot, IRCCommands ircCommands) {
-        super(ircbot, ircCommands);
+    public UserFarewellsBotListener(IRCBot ircbot) {
+        super(ircbot);
         farewellChannels = ircbot.getConfigs().getFarewellChans();
         loadUserFarewells();
         botFarewells = new RandomList(loadBotFarewells());

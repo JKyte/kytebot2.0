@@ -1,7 +1,6 @@
 package listeners.botFunctions;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.BaseListener;
 import msg.IRCMsg;
 import util.RandomList;
@@ -18,8 +17,8 @@ public class UserJoinsChannelListener extends BaseListener {
     private RandomList joinActions;
     private String targetChan;
 
-    public UserJoinsChannelListener(IRCBot ircbot, IRCCommands ircCommands) {
-        super(ircbot, ircCommands);
+    public UserJoinsChannelListener(IRCBot ircbot) {
+        super(ircbot);
         this.targetChan = null;
         this.channels = ircbot.getConfigs().getGreetingChans();
         this.joinActions = new RandomList(loadJoinActions());

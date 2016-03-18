@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.BaseListener;
 import msg.IRCMsg;
 
@@ -18,12 +17,11 @@ public abstract class BaseCommand extends BaseListener {
 
 	protected String target;
 	protected ArrayList<String> description;
-	
-	public BaseCommand(IRCBot ircbot, 
-				IRCCommands ircCommands){
 
-		super(ircbot, ircCommands);
-		loadCommandDescription();
+    public BaseCommand(IRCBot ircbot) {
+
+        super(ircbot);
+        loadCommandDescription();
 	}
 	
 	@Override

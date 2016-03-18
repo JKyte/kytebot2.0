@@ -1,7 +1,6 @@
 package listeners.botFunctions;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.BaseListener;
 import msg.IRCMsg;
 import util.RandomList;
@@ -18,8 +17,8 @@ public class UserGreetsBotListener extends BaseListener {
     String userToGreet;
     private HashSet<String> greetingChannels;
 
-    public UserGreetsBotListener(IRCBot ircbot, IRCCommands ircCommands) {
-        super(ircbot, ircCommands);
+    public UserGreetsBotListener(IRCBot ircbot) {
+        super(ircbot);
         greetingChannels = ircbot.getConfigs().getGreetingChans();
         loadUserGreetings();
         botGreetings = new RandomList(loadBotGreetings());

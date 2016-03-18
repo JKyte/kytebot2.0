@@ -1,15 +1,14 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 import java.util.ArrayList;
 
 public class ListCommand extends BaseCommand {
 
-	public ListCommand(IRCBot ircbot, IRCCommands ircCommands) {
-		super(ircbot, ircCommands);
+    public ListCommand(IRCBot ircbot) {
+        super(ircbot);
 
 	}
 	

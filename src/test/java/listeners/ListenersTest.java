@@ -1,12 +1,8 @@
 package listeners;
 
-import botconfigs.BotConfigFactory;
-import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsgFactory;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -14,21 +10,13 @@ import org.junit.Test;
  */
 public class ListenersTest {
 
-    private static BotConfigs configs;
-
-    @BeforeClass
-    public static void setup() {
-        configs = BotConfigFactory.createBotConfigs(false);
-    }
-
     @Test
     public void testAddInterruptListener() throws InterruptedException {
 
         String channelMsg = ":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG #channelname :hello botnick, channel msg";
 
-        IRCCommands commands = new IRCCommands(configs);
         IRCBot mockBot = new IRCBot(false);
-        InterruptListener interruptListener = new InterruptListener(mockBot, commands, 0);
+        InterruptListener interruptListener = new InterruptListener(mockBot, 0);
         Listeners listeners = new Listeners();
 
         listeners.put("InterruptForTests", interruptListener);

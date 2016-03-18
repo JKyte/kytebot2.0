@@ -1,7 +1,6 @@
 package listeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 /**
@@ -27,8 +26,8 @@ public class InterruptListener extends BaseListener {
     /**
      * @param duration in SECONDS for this InterruptListener
      */
-    public InterruptListener(IRCBot ircbot, IRCCommands ircCommands, long duration) {
-        super(ircbot, ircCommands);
+    public InterruptListener(IRCBot ircbot, long duration) {
+        super(ircbot);
         this.start = System.currentTimeMillis();
         this.duration = duration * 1000;    //  Convert the input SECONDS to MILLIS
         if (this.duration > MAX_DURATION) {

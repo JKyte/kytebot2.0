@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsg;
 import util.RandomList;
 
@@ -16,8 +15,8 @@ public class FlirtCommand extends AdminCommand {
 
     private Random rand;
 
-	public FlirtCommand( IRCBot ircbot, IRCCommands ircCommands) {
-		super(ircbot, ircCommands);
+    public FlirtCommand(IRCBot ircbot) {
+        super(ircbot);
         flirts = new RandomList(loadFlirts());
         rand = new Random();
     }

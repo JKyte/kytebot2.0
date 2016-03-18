@@ -1,7 +1,6 @@
 package listeners.ircfunctions;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import listeners.InterruptListener;
 import msg.IRCMsg;
 
@@ -14,11 +13,10 @@ public class AuthenticateInterrupt extends InterruptListener {
 
     /**
      * @param ircbot
-     * @param ircCommands
      * @param duration    in SECONDS for this InterruptListener
      */
-    public AuthenticateInterrupt(IRCBot ircbot, IRCCommands ircCommands, long duration) {
-        super(ircbot, ircCommands, duration);
+    public AuthenticateInterrupt(IRCBot ircbot, long duration) {
+        super(ircbot, duration);
         this.authenticationSent = false;
     }
 

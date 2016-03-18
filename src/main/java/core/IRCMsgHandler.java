@@ -36,7 +36,7 @@ public class IRCMsgHandler implements Runnable {
 	private Listeners eventListeners;
 	private Listeners botCommandListeners;
 	private IRCCommands ircCommands;
-	
+
 	public IRCMsgHandler( IRCBot bot ){
 		
 		this.bot = bot;
@@ -48,12 +48,12 @@ public class IRCMsgHandler implements Runnable {
 		this.outboundMsgQ = bot.getOutboundMsgQ();
 		
 		loadServerResponseCodesToIgnore();
-		
-		ircCommands = new IRCCommands( bot.getConfigs() );
+
+        ircCommands = bot.getIrcCommands();
 
         this.setInterruptListeners(bot.getInterruptListeners());
-        this.eventListeners = EventListenerFactory.createEventListeners(bot, ircCommands);
-		this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot, ircCommands);
+        this.eventListeners = EventListenerFactory.createEventListeners(bot);
+        this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot);
 
         if (bot.getConfigs().isHeadless()) {
             UserInputBox uib = new UserInputBox(outboundMsgQ);

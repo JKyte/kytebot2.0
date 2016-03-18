@@ -1,11 +1,7 @@
 package listeners;
 
-import botconfigs.BotConfigFactory;
-import botconfigs.BotConfigs;
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -13,20 +9,12 @@ import org.junit.Test;
  */
 public class InterruptListenersTest {
 
-    private static BotConfigs configs;
-
-    @BeforeClass
-    public static void setup() {
-        configs = BotConfigFactory.createBotConfigs(false);
-    }
-
     @Test
     public void testInterruptListenerFinishes() throws InterruptedException {
 
-        IRCCommands commands = new IRCCommands(configs);
         IRCBot mockBot = new IRCBot(false);
 
-        InterruptListener interruptListener = new InterruptListener(mockBot, commands, 1);
+        InterruptListener interruptListener = new InterruptListener(mockBot, 1);
 
         boolean listenerFinish = interruptListener.listenerFinished();
         Assert.assertFalse(listenerFinish);

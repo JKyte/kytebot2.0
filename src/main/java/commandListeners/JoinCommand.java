@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import botconfigs.IRCCommands;
 import msg.IRCMsg;
 
 import java.util.ArrayList;
@@ -10,9 +9,9 @@ public class JoinCommand extends AdminCommand {
 
 	private String targetChannel;
 
-	public JoinCommand(IRCBot ircbot, IRCCommands ircCommands) {
-		super(ircbot, ircCommands);
-	}
+    public JoinCommand(IRCBot ircbot) {
+        super(ircbot);
+    }
 
 	@Override
 	public boolean listen(IRCMsg msg) {
