@@ -11,6 +11,7 @@ import msg.IRCMsg;
 import msg.IRCMsgFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pipelines.Pipelines;
 
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -35,7 +36,8 @@ public class IRCMsgHandler implements Runnable {
 	private Listeners interruptListeners;
 	private Listeners eventListeners;
 	private Listeners botCommandListeners;
-	private IRCCommands ircCommands;
+    private Pipelines pipelines;
+    private IRCCommands ircCommands;
 
 	public IRCMsgHandler( IRCBot bot ){
 		
@@ -54,6 +56,8 @@ public class IRCMsgHandler implements Runnable {
         this.setInterruptListeners(bot.getInterruptListeners());
         this.eventListeners = EventListenerFactory.createEventListeners(bot);
         this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot);
+
+        pipelines = new Pipelines();
 
         if (bot.getConfigs().isHeadless()) {
             UserInputBox uib = new UserInputBox(outboundMsgQ);
@@ -131,9 +135,11 @@ public class IRCMsgHandler implements Runnable {
 				botCommandListeners.iterateAcrossListeners(msg);				
 			}
 
-			
-			return interpretMsg(msg);
-		}else{
+            //  Check to see if there are any active pipelines
+            getPipelines().executePipelines(msg);
+
+            return interpretMsg(msg);
+        }else{
 			//	Wrap the raw PING msg, mostly for unit test purposes
 			return IRCMsgFactory.createIRCMsg(rawMsg);
 		}
@@ -311,5 +317,13 @@ public class IRCMsgHandler implements Runnable {
 
     public void setInterruptListeners(Listeners interruptListeners) {
         this.interruptListeners = interruptListeners;
+    }
+
+    public Pipelines getPipelines() {
+        return pipelines;
+    }
+
+    public void setPipelines(Pipelines pipelines) {
+        this.pipelines = pipelines;
     }
 }
