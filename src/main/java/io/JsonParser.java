@@ -42,17 +42,17 @@ public class JsonParser {
 				return;
 			}
 
-            String str = null;
+            StringBuilder sb = new StringBuilder();
             while (scan.hasNext())
-				str += scan.nextLine();
-			scan.close();
+                sb.append(scan.nextLine());
+            scan.close();
 
-            log.info(str);
+            log.info(sb.toString());
 
             // build a JSON object
-			JSONObject obj = new JSONObject(str);
-			
-			avgPrice = obj.getString("avgprice");
+            JSONObject obj = new JSONObject(sb.toString());
+
+            avgPrice = obj.getString("avgprice");
 			
 			// get the first result
 			JSONObject highestbuy = obj.getJSONObject("highestbuy");

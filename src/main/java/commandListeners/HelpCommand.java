@@ -31,8 +31,8 @@ public class HelpCommand extends BaseCommand {
         log.info("Args[0]: " + msg.getArgs()[0]);
         log.info("Trailing: " + msg.getTrailing());
 
-        String target = msg.getArgs()[0];
-		helpKey = null;
+        target = msg.getArgs()[0];
+        helpKey = null;
 		String[] chunks = msg.getTrailing().split(" ");
 		if( chunks.length == 1 && chunks[0].equalsIgnoreCase("HELP") ){
 			helpKey = "HELP";
@@ -50,13 +50,16 @@ public class HelpCommand extends BaseCommand {
 	public void doAction() {
         log.info("Help command called!");
 
-//		helpKey = helpKey.toUpperCase();
-//		ArrayList<String> tmpDescription = botCommands.getSingleCommandDescription(helpKey);
-//		for(String line : tmpDescription ){
-//			outboundMsgQ.add( ircCommands.privmsg(target, line) );			
-//		}
-		
-		//	Reset target & helpKey once command has executed
+        helpKey = helpKey.toUpperCase();
+
+        //  Stub, this only prints the HELP commands description. More work required to dynamically
+        //  send any commands description.
+
+        for (String line : description) {
+            outboundMsgQ.add(ircCommands.privmsg(target, line));
+        }
+
+        //	Reset target & helpKey once command has executed
 		target = null;
 		helpKey = null;
 	}
