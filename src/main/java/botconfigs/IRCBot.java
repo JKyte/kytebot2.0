@@ -1,7 +1,9 @@
 package botconfigs;
 
+import commandListeners.CommandListeners;
 import core.IRCMsgHandler;
 import io.OutputThread;
+import listenerFactories.BotCommandListenerFactory;
 import listeners.Listeners;
 import listeners.ircfunctions.AuthenticateInterrupt;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +31,8 @@ public class IRCBot extends Thread {
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	private Listeners interruptListeners;
 	private Listeners eventListeners;
-	private Listeners botCommandListeners;
-	private OutputThread ot;
+    private CommandListeners botCommandListeners;
+    private OutputThread ot;
 	private IRCMsgHandler msgHandler;
 
     private IRCCommands ircCommands;
@@ -48,7 +50,7 @@ public class IRCBot extends Thread {
 
 		interruptListeners = new Listeners();
 		eventListeners = new Listeners();
-		botCommandListeners = new Listeners();
+        botCommandListeners = BotCommandListenerFactory.createCommandListeners(this);
 
 		msgHandler = new IRCMsgHandler(this);
 	}
@@ -162,12 +164,12 @@ public class IRCBot extends Thread {
 		this.eventListeners = eventListeners;
 	}
 
-	public Listeners getBotCommandListeners() {
-		return botCommandListeners;
+    public CommandListeners getBotCommandListeners() {
+        return botCommandListeners;
 	}
 
-	public void setBotCommandListeners(Listeners botCommandListeners) {
-		this.botCommandListeners = botCommandListeners;
+    public void setBotCommandListeners(CommandListeners botCommandListeners) {
+        this.botCommandListeners = botCommandListeners;
 	}
 
 	public IRCMsgHandler getIRCMsgHandler() {

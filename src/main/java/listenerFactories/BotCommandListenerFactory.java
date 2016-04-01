@@ -2,20 +2,19 @@ package listenerFactories;
 
 import botconfigs.IRCBot;
 import commandListeners.*;
-import listeners.Listeners;
 
 public class BotCommandListenerFactory {
 
-    public static Listeners createEventListeners(IRCBot ircbot) {
-        Listeners listeners = new Listeners();
+    public static CommandListeners createCommandListeners(IRCBot ircbot) {
+        CommandListeners commandListeners = new CommandListeners();
 
-        listeners.put("HELP", new HelpCommand(ircbot));
-        listeners.put("LIST", new ListCommand(ircbot));
-        listeners.put("TRADE", new TradeCommand(ircbot));
-        listeners.put("JOIN", new JoinCommand(ircbot));
-        listeners.put("FLIRT", new FlirtCommand(ircbot));
-        listeners.put("CHANINFO", new ChannelInfoListener(ircbot));
+        commandListeners.put("HELP", new HelpCommand(ircbot));
+        commandListeners.put("LIST", new ListCommand(ircbot));
+        commandListeners.put("TRADE", new TradeCommand(ircbot));
+        commandListeners.put("JOIN", new JoinCommand(ircbot));
+        commandListeners.put("FLIRT", new FlirtCommand(ircbot));
+        commandListeners.put("CHANINFO", new ChannelInfoListener(ircbot));
 
-        return listeners;
-	}
+        return commandListeners;
+    }
 }

@@ -1,7 +1,6 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import listeners.Listeners;
 import msg.IRCMsg;
 
 import java.util.ArrayList;
@@ -9,11 +8,9 @@ import java.util.ArrayList;
 public class HelpCommand extends BaseCommand {
 	
 	private String helpKey;
-	private Listeners commandListeners;
 
     public HelpCommand(IRCBot ircbot) {
         super(ircbot);
-        this.commandListeners = ircbot.getBotCommandListeners();
 	}
 
 	@Override
@@ -52,10 +49,8 @@ public class HelpCommand extends BaseCommand {
 
         helpKey = helpKey.toUpperCase();
 
-        //  Stub, this only prints the HELP commands description. More work required to dynamically
-        //  send any commands description.
-
-        for (String line : description) {
+        ArrayList<String> tmpDescription = ((BaseCommand) ircbot.getBotCommandListeners().get(helpKey)).getCommandDescription();
+        for (String line : tmpDescription) {
             outboundMsgQ.add(ircCommands.privmsg(target, line));
         }
 

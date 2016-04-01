@@ -2,8 +2,8 @@ package core;
 
 import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
+import commandListeners.CommandListeners;
 import gui.UserInputBox;
-import listenerFactories.BotCommandListenerFactory;
 import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
 import msg.IRCMessageDecorator;
@@ -35,7 +35,7 @@ public class IRCMsgHandler implements Runnable {
 	private String startchan;
 	private Listeners interruptListeners;
 	private Listeners eventListeners;
-	private Listeners botCommandListeners;
+    private CommandListeners botCommandListeners;
     private Pipelines pipelines;
     private IRCCommands ircCommands;
 
@@ -55,7 +55,7 @@ public class IRCMsgHandler implements Runnable {
 
         this.setInterruptListeners(bot.getInterruptListeners());
         this.eventListeners = EventListenerFactory.createEventListeners(bot);
-        this.botCommandListeners = BotCommandListenerFactory.createEventListeners(bot);
+        this.botCommandListeners = bot.getBotCommandListeners();
 
         pipelines = new Pipelines();
 
