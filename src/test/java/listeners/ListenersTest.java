@@ -26,10 +26,10 @@ public class ListenersTest {
 
         Thread.sleep(10);   //  Sleep, allowing the interrupt listener to expire
 
-        listeners.iterateAcrossListeners(IRCMsgFactory.createIRCMsg(channelMsg));
+        listeners.iterateAcrossObjects(IRCMsgFactory.createIRCMsg(channelMsg));
 
         //  Assert that the listener was removed properly
-        Assert.assertFalse(listeners.hasListener("InterruptForTests"));
+        Assert.assertFalse(listeners.hasObject("InterruptForTests"));
         Assert.assertNull(listeners.get("InterruptForTests"));
 
     }

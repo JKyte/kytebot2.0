@@ -54,13 +54,13 @@ public class PipelinesTest {
           */
         for (String msg : serverMsgs) {
 
-            Assert.assertTrue(pipelines.contains(pipelineKey));
-            pipelines.executePipelines(IRCMsgFactory.createIRCMsg(msg));
+            Assert.assertTrue(pipelines.hasObject(pipelineKey));
+            pipelines.iterateAcrossObjects(IRCMsgFactory.createIRCMsg(msg));
 
             Assert.assertEquals(expectedPipelineOutput.poll(), mockBot.getOutboundMsgQ().poll());
         }
 
         //  Finally, assert an empty pipeline
-        Assert.assertFalse(pipelines.contains(pipelineKey));
+        Assert.assertFalse(pipelines.hasObject(pipelineKey));
     }
 }

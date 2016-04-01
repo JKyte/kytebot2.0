@@ -1,46 +1,25 @@
 package pipelines;
 
+import core.GenericHashMap;
 import msg.IRCMsg;
 
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by JKyte on 3/28/2016. This class acts as a wrapper around a HashMap of Pipeline
+ * Created by JKyte on 3/28/2016.
  */
-public class Pipelines {
+public class Pipelines extends GenericHashMap {
 
-    private ConcurrentHashMap<String, Pipeline> pipelines;
+    @Override
+    public void iterateAcrossObjects(IRCMsg msg) {
+        for (Entry<String, Object> object : hashMap.entrySet()) {
+            Pipeline entry = (Pipeline) object.getValue();
 
-    public Pipelines() {
-        pipelines = new ConcurrentHashMap<>();
-    }
+            entry.executePipeline(msg);
 
-    public synchronized boolean put(String pipelineName, Pipeline pipeline) {
-        if (!pipelines.containsKey(pipelineName)) {
-            pipelines.put(pipelineName, pipeline);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public Pipeline get(String pipelineName) {
-        return pipelines.get(pipelineName);
-    }
-
-    public boolean contains(String pipelineName) {
-        return pipelines.containsKey(pipelineName);
-    }
-
-    public void executePipelines(IRCMsg msg) {
-        for (Entry<String, Pipeline> entry : pipelines.entrySet()) {
-
-            entry.getValue().executePipeline(msg);
-
-            if ((entry.getValue().isPipelineFailed() && entry.getValue().isPipelineCompleted()) ||
-                    (entry.getValue().isPipelineCompleted())) {
-                pipelines.remove(entry.getKey());
+            if ((entry.isPipelineFailed() && entry.isPipelineCompleted()) ||
+                    (entry.isPipelineCompleted())) {
+                hashMap.remove(object.getKey());
             }
         }
     }

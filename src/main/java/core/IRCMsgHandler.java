@@ -123,20 +123,20 @@ public class IRCMsgHandler implements Runnable {
 			IRCMsg msg = createAndDecorateMsg(rawMsg);
 			
 			//	Check to see if this is an expected msg
-            getInterruptListeners().iterateAcrossListeners(msg);
+            getInterruptListeners().iterateAcrossObjects(msg);
 
             //	Check to see if the bot should perform an action, like greet someone
-			eventListeners.iterateAcrossListeners(msg);
-			
-			//	Check to see if this is a bot command
+            eventListeners.iterateAcrossObjects(msg);
+
+            //	Check to see if this is a bot command
 			if( msgIsCommand(msg) ){
 				
 				msg = stripLeadingWordFromTrailing(msg);
-				botCommandListeners.iterateAcrossListeners(msg);				
-			}
+                botCommandListeners.iterateAcrossObjects(msg);
+            }
 
             //  Check to see if there are any active pipelines
-            getPipelines().executePipelines(msg);
+            getPipelines().iterateAcrossObjects(msg);
 
             return interpretMsg(msg);
         }else{
