@@ -1,6 +1,7 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
+import msg.IRCMessageDecorator;
 import msg.IRCMsg;
 import msg.IRCMsgFactory;
 import org.junit.Assert;
@@ -34,5 +35,16 @@ public class CommandListenersTest {
         outMsg = mockBot.getOutboundMsgQ().poll();
         Assert.assertNotNull(outMsg);
         Assert.assertEquals(expectedSecond, outMsg);
+
+
+        /**
+         * Assert that Admin commands are only available to admins
+         */
+        IRCMsg flirtCommand = IRCMsgFactory.createIRCMsg(":User!User@server-ABCD1234.areacode.network.isp.net PRIVMSG #channelname :!k flirt targetNick");
+        flirtCommand = IRCMessageDecorator.decorateMessage(mockBot.getConfigs(), flirtCommand);
+        commandListeners.iterateAcrossObjects(flirtCommand);
+
+        outMsg = mockBot.getOutboundMsgQ().poll();
+        Assert.assertNull(outMsg);
     }
 }

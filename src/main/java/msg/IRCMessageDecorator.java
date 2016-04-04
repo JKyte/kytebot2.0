@@ -20,9 +20,9 @@ public class IRCMessageDecorator {
 		}else{
 			msg.setFromNick(fromNick);
 		}
-		
-		if( configs.getAdmin().equals( configs.getAdmin() ) ){
-			msg.setFromAdmin(true);
+
+        if (configs.getAdmin().equals(fromNick)) {
+            msg.setFromAdmin(true);
 		}else if( configs.getTrustedUsers().contains( fromNick ) ){
 			msg.setFromTrustedUser(true);
 		}
