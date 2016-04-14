@@ -87,4 +87,20 @@ public class IRCMsg {
 	public void setFromTrustedUser(boolean fromTrustedUser) {
 		this.fromTrustedUser = fromTrustedUser;
 	}
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Prefix: ").append(prefix).append("\n");
+        sb.append("Command: ").append(command).append("\n");
+
+        for( String arg : args ){
+            sb.append("Arg[]: ").append(arg).append("\n");
+        }
+
+        sb.append("Trailing: ").append(trailing).append("\n");
+
+        return sb.toString();
+    }
 }

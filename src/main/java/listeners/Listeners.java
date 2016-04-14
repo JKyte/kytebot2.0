@@ -19,7 +19,7 @@ public class Listeners extends GenericHashMap {
                 entry.doAction();
             }
 
-            //  This block is independent of any listen/actions to support InterruptListeners
+            //  Check to remove listener if applicable
             if (entry.listenerFinished()) {
                 hashMap.remove(object.getKey());
             }

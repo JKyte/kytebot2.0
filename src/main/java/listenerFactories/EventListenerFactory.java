@@ -5,6 +5,7 @@ import listeners.Listeners;
 import listeners.botFunctions.UserFarewellsBotListener;
 import listeners.botFunctions.UserGreetsBotListener;
 import listeners.botFunctions.UserJoinsChannelListener;
+import listeners.botFunctions.YoutubeDescriptionListener;
 
 public class EventListenerFactory {
 
@@ -23,6 +24,8 @@ public class EventListenerFactory {
         if (null != ircbot.getConfigs().getFarewellChans()) {
             listeners.put("UserFarewellsBotListener", new UserFarewellsBotListener(ircbot));
         }
+
+        listeners.put("YoutubeDescriptionListener", new YoutubeDescriptionListener(ircbot));
 
 		return listeners;
 	}

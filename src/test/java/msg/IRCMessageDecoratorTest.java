@@ -30,5 +30,6 @@ public class IRCMessageDecoratorTest {
         Assert.assertTrue(decoratedMsg.isFromAdmin());
         Assert.assertFalse(decoratedMsg.isFromTrustedUser());
 
+        System.out.println(randomMsg.toString());
     }
 }

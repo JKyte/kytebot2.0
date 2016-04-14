@@ -10,28 +10,27 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class JsonParser {
+public abstract class JsonParser {
 
     private final Logger log = LogManager.getLogger(getClass());
-    String baseUrl = "https://politicsandwar.com/api/tradeprice/resource=";
-	String resource;
-	String avgPrice;
-	String lowBuyDate;
-	String lowBuyAmount;
-	String highestBuyDate;
-	String highestBuyAmount;
 
-	public JsonParser( String resource ){
-		this.resource = resource;
-	}
+    private String BASE_URL;
 
-	public void fetchJson(){
+    public JsonParser(String baseURL) {
+        BASE_URL = baseURL;
+    }
+
+    public void fetchJsonWithExtension(String urlExtension) {
+        urlExtension = BASE_URL + urlExtension;
+        fetchJson(urlExtension);
+    }
+
+    public void fetchJson(String fullURL) {
         log.info("Start Fetch.");
-        String fullUrl = baseUrl + resource;
 		try {
-			
-			URL url = new URL(fullUrl);
-			HttpURLConnection httpcon = (HttpURLConnection) url.openConnection(); 
+
+            URL url = new URL(fullURL);
+            HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
 			httpcon.addRequestProperty("User-Agent", "Mozilla/4.76"); 
 			
 			Scanner scan = new Scanner(httpcon.getInputStream());
@@ -51,32 +50,15 @@ public class JsonParser {
 
             // build a JSON object
             JSONObject obj = new JSONObject(sb.toString());
+            parseJsonResponse(obj);
 
-            avgPrice = obj.getString("avgprice");
-			
-			// get the first result
-			JSONObject highestbuy = obj.getJSONObject("highestbuy");
-			highestBuyDate = highestbuy.getString("date");
-			highestBuyAmount = highestbuy.getString("price");
-			JSONObject lowestbuy = obj.getJSONObject("lowestbuy");
-			lowBuyDate = lowestbuy.getString("date");
-			lowBuyAmount = lowestbuy.getString("price");
-			
-		} catch (IOException e) {
+        } catch (IOException e) {
 			e.printStackTrace();
 		}
         log.info("End Fetch.");
     }
-	
-	public String getResourceAverage(){
-		return resource + ":" + avgPrice;
-	}
-	
-	public ArrayList<String> buildResponse(){
-        ArrayList<String> lines = new ArrayList<>();
-        lines.add( resource.toUpperCase() + "\t$" + avgPrice );
-	//	lines.add( "HI: $"+highestBuyAmount+" @ "+highestBuyDate);
-	//	lines.add( "LO: $"+lowBuyAmount+" @ "+lowBuyDate);
-		return lines;
-	}
+
+    protected abstract void parseJsonResponse(JSONObject obj);
+
+    public abstract ArrayList<String> buildResponse();
 }

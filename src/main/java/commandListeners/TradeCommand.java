@@ -1,7 +1,7 @@
 package commandListeners;
 
 import botconfigs.IRCBot;
-import io.JsonParser;
+import io.PWTradeJsonParser;
 import msg.IRCMsg;
 
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ public class TradeCommand extends BaseCommand {
 
 	String resourceName;
 	ArrayList<String> validResources;
+
+    private String PW_TRADE_URL = "https://politicsandwar.com/api/tradeprice/resource=";
 
     public TradeCommand(IRCBot ircbot) {
         super(ircbot);
@@ -27,8 +29,8 @@ public class TradeCommand extends BaseCommand {
 			resourceName = chunks[1];
 			return true;
 		}else{
-			return false;	
-		}
+            return false;
+        }
 	}
 
 	private void setTarget(IRCMsg msg) {
@@ -44,10 +46,10 @@ public class TradeCommand extends BaseCommand {
 		resourceName = resourceName.toLowerCase();
 
 		if( isValidResource(resourceName) ){
-			JsonParser parser = new JsonParser(resourceName);
-			parser.fetchJson();
-			
-			ArrayList<String> lines = parser.buildResponse();
+            PWTradeJsonParser parser = new PWTradeJsonParser(PW_TRADE_URL);
+            parser.fetchJsonWithExtension(resourceName);
+
+            ArrayList<String> lines = parser.buildResponse();
 			for( String line : lines ){
 				outboundMsgQ.add( ircCommands.privmsg(target, line));
 			}
