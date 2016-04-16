@@ -8,13 +8,13 @@ import java.util.Map.Entry;
 /**
  * @author Kyte
  */
-public class Listeners extends GenericHashMap {
+public class Listeners extends GenericHashMap<BaseListener> {
 
 
     @Override
     public void iterateAcrossObjects(IRCMsg msg) {
-        for (Entry<String, Object> object : hashMap.entrySet()) {
-            BaseListener entry = (BaseListener) object.getValue();
+        for (Entry<String, BaseListener> object : hashMap.entrySet()) {
+            BaseListener entry = object.getValue();
             if (entry.listen(msg)) {
                 entry.doAction();
             }

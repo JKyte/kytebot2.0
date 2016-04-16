@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by JKyte on 3/30/2016.
  */
-public abstract class GenericHashMap {
+public abstract class GenericHashMap<T> {
 
-    protected ConcurrentHashMap<String, Object> hashMap;
+    protected ConcurrentHashMap<String, T> hashMap;
 
     public GenericHashMap() {
         hashMap = new ConcurrentHashMap<>();
@@ -25,7 +25,7 @@ public abstract class GenericHashMap {
      * @param object     - The Value, i.e., the Listener, Command, or Pipeline
      * @returns - TRUE if the object added, FALSE if the object already exists
      */
-    public synchronized boolean put(String objectName, Object object) {
+    public synchronized boolean put(String objectName, T object) {
         if (!hashMap.containsKey(objectName)) {
             hashMap.put(objectName, object);
             return true;
