@@ -15,6 +15,7 @@ public abstract class BasePipe implements Pipe {
     protected IRCCommands ircCommands;
     protected ConcurrentLinkedQueue<String> outboundMsgQ;
     protected String startChan;
+    protected String botnick;
     private boolean isActivePipe;
     private boolean actionSent;
     private boolean actionSuccess;
@@ -27,6 +28,7 @@ public abstract class BasePipe implements Pipe {
         this.ircCommands = ircBot.getIrcCommands();
         this.outboundMsgQ = ircBot.getOutboundMsgQ();
         this.startChan = ircBot.getConfigs().getStartChan();
+        this.botnick = ircBot.getConfigs().getBotnick();
     }
 
     /**

@@ -42,6 +42,10 @@ public class BotConfigTest {
 		Assert.assertEquals(true, assertGreetingChannels(configs.getGreetingChans()) );
 		Assert.assertEquals(true, assertFarewellChannels(configs.getFarewellChans()) );
 		Assert.assertEquals(true, assertStoryChannels(configs.getStoryChans()) );
+
+        //  Assert Redirect Configs
+        Assert.assertEquals("#source,#sink", configs.getRedirectSourceSink());
+
 		return true;
 	}
 

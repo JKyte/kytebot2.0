@@ -63,9 +63,11 @@ public class BotConfigFactory {
 		configs.setGreetingChans( getPropertyAsHashSet("greetingchans") );
 		configs.setFarewellChans( getPropertyAsHashSet("farewellchans") );
 		configs.setStoryChans( getPropertyAsHashSet("storychans") );
-		
-		
-		return configs;
+
+        //  Redirect configurations
+        configs.setRedirectSourceSink(properties.getProperty("redirectSourceSink"));
+
+        return configs;
 	}
 	
 	public static int getPropertyAsInteger(String propertyKey){

@@ -4,7 +4,6 @@ import botconfigs.IRCBot;
 import botconfigs.IRCCommands;
 import commandListeners.CommandListeners;
 import gui.UserInputBox;
-import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
 import msg.IRCMessageDecorator;
 import msg.IRCMsg;
@@ -54,7 +53,7 @@ public class IRCMsgHandler implements Runnable {
         ircCommands = bot.getIrcCommands();
 
         this.setInterruptListeners(bot.getInterruptListeners());
-        this.eventListeners = EventListenerFactory.createEventListeners(bot);
+        this.setEventListeners(bot.getEventListeners());
         this.botCommandListeners = bot.getBotCommandListeners();
 
         pipelines = new Pipelines();
@@ -126,7 +125,7 @@ public class IRCMsgHandler implements Runnable {
             getInterruptListeners().iterateAcrossObjects(msg);
 
             //	Check to see if the bot should perform an action, like greet someone
-            eventListeners.iterateAcrossObjects(msg);
+            getEventListeners().iterateAcrossObjects(msg);
 
             //	Check to see if this is a bot command
 			if( msgIsCommand(msg) ){
@@ -325,5 +324,13 @@ public class IRCMsgHandler implements Runnable {
 
     public void setPipelines(Pipelines pipelines) {
         this.pipelines = pipelines;
+    }
+
+    public Listeners getEventListeners() {
+        return eventListeners;
+    }
+
+    public void setEventListeners(Listeners eventListeners) {
+        this.eventListeners = eventListeners;
     }
 }

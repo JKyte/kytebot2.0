@@ -2,10 +2,7 @@ package listenerFactories;
 
 import botconfigs.IRCBot;
 import listeners.Listeners;
-import listeners.botFunctions.UserFarewellsBotListener;
-import listeners.botFunctions.UserGreetsBotListener;
-import listeners.botFunctions.UserJoinsChannelListener;
-import listeners.botFunctions.YoutubeDescriptionListener;
+import listeners.botFunctions.*;
 
 public class EventListenerFactory {
 
@@ -26,6 +23,8 @@ public class EventListenerFactory {
         }
 
         listeners.put("YoutubeDescriptionListener", new YoutubeDescriptionListener(ircbot));
+
+        listeners.put("RedirectListener", new RedirectListener(ircbot));
 
 		return listeners;
 	}

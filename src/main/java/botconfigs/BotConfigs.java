@@ -35,6 +35,8 @@ public class BotConfigs {
     //  Determines if the bot starts a GUI
     private boolean headless;
 
+    private String redirectSourceSink;
+
     public String getBotnick() {
         return botnick;
     }
@@ -139,4 +141,11 @@ public class BotConfigs {
         this.storyChans = storyChans;
     }
 
+    public String getRedirectSourceSink() {
+        return redirectSourceSink;
+    }
+
+    public void setRedirectSourceSink(String redirectSourceSink) {
+        this.redirectSourceSink = redirectSourceSink;
+    }
 }

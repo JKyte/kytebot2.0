@@ -4,6 +4,7 @@ import commandListeners.CommandListeners;
 import core.IRCMsgHandler;
 import io.OutputThread;
 import listenerFactories.BotCommandListenerFactory;
+import listenerFactories.EventListenerFactory;
 import listeners.Listeners;
 import listeners.ircfunctions.AuthenticateInterrupt;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +50,7 @@ public class IRCBot extends Thread {
         outboundMsgQ = new ConcurrentLinkedQueue<>();
 
 		interruptListeners = new Listeners();
-		eventListeners = new Listeners();
+        eventListeners = EventListenerFactory.createEventListeners(this);
         botCommandListeners = BotCommandListenerFactory.createCommandListeners(this);
 
 		msgHandler = new IRCMsgHandler(this);
