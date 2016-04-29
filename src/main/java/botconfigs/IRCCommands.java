@@ -65,9 +65,18 @@ public class IRCCommands {
         return "USER " + nick + " 0 * :" + nick;
     }
 
+
+    /*
+        NICKSERV commands
+     */
+
 	public String nickservIdentify(){
 		return "nickserv identify " + password;
 	}
+
+    public String nickservInfo(String targetNick) {
+        return "nickserv info " + targetNick;
+    }
 
     /*
         Other commands

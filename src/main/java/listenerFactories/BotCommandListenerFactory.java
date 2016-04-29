@@ -15,6 +15,7 @@ public class BotCommandListenerFactory {
         commandListeners.put("FLIRT", new FlirtCommand(ircbot));
         commandListeners.put("CHANINFO", new ChannelInfoListener(ircbot));
         commandListeners.put("REDIRECT", new RedirectCommandListener(ircbot));
+        commandListeners.put("SEEN", new SeenNickCommandListener(ircbot));
 
         return commandListeners;
     }

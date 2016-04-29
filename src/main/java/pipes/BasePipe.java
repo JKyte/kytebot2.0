@@ -11,11 +11,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class BasePipe implements Pipe {
 
-    private final long MAX_DURATION_IN_MILLIS = 5 * 60 * 1000;   //  5 minutes = 5 minutes * 60 seconds * 1000 millis
     protected IRCCommands ircCommands;
     protected ConcurrentLinkedQueue<String> outboundMsgQ;
     protected String startChan;
     protected String botnick;
+    private long MAX_DURATION_IN_MILLIS = 5 * 60 * 1000;   //  5 minutes = 5 minutes * 60 seconds * 1000 millis
     private boolean isActivePipe;
     private boolean actionSent;
     private boolean actionSuccess;
@@ -54,7 +54,10 @@ public abstract class BasePipe implements Pipe {
             } else {
 
                 //  Else check for a timeout
-                checkClock();
+                if (!checkClock()) {
+                    setActionFailure(true);
+                    setPipeComplete(true);
+                }
             }
         }
 
@@ -82,7 +85,7 @@ public abstract class BasePipe implements Pipe {
 
     private boolean checkClock() {
         long currentDuration = System.currentTimeMillis() - start;
-        return currentDuration <= MAX_DURATION_IN_MILLIS;
+        return currentDuration <= getMAX_DURATION_IN_MILLIS();
     }
 
     public boolean isActivePipe() {
@@ -131,5 +134,13 @@ public abstract class BasePipe implements Pipe {
 
     public void setIsLastPipe(boolean isLastPipe) {
         this.isLastPipe = isLastPipe;
+    }
+
+    public long getMAX_DURATION_IN_MILLIS() {
+        return MAX_DURATION_IN_MILLIS;
+    }
+
+    public void setMAX_DURATION_IN_MILLIS(long MAX_DURATION_IN_MILLIS) {
+        this.MAX_DURATION_IN_MILLIS = MAX_DURATION_IN_MILLIS;
     }
 }
