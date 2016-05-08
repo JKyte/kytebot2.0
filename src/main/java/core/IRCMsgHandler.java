@@ -38,6 +38,8 @@ public class IRCMsgHandler implements Runnable {
     private Pipelines pipelines;
     private IRCCommands ircCommands;
 
+    private volatile boolean threadExecuting;
+
 	public IRCMsgHandler( IRCBot bot ){
 		
 		this.bot = bot;
@@ -57,6 +59,8 @@ public class IRCMsgHandler implements Runnable {
         this.botCommandListeners = bot.getBotCommandListeners();
 
         pipelines = new Pipelines();
+
+        setThreadExecuting(true);
 
         if (bot.getConfigs().isHeadless()) {
             UserInputBox uib = new UserInputBox(outboundMsgQ);
@@ -95,8 +99,8 @@ public class IRCMsgHandler implements Runnable {
 	public void run() {
 
 		String rawMsg;
-		try {	
-			while ( true ){
+		try {
+            while (isThreadExecuting()) {
 
 				rawMsg = inboundMsgQ.poll();
 				if( null != rawMsg ){
@@ -111,6 +115,8 @@ public class IRCMsgHandler implements Runnable {
 			}
 		} catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            log.fatal("IRCMsgHandler crashed/stopped.");
         }
 	}
 	
@@ -332,5 +338,13 @@ public class IRCMsgHandler implements Runnable {
 
     public void setEventListeners(Listeners eventListeners) {
         this.eventListeners = eventListeners;
+    }
+
+    public boolean isThreadExecuting() {
+        return threadExecuting;
+    }
+
+    public void setThreadExecuting(boolean threadExecuting) {
+        this.threadExecuting = threadExecuting;
     }
 }

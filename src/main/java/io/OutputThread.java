@@ -1,5 +1,6 @@
 package io;
 
+import botconfigs.IRCCommands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * This class reads messages off of a queue and sends them to a specified IRC server
  *
  */
-public class OutputThread extends Thread{
+public class OutputThread implements Runnable {
 
     private final static String CRLF = "\r\n";
     private final Logger log = LogManager.getLogger(getClass());
@@ -23,10 +24,13 @@ public class OutputThread extends Thread{
 	private ConcurrentLinkedQueue<String> outboundMsgQ;
 	private BufferedWriter bw;
 
+    private volatile boolean threadExecuting;
+
 	public OutputThread( Socket socket, ConcurrentLinkedQueue<String> outboundMsgQ){
 
 		this.setSocket(socket);
 		this.outboundMsgQ = outboundMsgQ;
+        setThreadExecuting(true);
 
 		try {
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -43,7 +47,7 @@ public class OutputThread extends Thread{
         try {
 
 			String ircMsg = null;
-			while( true ){
+            while (isThreadExecuting()) {
 
 				ircMsg = outboundMsgQ.poll();
 
@@ -54,14 +58,8 @@ public class OutputThread extends Thread{
                     sendMsg(ircMsg);
 				}
 
-			//	Thread.sleep(1000);
 			}
-	//	} catch (InterruptedException e){
-		//	log.error(e);
-	//		System.err.println("EXCEPTION: " + e.getLocalizedMessage());
-	//		e.printStackTrace();
 		} finally {
-		//	log.fatal("FATAL: OutputThread has stopped.");
             log.fatal("FATAL: OutputThread has stopped.");
         }
 	}
@@ -74,7 +72,6 @@ public class OutputThread extends Thread{
 			bw.flush();
 
 		} catch (IOException e) {
-		//	log.fatal("WARN: OutputThread failed to send command: " + msg );
             log.warn("WARN: OutputThread failed to send command: " + msg);
             e.printStackTrace();
 		}
@@ -87,4 +84,17 @@ public class OutputThread extends Thread{
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
+
+    public boolean isThreadExecuting() {
+        return threadExecuting;
+    }
+
+    public void setThreadExecuting(boolean threadExecuting) {
+        this.threadExecuting = threadExecuting;
+    }
+
+    public void stopThreadExecution() {
+        outboundMsgQ.add(IRCCommands.quit());
+        setThreadExecuting(false);
+    }
 }

@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * <p>
  * This listener will redirect output from one or more channels to a pre-determined channel.
  */
-public class RedirectCommandListener extends AdminCommand {
+public class RedirectCommand extends AdminCommand {
 
-    public RedirectCommandListener(IRCBot ircbot) {
+    public RedirectCommand(IRCBot ircbot) {
         super(ircbot);
     }
 

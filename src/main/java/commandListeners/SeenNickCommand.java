@@ -10,11 +10,11 @@ import java.util.ArrayList;
 /**
  * Created by JKyte on 4/27/2016.
  */
-public class SeenNickCommandListener extends BaseCommand {
+public class SeenNickCommand extends BaseCommand {
 
     private String targetNick;
 
-    public SeenNickCommandListener(IRCBot ircbot) {
+    public SeenNickCommand(IRCBot ircbot) {
         super(ircbot);
     }
 

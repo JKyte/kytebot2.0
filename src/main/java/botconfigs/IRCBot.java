@@ -22,9 +22,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * A basic implementation of an IRCBot inspired somewhat by the PIRCBot framework
  */
-public class IRCBot extends Thread {
+public class IRCBot implements Runnable {
 
     Logger log = LogManager.getLogger(getClass());
+
+    private volatile boolean threadExecuting;
+    private Thread t1;
+    private Thread t2;
+
     private BotConfigs configs;
 	private Socket socket;
 	private long heartBeatInMillis = -1;
@@ -42,6 +47,7 @@ public class IRCBot extends Thread {
 	 * Only initialize the queues at first
 	 */
     public IRCBot(boolean useProductionConfigs) {
+        this.setThreadExecuting(true);
         this.configs = BotConfigFactory.createBotConfigs(useProductionConfigs);
         this.setIrcCommands(new IRCCommands(configs));
 
@@ -66,9 +72,10 @@ public class IRCBot extends Thread {
 			socket = new Socket( configs.getIrcserver(), configs.getIrcport() );
 			ot = new OutputThread(socket, outboundMsgQ);
 
+
 			//	Setup threads
-			Thread t1 = new Thread( ot );
-			Thread t2 = new Thread( msgHandler );
+            t1 = new Thread(ot);
+            t2 = new Thread(msgHandler);
 
 			//	Start threads
 			t1.start();
@@ -76,17 +83,11 @@ public class IRCBot extends Thread {
 
             log.info("All threads started.");
 
-
+            //  Setup the authenticate listener
             this.getIRCMsgHandler().getInterruptListeners().put("AuthListener", new AuthenticateInterrupt(this, 30));
 
-
-            /**
-			 * Sleep to let things initialize
-			 */
-			Thread.sleep(3000);
-
-			String nick = configs.getBotnick();
-
+            //  Send auth messages to the server
+            String nick = configs.getBotnick();
             outboundMsgQ.add(getIrcCommands().setNick(nick));
             outboundMsgQ.add(getIrcCommands().userIdent(nick));
 
@@ -94,7 +95,7 @@ public class IRCBot extends Thread {
 					new InputStreamReader(socket.getInputStream()));
 
             String msg;
-            while ( true ){
+            while (isThreadExecuting()) {
 
 				msg = br.readLine();
 				
@@ -102,8 +103,8 @@ public class IRCBot extends Thread {
                     inboundMsgQ.add( msg );
 				}
 			}
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
 		} finally {
             log.fatal("FATAL: InputThread has crashed.");
         }
@@ -195,5 +196,31 @@ public class IRCBot extends Thread {
 
     public void setIrcCommands(IRCCommands ircCommands) {
         this.ircCommands = ircCommands;
+    }
+
+    public boolean isThreadExecuting() {
+        return threadExecuting;
+    }
+
+    public void setThreadExecuting(boolean threadExecuting) {
+        this.threadExecuting = threadExecuting;
+    }
+
+    public void stopBot() {
+        ot.stopThreadExecution();
+        msgHandler.setThreadExecuting(false);
+        t1.interrupt();
+        t2.interrupt();
+
+        try {
+            //  You know, just to be sure
+            this.socket.shutdownOutput();
+            this.socket.shutdownInput();
+            this.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        setThreadExecuting(false);
     }
 }
