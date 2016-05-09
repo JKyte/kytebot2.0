@@ -135,8 +135,9 @@ public class IRCMsgHandler implements Runnable {
 
             //	Check to see if this is a bot command
 			if( msgIsCommand(msg) ){
-				
-				msg = stripLeadingWordFromTrailing(msg);
+
+                log.info("BotCommand called.");
+                msg = stripLeadingWordFromTrailing(msg);
                 botCommandListeners.iterateAcrossObjects(msg);
             }
 

@@ -32,7 +32,6 @@ public class FlirtCommand extends AdminCommand {
 
 		String[] chunks = msg.getTrailing().split(" ");
 		if( chunks.length >= 2 && chunks[0].equalsIgnoreCase("FLIRT") ){
-			
 			nickToBeFlirted = chunks[chunks.length-1];
 			return true;
 		}else{
